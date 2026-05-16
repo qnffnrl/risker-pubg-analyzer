@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-16 (T-003 구현 완료, 사용자 검증 대기)
+> 최종 갱신: 2026-05-16 (T-003 main 병합 완료)
 
 ## 🧭 기술 스택 결정사항
 
@@ -22,12 +22,13 @@
 
 ## 🔥 진행 중
 
-| T-003 | 앱 컨테이너화 (Dockerfile + docker-compose.prod.yml) | infra | [PRD](prd/T-003-PRD-20260516-containerization.md) | 구현 완료 (검증 대기) |
+_없음_
 
 ## ✅ 완료
 
 | ID | 작업명 | 유형 | 완료일 |
 |----|--------|------|--------|
+| T-003 | 앱 컨테이너화 (Dockerfile + docker-compose.prod.yml) | infra | 2026-05-16 |
 | T-002 | DB 스키마 설계 (플레이어/매치/분석 결과/트래픽 테이블) | infra | 2026-05-16 |
 | T-000 | 디자인 시스템 & 글로벌 레이아웃 | design | 2026-05-16 |
 | T-001 | 모노레포 스캐폴딩 (Next.js + Hono + BullMQ Worker) | infra | 2026-05-16 |
@@ -38,7 +39,6 @@
 
 | ID | 작업명 | 유형 | PRD | 진행률 |
 |----|--------|------|-----|--------|
-| T-003 | 앱 컨테이너화 (Dockerfile + docker-compose.prod.yml) | infra | [PRD](prd/T-003-PRD-20260516-containerization.md) | 0% |
 | T-014 | CI/CD (GitHub Actions → risker.co.kr, SSH:2222) | infra | [PRD](prd/T-014-PRD-20260516-cicd.md) | 0% |
 
 ### Phase 2: 핵심 데이터 파이프라인
@@ -78,7 +78,7 @@
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
-| 2026-05-16 23:00 | infra | T-003 컨테이너화 구현 — web/api/worker Dockerfile(멀티스테이지), docker-compose.prod.yml, Drizzle 마이그레이션 SQL 생성, migrate.ts | (pending) |
+| 2026-05-16 23:00 | infra | T-003 컨테이너화 병합 — web/api/worker Dockerfile(멀티스테이지), docker-compose.prod.yml, Drizzle 마이그레이션 SQL, migrate.ts | (this) |
 | 2026-05-16 22:30 | infra | T-002 DB 스키마 병합 — players/matches/playerMatchStats/playStyleAnalyses/analysisJobs/trafficLogs, pgEnum, 인덱스 | eabff3c |
 | 2026-05-16 22:00 | feat | T-000 main 병합 완료 — 디자인 시스템 & 글로벌 레이아웃 (AppShell/Header/Sidebar/BottomNav, StatCard/RadarChart/StyleBadge 등) | b54b160 |
 | 2026-05-16 21:00 | feat | T-000 디자인 시스템 구현 — AppShell/Header/Sidebar/BottomNav 레이아웃, StatCard/PlayerAvatar/RadarChart/StyleBadge/PlatformBadge/LoadingSkeleton UI, CSS 변수 보완, Tailwind 애니메이션 추가 | 6ceedf9 |

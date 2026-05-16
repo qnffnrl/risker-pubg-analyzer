@@ -24,7 +24,7 @@
 |----|------|------|---------|--------|
 | T-001 | ✅ 완료 | 모노레포 스캐폴딩 (Next.js + Hono + BullMQ) | [T-001](done/T-001-PRD-20260516-monorepo-scaffold.md) | 2026-05-16 |
 | T-002 | ✅ 완료 | DB 스키마 설계 (Drizzle + PostgreSQL) | [T-002](done/T-002-PRD-20260516-db-schema.md) | 2026-05-16 |
-| T-003 | 📋 대기 | 앱 컨테이너화 (Dockerfile + docker-compose) | [T-003](T-003-PRD-20260516-containerization.md) | - |
+| T-003 | ✅ 완료 | 앱 컨테이너화 (Dockerfile + docker-compose) | [T-003](done/T-003-PRD-20260516-containerization.md) | 2026-05-16 |
 | T-014 | 📋 대기 | CI/CD (GitHub Actions → risker.co.kr) | [T-014](T-014-PRD-20260516-cicd.md) | - |
 
 ### Phase 2: 핵심 데이터 파이프라인
