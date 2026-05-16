@@ -1,25 +1,26 @@
 'use client'
 
 import { useState } from 'react'
-import type { MatchStat, WeaponStatsData } from '@/lib/api'
+import type { MatchStat, WeaponStatsData, MapStatsData } from '@/lib/api'
 import { MatchList } from './match-list'
 import { WeaponView } from './weapon-view'
+import { MapView } from './map-view'
 
 interface Props {
   pubgId: string
   initialMatches: MatchStat[]
   weaponStats: WeaponStatsData | null
+  mapStats: MapStatsData | null
 }
 
-const TABS = ['전적', '무기'] as const
+const TABS = ['전적', '무기', '맵'] as const
 type Tab = (typeof TABS)[number]
 
-export function PlayerTabs({ pubgId, initialMatches, weaponStats }: Props) {
+export function PlayerTabs({ pubgId, initialMatches, weaponStats, mapStats }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('전적')
 
   return (
     <div className="space-y-4">
-      {/* Tab header */}
       <div className="flex gap-1 rounded-xl border border-zinc-800 bg-zinc-900/50 p-1">
         {TABS.map((tab) => (
           <button
@@ -36,7 +37,6 @@ export function PlayerTabs({ pubgId, initialMatches, weaponStats }: Props) {
         ))}
       </div>
 
-      {/* Tab content */}
       {activeTab === '전적' && (
         <MatchList initialMatches={initialMatches} pubgId={pubgId} />
       )}
@@ -44,6 +44,12 @@ export function PlayerTabs({ pubgId, initialMatches, weaponStats }: Props) {
         <WeaponView
           weaponData={weaponStats?.weaponData ?? null}
           fetchedAt={weaponStats?.fetchedAt ?? null}
+        />
+      )}
+      {activeTab === '맵' && (
+        <MapView
+          mapStats={mapStats?.mapStats ?? []}
+          totalGames={mapStats?.totalGames ?? 0}
         />
       )}
     </div>
