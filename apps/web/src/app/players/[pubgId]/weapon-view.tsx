@@ -197,13 +197,29 @@ export function WeaponView({ weaponData, fetchedAt }: Props) {
     .filter(([, k]) => k > 0)
     .sort((a, b) => b[1] - a[1])
 
-  // Top 2 무기 콤보
-  const top2 = weaponEntries.slice(0, 2).map(([id]) => ({ id, category: getCategory(id) }))
-  const comboLabel = getComboLabel(top2)
+  // 주력 콤보 — 킬 최다 AR + (DMR/SR 중 킬 최다) 우선, AR 없으면 Top 2 fallback
+  const allSortedEntries = Object.entries(weaponData)
+    .filter(([, s]) => (s.StatsTotal.Kills ?? 0) > 0)
+    .sort((a, b) => b[1].StatsTotal.Kills - a[1].StatsTotal.Kills)
+  const topAR = allSortedEntries.find(([id]) => getCategory(id) === 'AR')
+  const topRanged = allSortedEntries.find(([id]) => ['DMR', 'SR'].includes(getCategory(id)))
+  const comboWeapons: Array<{ id: string; category: string }> =
+    topAR && topRanged
+      ? [
+          { id: topAR[0], category: 'AR' },
+          { id: topRanged[0], category: getCategory(topRanged[0]) },
+        ]
+      : weaponEntries.slice(0, 2).map(([id]) => ({ id, category: getCategory(id) }))
+  const comboLabel = getComboLabel(comboWeapons)
 
-  // 최장 킬 거리
-  const longestKill = Math.max(...Object.values(weaponData).map((s) => s.StatsTotal.LongestKill ?? 0))
-  const longestKillWeapon = Object.entries(weaponData).find(
+  // 최장 킬 거리 — LongestKill이 0이거나 API에 없는 무기는 제외
+  const validLongestKillEntries = Object.entries(weaponData).filter(
+    ([, s]) => (s.StatsTotal.LongestKill ?? 0) > 0,
+  )
+  const longestKill = validLongestKillEntries.length > 0
+    ? Math.max(...validLongestKillEntries.map(([, s]) => s.StatsTotal.LongestKill!))
+    : 0
+  const longestKillWeapon = validLongestKillEntries.find(
     ([, s]) => s.StatsTotal.LongestKill === longestKill,
   )
 
@@ -214,16 +230,16 @@ export function WeaponView({ weaponData, fetchedAt }: Props) {
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
           <p className="mb-1 text-xs text-zinc-500">주력 콤보</p>
           <p className="text-lg font-bold text-white">{comboLabel}</p>
-          {top2.length >= 2 && (
+          {comboWeapons.length >= 2 && (
             <p className="mt-1 text-xs text-zinc-400">
-              {getWeaponDisplayName(top2[0]!.id)} + {getWeaponDisplayName(top2[1]!.id)}
+              {getWeaponDisplayName(comboWeapons[0]!.id)} + {getWeaponDisplayName(comboWeapons[1]!.id)}
             </p>
           )}
         </div>
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
           <p className="mb-1 text-xs text-zinc-500">최장 킬 거리</p>
-          <p className="text-lg font-bold text-white">{longestKill.toFixed(0)}m</p>
-          {longestKillWeapon && (
+          <p className="text-lg font-bold text-white">{longestKill > 0 ? `${longestKill.toFixed(0)}m` : '데이터 없음'}</p>
+          {longestKill > 0 && longestKillWeapon && (
             <p className="mt-1 text-xs text-zinc-400">{getWeaponDisplayName(longestKillWeapon[0])}</p>
           )}
         </div>
