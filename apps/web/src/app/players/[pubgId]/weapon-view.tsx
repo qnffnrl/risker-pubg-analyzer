@@ -90,8 +90,9 @@ function getComboLabel(top2: Array<{ id: string; category: string }>): string {
 export function WeaponView({ weaponData, fetchedAt }: Props) {
   if (!weaponData) {
     return (
-      <div className="flex min-h-[200px] items-center justify-center rounded-xl border border-zinc-800 bg-zinc-900/50 text-zinc-400">
-        무기 데이터를 불러올 수 없습니다
+      <div className="flex min-h-[200px] flex-col items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/50 text-zinc-400">
+        <span className="animate-spin text-2xl">⏳</span>
+        <span className="text-sm">무기 데이터 수집 중...</span>
       </div>
     )
   }

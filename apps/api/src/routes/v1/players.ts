@@ -33,6 +33,20 @@ async function handleSearch(nickname: string, platform: z.infer<typeof PlatformS
     })
 
     if (freshAnalysis) {
+      // Enqueue weapon mastery collection if missing (non-blocking)
+      const weaponStat = await db.query.weaponStats.findFirst({
+        where: eq(schema.weaponStats.playerId, player.id),
+      })
+      if (!weaponStat) {
+        const weaponJobId = `player-fetch_${platform}_${nickname}_weapon_${Date.now()}`
+        playerFetchQueue
+          .add(
+            'player-fetch',
+            { nickname: player.nickname, platform, requestedAt: new Date().toISOString(), forceRefresh: false },
+            { jobId: weaponJobId, removeOnComplete: { age: 3600 }, removeOnFail: { age: 86400 } },
+          )
+          .catch(() => undefined)
+      }
       return c.json(
         createSuccessResponse({
           jobId: null,
