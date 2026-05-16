@@ -29,8 +29,6 @@ RUN pnpm --filter @risker/db build
 RUN pnpm --filter @risker/api build
 # pnpm deploy: collect prod deps + built output into /deploy
 RUN pnpm deploy --filter @risker/api --prod /deploy
-# pnpm deploy may not copy workspace package non-JS files — explicitly include migrations
-RUN cp -r packages/db/migrations /deploy/node_modules/@risker/db/
 
 # ── runner ─────────────────────────────────────────────────────────────────────
 FROM node:20-alpine AS runner
@@ -42,6 +40,8 @@ RUN addgroup --system --gid 1001 nodejs \
  && adduser  --system --uid 1001 appuser
 
 COPY --from=builder --chown=appuser:nodejs /deploy ./
+# Copy migrations to a fixed location — referenced by MIGRATIONS_DIR in db-migrate service
+COPY --from=builder --chown=appuser:nodejs /app/packages/db/migrations /migrations
 
 USER appuser
 EXPOSE 8081
