@@ -2,11 +2,9 @@ import { z } from 'zod'
 
 export const PlatformSchema = z.enum([
   'steam',
+  'kakao',
   'psn',
   'xbox',
-  'kakao',
-  'stadia',
-  'tournament',
 ])
 
 export type Platform = z.infer<typeof PlatformSchema>

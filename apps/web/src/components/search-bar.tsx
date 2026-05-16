@@ -5,7 +5,7 @@ import { PlayerSearchRequestSchema } from '@risker/shared'
 
 export function SearchBar() {
   const [query, setQuery] = useState('')
-  const [platform, setPlatform] = useState<'steam' | 'psn' | 'xbox'>('steam')
+  const [platform, setPlatform] = useState<'steam' | 'kakao' | 'psn' | 'xbox'>('steam')
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -31,6 +31,7 @@ export function SearchBar() {
         aria-label="플랫폼 선택"
       >
         <option value="steam">Steam</option>
+        <option value="kakao">Kakao</option>
         <option value="psn">PS</option>
         <option value="xbox">Xbox</option>
       </select>
