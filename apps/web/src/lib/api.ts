@@ -4,7 +4,7 @@ const API_BASE = process.env['API_URL'] ?? process.env['NEXT_PUBLIC_API_URL'] ??
 async function apiFetch<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
     headers: { 'Content-Type': 'application/json' },
-    next: { revalidate: 0 },
+    cache: 'no-store',
   })
   const json = (await res.json()) as { success: boolean; data?: T; error?: { code: string; message: string } }
   if (!json.success || json.data === undefined) {
