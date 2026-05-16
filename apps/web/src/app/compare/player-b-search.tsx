@@ -35,12 +35,17 @@ const DEFAULT_STATE: SearchState = {
 async function resolvePlayer(nickname: string, platform: Platform): Promise<string> {
   const res = await searchPlayer(nickname, platform)
 
+  // 캐시된 플레이어
+  if (res.cached && res.player) return res.player.pubgId
+
+  // pubgId 이미 있는 경우
   if (res.pubgId) return res.pubgId
 
+  // Job 폴링
   if (res.jobId) {
     await pollJobUntilDone(res.jobId, () => {})
-    // 폴링 완료 후 재조회
     const res2 = await searchPlayer(nickname, platform)
+    if (res2.player?.pubgId) return res2.player.pubgId
     if (res2.pubgId) return res2.pubgId
   }
 
