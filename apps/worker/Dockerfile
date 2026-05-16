@@ -38,7 +38,8 @@ RUN addgroup -g 1001 nodejs \
  && adduser -D -u 1001 -G nodejs -h /home/appuser appuser
 
 # claude CLI — used by LLM summary generator (credentials mounted at runtime)
-RUN npm install -g @anthropic-ai/claude-code --ignore-scripts
+# bash required: claude bin script uses bash shebang on Alpine
+RUN apk add --no-cache bash && npm install -g @anthropic-ai/claude-code
 
 COPY --from=builder --chown=appuser:nodejs /deploy ./
 
