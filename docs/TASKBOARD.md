@@ -28,6 +28,7 @@ _없음_
 
 | ID | 작업명 | 유형 | 완료일 |
 |----|--------|------|--------|
+| T-015 | 무기 & 교전 분석 (weapon_stats DB, Mastery 수집, /weapons API, 무기 탭 UI) | feat | 2026-05-16 |
 | T-014 | CI/CD (GitHub Actions → risker.co.kr SSH:2222, 헬스체크, README) | infra | 2026-05-16 |
 | T-013 | 플레이어 비교 기능 (/compare 페이지, 오버레이 레이더 차트, 지표 테이블) | feat | 2026-05-16 |
 | T-012 | 로컬 스토리지 훅 분리 + 즐겨찾기/최근 검색 크로스탭 동기화 | feat | 2026-05-16 |
@@ -63,7 +64,6 @@ _없음_
 
 | ID | 작업명 | 유형 | PRD | 진행률 |
 |----|--------|------|-----|--------|
-| T-015 | 무기 & 교전 분석 (선호 무기 Top10, 교전 거리 분포) | feat | [PRD](prd/T-015-PRD-20260516-weapon-analysis.md) | 0% |
 | T-016 | 맵 & 존 분석 (맵별 성적, 랜딩존 선호도) | feat | [PRD](prd/T-016-PRD-20260516-map-zone-analysis.md) | 0% |
 | T-017 | 성과 추이 차트 (시계열 라인 차트, 폼 분석) | feat | [PRD](prd/T-017-PRD-20260516-performance-trend.md) | 0% |
 | T-018 | 관리자 페이지 (트래픽 모니터링 + 비밀번호 인증) | feat | [PRD](prd/T-018-PRD-20260516-admin-page.md) | 0% |
@@ -76,6 +76,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-16 21:07 | feat | T-015 무기 & 교전 분석 — weapon_stats 스키마/마이그레이션, playerFetch 무기수집, /weapons API, WeaponView+PlayerTabs 탭 UI | ce8ec35 |
 | 2026-05-16 19:30 | infra | T-014 CI/CD 완료 — GitHub Actions deploy, --env-file, Dockerfile ARG, claude 권한 해결 | 72f385c |
 | 2026-05-16 18:40 | feat | T-013 플레이어 비교 main 병합 — /compare 3-상태 SSR, 오버레이 레이더 차트, 성향 바, 지표 테이블, URL 복사, 모바일 탭, 프로필 헤더 비교 버튼 | 3c41589 |
 | 2026-05-16 18:20 | fix | T-012 사이드바 localStorage 연결 — sidebar.tsx placeholder → useRecentSearches/useFavorites 실제 데이터 표시 | 223ff3e |

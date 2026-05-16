@@ -9,9 +9,10 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Risker — PUBG 플레이 스타일 분석',
+  title: 'risker-pubg-analyzer',
   description: '공격성 · 생존형 · 포지셔닝 · 팀플레이 — 4가지 성향으로 보는 당신의 배그 DNA',
   metadataBase: new URL('https://pubg.risker.co.kr'),
+  icons: { icon: '/favicon.svg' },
 }
 
 export default function RootLayout({

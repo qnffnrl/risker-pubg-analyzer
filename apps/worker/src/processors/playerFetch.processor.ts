@@ -40,6 +40,30 @@ export async function playerFetchProcessor(job: Job<PlayerFetchJob>): Promise<vo
 
   job.log(`Player upserted: ${player.id}`)
 
+  // Collect weapon mastery (non-fatal)
+  try {
+    const mastery = await pubg.getWeaponMastery(shard, pubgAccountId)
+    await db.insert(schema.weaponStats)
+      .values({
+        playerId: player.id,
+        weaponData: mastery.attributes.weaponSummaries,
+        fetchedAt: new Date(),
+      })
+      .onConflictDoUpdate({
+        target: schema.weaponStats.playerId,
+        set: {
+          weaponData: mastery.attributes.weaponSummaries,
+          fetchedAt: new Date(),
+          updatedAt: new Date(),
+        },
+      })
+    job.log(`Weapon mastery saved for player ${player.id}`)
+  } catch (err) {
+    const msg = (err as Error).message
+    job.log(`Weapon mastery fetch failed (non-fatal): ${msg}`)
+    console.warn(`[playerFetch] weapon mastery error for ${player.id}:`, err)
+  }
+
   // Enqueue match collection
   const matchCollectionPayload: MatchCollectionJob = {
     playerId: player.id,

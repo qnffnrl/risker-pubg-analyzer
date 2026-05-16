@@ -1,5 +1,3 @@
-version: "3.9"
-
 x-restart: &default-restart
   restart: unless-stopped
 
@@ -51,6 +49,7 @@ services:
     container_name: pubg_db_migrate
     environment:
       DATABASE_URL: postgresql://${DB_USER:-pubg}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-pubg_analyzer}
+      MIGRATIONS_DIR: /migrations
     networks: [pubg_net]
     depends_on:
       postgres:
@@ -116,6 +115,8 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://pubg.risker.co.kr}
     container_name: pubg_web
     ports:
       - "8080:8080"

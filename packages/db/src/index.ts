@@ -29,4 +29,5 @@ export type {
   PlayStyleAnalysis, NewPlayStyleAnalysis,
   AnalysisJob, NewAnalysisJob,
   TrafficLog, NewTrafficLog,
+  WeaponStat, NewWeaponStat,
 } from './schema'

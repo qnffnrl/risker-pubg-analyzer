@@ -33,6 +33,20 @@ async function handleSearch(nickname: string, platform: z.infer<typeof PlatformS
     })
 
     if (freshAnalysis) {
+      // Enqueue weapon mastery collection if missing (non-blocking)
+      const weaponStat = await db.query.weaponStats.findFirst({
+        where: eq(schema.weaponStats.playerId, player.id),
+      })
+      if (!weaponStat) {
+        const weaponJobId = `player-fetch_${platform}_${nickname}_weapon_${Date.now()}`
+        playerFetchQueue
+          .add(
+            'player-fetch',
+            { nickname: player.nickname, platform, requestedAt: new Date().toISOString(), forceRefresh: false },
+            { jobId: weaponJobId, removeOnComplete: { age: 3600 }, removeOnFail: { age: 86400 } },
+          )
+          .catch(() => undefined)
+      }
       return c.json(
         createSuccessResponse({
           jobId: null,
@@ -173,6 +187,29 @@ players.get('/:pubgId/matches', zValidator('query', MatchesQuerySchema), async (
     .offset(offset)
 
   return c.json(createSuccessResponse({ matches: stats, limit, offset }))
+})
+
+// GET /api/v1/players/:pubgId/weapons
+players.get('/:pubgId/weapons', async (c) => {
+  const { pubgId } = c.req.param()
+
+  const player = await db.query.players.findFirst({
+    where: eq(schema.players.pubgId, pubgId),
+  })
+
+  if (!player) {
+    return c.json(createErrorResponse('PLAYER_NOT_FOUND', 'Player not found'), 404)
+  }
+
+  const weaponStat = await db.query.weaponStats.findFirst({
+    where: eq(schema.weaponStats.playerId, player.id),
+  })
+
+  if (!weaponStat) {
+    return c.json(createErrorResponse('NOT_FOUND', 'Weapon data not found'), 404)
+  }
+
+  return c.json(createSuccessResponse({ weaponData: weaponStat.weaponData, fetchedAt: weaponStat.fetchedAt }))
 })
 
 // POST /api/v1/players/:pubgId/refresh
