@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-16 (T-012 main 병합 완료)
+> 최종 갱신: 2026-05-16 (T-013 main 병합 완료)
 
 ## 🧭 기술 스택 결정사항
 
@@ -28,6 +28,7 @@ _없음_
 
 | ID | 작업명 | 유형 | 완료일 |
 |----|--------|------|--------|
+| T-013 | 플레이어 비교 기능 (/compare 페이지, 오버레이 레이더 차트, 지표 테이블) | feat | 2026-05-16 |
 | T-012 | 로컬 스토리지 훅 분리 + 즐겨찾기/최근 검색 크로스탭 동기화 | feat | 2026-05-16 |
 | T-011 | LLM 성향 자연어 요약 (claude CLI + AutoRefresh 버그픽스) | feat | 2026-05-16 |
 | T-010 | 플레이 스타일 분석 대시보드 (레이더 차트 + 지표 카드) | feat | 2026-05-16 |
@@ -62,7 +63,6 @@ _없음_
 
 | ID | 작업명 | 유형 | PRD | 진행률 |
 |----|--------|------|-----|--------|
-| T-013 | 플레이어 비교 기능 (2명 오버레이 레이더 차트) | feat | [PRD](prd/T-013-PRD-20260516-player-comparison.md) | 0% |
 | T-015 | 무기 & 교전 분석 (선호 무기 Top10, 교전 거리 분포) | feat | [PRD](prd/T-015-PRD-20260516-weapon-analysis.md) | 0% |
 | T-016 | 맵 & 존 분석 (맵별 성적, 랜딩존 선호도) | feat | [PRD](prd/T-016-PRD-20260516-map-zone-analysis.md) | 0% |
 | T-017 | 성과 추이 차트 (시계열 라인 차트, 폼 분석) | feat | [PRD](prd/T-017-PRD-20260516-performance-trend.md) | 0% |
@@ -76,6 +76,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-16 18:40 | feat | T-013 플레이어 비교 main 병합 — /compare 3-상태 SSR, 오버레이 레이더 차트, 성향 바, 지표 테이블, URL 복사, 모바일 탭, 프로필 헤더 비교 버튼 | 3c41589 |
 | 2026-05-16 18:20 | fix | T-012 사이드바 localStorage 연결 — sidebar.tsx placeholder → useRecentSearches/useFavorites 실제 데이터 표시 | 223ff3e |
 | 2026-05-16 18:10 | feat | T-012 로컬 스토리지 훅 분리 main 병합 — useFavorites/useRecentSearches 크로스탭 sync, avatarColor 고정, player-header 리팩터 | 456b551 |
 | 2026-05-16 17:50 | feat | T-011 LLM 요약 main 병합 — claude CLI execFile, bash+npm 설치, ~/.claude 볼륨마운트, forceRefresh 체인 버그픽스, AutoRefresh+MatchList 동기화 | ea667b5 |
