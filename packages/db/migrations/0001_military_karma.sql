@@ -1,0 +1,1 @@
+ALTER TABLE "play_style_analyses" ADD CONSTRAINT "play_style_analyses_player_id_unique" UNIQUE("player_id");

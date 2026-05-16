@@ -47,7 +47,7 @@ async function handleSearch(nickname: string, platform: z.infer<typeof PlatformS
   }
 
   // Enqueue player-fetch job
-  const jobId = `player-fetch:${platform}:${nickname}`
+  const jobId = `player-fetch_${platform}_${nickname}`
   await playerFetchQueue.add(
     'player-fetch',
     {
@@ -62,6 +62,7 @@ async function handleSearch(nickname: string, platform: z.infer<typeof PlatformS
     createSuccessResponse({
       jobId,
       playerId: player?.id ?? null,
+      pubgId: player?.pubgId ?? null,
       cached: false,
     }),
     202,
@@ -185,7 +186,7 @@ players.post('/:pubgId/refresh', async (c) => {
     return c.json(createErrorResponse('PLAYER_NOT_FOUND', 'Player not found'), 404)
   }
 
-  const jobId = `player-fetch:${player.platform}:${player.nickname}:refresh:${Date.now()}`
+  const jobId = `player-fetch_${player.platform}_${player.nickname}_refresh_${Date.now()}`
   await playerFetchQueue.add(
     'player-fetch',
     {

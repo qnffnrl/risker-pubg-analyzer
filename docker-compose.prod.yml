@@ -56,7 +56,7 @@ services:
       postgres:
         condition: service_healthy
     # @risker/db가 node_modules 안에 설치되어 있고 dist/migrate.cjs + migrations/ 포함
-    command: ["node", "node_modules/@risker/db/dist/migrate.cjs"]
+    command: ["node", "node_modules/@risker/db/dist/migrate.js"]
     restart: "no"
 
   # ── 앱 서비스 ──────────────────────────────────────────────────────────────
@@ -121,7 +121,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: "8080"
-      NEXT_PUBLIC_API_URL: http://api:8081
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8081}
     networks: [pubg_net]
     depends_on:
       api:
