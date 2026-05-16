@@ -76,6 +76,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-16 18:20 | fix | T-012 사이드바 localStorage 연결 — sidebar.tsx placeholder → useRecentSearches/useFavorites 실제 데이터 표시 | 223ff3e |
 | 2026-05-16 18:10 | feat | T-012 로컬 스토리지 훅 분리 main 병합 — useFavorites/useRecentSearches 크로스탭 sync, avatarColor 고정, player-header 리팩터 | 456b551 |
 | 2026-05-16 17:50 | feat | T-011 LLM 요약 main 병합 — claude CLI execFile, bash+npm 설치, ~/.claude 볼륨마운트, forceRefresh 체인 버그픽스, AutoRefresh+MatchList 동기화 | ea667b5 |
 | 2026-05-16 16:34 | feat | T-010 분석 대시보드 main 병합 — /analysis 페이지(SSR), 레이더 차트 대형, 성향 레이블 12종, 4대 지표 Section+StatCard, style-label.ts | 2029477 |
