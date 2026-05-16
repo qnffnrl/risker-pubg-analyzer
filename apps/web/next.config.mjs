@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: '/risker-pubg-analyzer',
-  // output: 'standalone' is used in production Docker builds.
-  // In local development (non-CI), symlink creation may fail on Windows
-  // without Developer Mode or admin privileges, so we enable it only in CI/production.
+  // 서브도메인(pubg.risker.co.kr) 운영 — basePath 불필요
   ...(process.env.NEXT_STANDALONE === 'true' ? { output: 'standalone' } : {}),
 }
 

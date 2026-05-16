@@ -17,7 +17,7 @@
 | 인증 | 로그인 없음 — 즐겨찾기/최근 검색은 브라우저 localStorage | 2026-05-16 |
 | 관리자 인증 | 단일 비밀번호 (ADMIN_PASSWORD 환경 변수) | 2026-05-16 |
 | 배포 | Docker Compose (호스트 완전 격리) + GitHub Actions | 2026-05-16 |
-| 앱 URL | http://risker.co.kr/risker-pubg-analyzer | 2026-05-16 |
+| 앱 URL | https://pubg.risker.co.kr | 2026-05-16 |
 | SSH 포트 | 2222 | 2026-05-16 |
 
 ## 🔥 진행 중

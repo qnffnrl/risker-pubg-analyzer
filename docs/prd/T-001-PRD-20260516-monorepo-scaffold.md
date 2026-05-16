@@ -11,13 +11,13 @@ pnpm + Turborepo 기반 모노레포에 실제 동작하는 앱 뼈대(Next.js, 
 
 ### apps/web (Next.js 14+)
 - `create-next-app` 기반, App Router, TypeScript strict
-- `next.config.ts`: `basePath: '/risker-pubg-analyzer'`, `output: 'standalone'`
+- `next.config.mjs`: `output: 'standalone'` (서브도메인 운영, basePath 없음)
 - TailwindCSS + shadcn/ui 초기화
 - 환경 변수: `NEXT_PUBLIC_API_URL`
 
 ### apps/api (Hono)
 - `hono` + `@hono/node-server`
-- 포트: `3001`
+- 포트: `8081`
 - 라우터 구조: `/health`, `/api/v1/*`
 - Zod 미들웨어 + cors + logger
 - 환경 변수: `DATABASE_URL`, `REDIS_URL`, `PORT`
@@ -59,7 +59,7 @@ pnpm + Turborepo 기반 모노레포에 실제 동작하는 앱 뼈대(Next.js, 
 
 - [ ] `pnpm install` 전체 성공
 - [ ] `pnpm dev` — web(3000), api(3001), worker 동시 기동
-- [ ] `apps/web` — `http://localhost:3000/risker-pubg-analyzer` 접속 확인
+- [ ] `apps/web` — `http://localhost:8080` 접속 확인
 - [ ] `apps/api` — `GET /health` → `{ status: "ok" }` 응답
 - [ ] `apps/worker` — BullMQ 연결 + Bull Board `/admin/queues` 접속
 - [ ] `packages/shared` 타입이 web/api/worker에서 import 가능

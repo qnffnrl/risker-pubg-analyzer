@@ -78,7 +78,7 @@ T-015, T-016, T-017, T-018, T-019, T-020 (병렬)
 
 | 항목 | 값 |
 |------|-----|
-| 앱 URL | `http://risker.co.kr/risker-pubg-analyzer` |
+| 앱 URL | `https://pubg.risker.co.kr` |
 | 서버 | Mac Mini @ risker.co.kr |
 | SSH 포트 | 2222 |
 | 배포 방식 | GitHub Actions → SSH → Docker Compose (호스트 완전 격리) |

@@ -9,7 +9,7 @@
 ## 페이지 구성
 
 ### URL
-`http://risker.co.kr/risker-pubg-analyzer/compare?a={pubgId1}&b={pubgId2}`
+`https://pubg.risker.co.kr/compare?a={pubgId1}&b={pubgId2}`
 - URL 파라미터로 공유 가능
 
 ### 레이아웃

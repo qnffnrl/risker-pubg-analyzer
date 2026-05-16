@@ -9,7 +9,7 @@
 ## 페이지 구성
 
 ### URL
-`http://risker.co.kr/risker-pubg-analyzer/players/{pubgId}`
+`https://pubg.risker.co.kr/players/{pubgId}`
 
 ### 상단: 플레이어 헤더
 ```
