@@ -7,7 +7,7 @@ const envSchema = z.object({
   NODE_ENV: z
     .enum(['development', 'production', 'test'])
     .default('development'),
-  BULL_BOARD_PORT: z.coerce.number().int().positive().default(3002),
+  BULL_BOARD_PORT: z.coerce.number().int().positive().default(8082),
 })
 
 export const env = envSchema.parse(process.env)

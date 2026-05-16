@@ -45,10 +45,11 @@ services:
 services:
   postgres:   # named volume, 외부 포트 미노출
   redis:      # named volume, 외부 포트 미노출
-  web:        # port 3000, standalone 이미지
-  api:        # port 3001, 빌드 이미지
-  worker:     # 빌드 이미지
-  nginx:      # 리버스 프록시 (선택, T-014에서 결정)
+  web:        # port 8080, standalone 이미지
+  api:        # port 8081, 빌드 이미지
+  worker:     # 빌드 이미지 (Bull Board: 8082)
+  # Nginx 없음 — 호스트에 설치된 Caddy가 리버스 프록시 담당
+  # Caddy가 Let's Encrypt HTTPS 자동 처리
 ```
 
 ### .dockerignore (각 앱)

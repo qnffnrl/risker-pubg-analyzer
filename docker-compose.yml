@@ -23,6 +23,28 @@ services:
       - redis_data:/data
     restart: unless-stopped
 
+  # 로컬 개발용 앱 서비스 (필요 시 주석 해제)
+  # web:
+  #   build: ./apps/web
+  #   ports:
+  #     - "8080:8080"
+  #   env_file: .env
+  #   depends_on: [postgres, redis]
+
+  # api:
+  #   build: ./apps/api
+  #   ports:
+  #     - "8081:8081"
+  #   env_file: .env
+  #   depends_on: [postgres, redis]
+
+  # worker:
+  #   build: ./apps/worker
+  #   ports:
+  #     - "8082:8082"
+  #   env_file: .env
+  #   depends_on: [postgres, redis]
+
 volumes:
   postgres_data:
   redis_data:
