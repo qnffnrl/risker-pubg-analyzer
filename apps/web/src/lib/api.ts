@@ -100,6 +100,9 @@ export interface WeaponSummaryData {
     Groggies: number
     Assists: number
     LongestKill: number
+    LongestDefeat: number
+    LongRangeDefeats: number
+    Defeats: number
     Shots?: number
     Hits?: number
   }
