@@ -47,13 +47,13 @@ jobs:
             git reset --hard origin/main
 
             echo "=== Rebuilding and restarting containers ==="
-            docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
+            docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --build --remove-orphans
 
             echo "=== Waiting for containers to be ready ==="
             sleep 20
 
             echo "=== Container status ==="
-            docker compose -f docker-compose.prod.yml ps
+            docker compose -f docker-compose.prod.yml --env-file .env.prod ps
 
             echo "=== Internal health check ==="
             curl -sf http://localhost:8081/health || (echo "API health check failed" && exit 1)
