@@ -29,6 +29,8 @@ RUN pnpm --filter @risker/db build
 RUN pnpm --filter @risker/api build
 # pnpm deploy: collect prod deps + built output into /deploy
 RUN pnpm deploy --filter @risker/api --prod /deploy
+# pnpm deploy may not copy workspace package non-JS files — explicitly include migrations
+RUN cp -r packages/db/migrations /deploy/node_modules/@risker/db/
 
 # ── runner ─────────────────────────────────────────────────────────────────────
 FROM node:20-alpine AS runner
