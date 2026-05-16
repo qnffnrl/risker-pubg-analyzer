@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-16 (T-005 구현 완료, 검증 대기)
+> 최종 갱신: 2026-05-17 (T-005 main 병합 완료)
 
 ## 🧭 기술 스택 결정사항
 
@@ -22,12 +22,13 @@
 
 ## 🔥 진행 중
 
-| T-005 | 플레이어 검색 + 매치 수집 Worker (BullMQ) | feat | [PRD](prd/T-005-PRD-20260516-match-collection-worker.md) | 구현 완료 (검증 대기) |
+_없음_
 
 ## ✅ 완료
 
 | ID | 작업명 | 유형 | 완료일 |
 |----|--------|------|--------|
+| T-005 | 플레이어 검색 + 매치 수집 Worker (BullMQ) | feat | 2026-05-17 |
 | T-004 | PUBG API 클라이언트 (Rate Limit + Zod 검증) | feat | 2026-05-16 |
 | T-003 | 앱 컨테이너화 (Dockerfile + docker-compose.prod.yml) | infra | 2026-05-16 |
 | T-002 | DB 스키마 설계 (플레이어/매치/분석 결과/트래픽 테이블) | infra | 2026-05-16 |
@@ -46,7 +47,6 @@
 
 | ID | 작업명 | 유형 | PRD | 진행률 |
 |----|--------|------|-----|--------|
-| T-005 | 플레이어 검색 + 매치 수집 Worker (BullMQ) | feat | [PRD](prd/T-005-PRD-20260516-match-collection-worker.md) | 0% |
 | T-006 | 플레이 스타일 분석 엔진 (4대 성향 통계) | feat | [PRD](prd/T-006-PRD-20260516-analysis-engine.md) | 0% |
 | T-007 | 분석 결과 API (Hono + 트래픽 로깅 미들웨어) | feat | [PRD](prd/T-007-PRD-20260516-analysis-api.md) | 0% |
 
