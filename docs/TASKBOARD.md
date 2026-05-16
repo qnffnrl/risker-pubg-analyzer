@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-16 (T-013 main 병합 완료)
+> 최종 갱신: 2026-05-16 (T-014 main 병합 완료)
 
 ## 🧭 기술 스택 결정사항
 
@@ -28,6 +28,7 @@ _없음_
 
 | ID | 작업명 | 유형 | 완료일 |
 |----|--------|------|--------|
+| T-014 | CI/CD (GitHub Actions → risker.co.kr SSH:2222, 헬스체크, README) | infra | 2026-05-16 |
 | T-013 | 플레이어 비교 기능 (/compare 페이지, 오버레이 레이더 차트, 지표 테이블) | feat | 2026-05-16 |
 | T-012 | 로컬 스토리지 훅 분리 + 즐겨찾기/최근 검색 크로스탭 동기화 | feat | 2026-05-16 |
 | T-011 | LLM 성향 자연어 요약 (claude CLI + AutoRefresh 버그픽스) | feat | 2026-05-16 |
@@ -49,7 +50,6 @@ _없음_
 
 | ID | 작업명 | 유형 | PRD | 진행률 |
 |----|--------|------|-----|--------|
-| T-014 | CI/CD (GitHub Actions → risker.co.kr, SSH:2222) | infra | [PRD](prd/T-014-PRD-20260516-cicd.md) | 0% |
 
 
 ### Phase 3: 프론트엔드 핵심
@@ -76,6 +76,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-16 19:30 | infra | T-014 CI/CD 완료 — GitHub Actions deploy, --env-file, Dockerfile ARG, claude 권한 해결 | 72f385c |
 | 2026-05-16 18:40 | feat | T-013 플레이어 비교 main 병합 — /compare 3-상태 SSR, 오버레이 레이더 차트, 성향 바, 지표 테이블, URL 복사, 모바일 탭, 프로필 헤더 비교 버튼 | 3c41589 |
 | 2026-05-16 18:20 | fix | T-012 사이드바 localStorage 연결 — sidebar.tsx placeholder → useRecentSearches/useFavorites 실제 데이터 표시 | 223ff3e |
 | 2026-05-16 18:10 | feat | T-012 로컬 스토리지 훅 분리 main 병합 — useFavorites/useRecentSearches 크로스탭 sync, avatarColor 고정, player-header 리팩터 | 456b551 |
