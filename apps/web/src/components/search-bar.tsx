@@ -71,18 +71,18 @@ export function SearchBar({ compact = false }: SearchBarProps) {
         return
       }
 
+      // pubgId가 이미 있으면 (기존 플레이어) polling 후 바로 이동 가능
+      const knownPubgId = res.pubgId
+
       setState('polling')
       await pollJobUntilDone(res.jobId, (pct) => setProgress(pct))
 
-      // Job done — re-fetch to get player data
-      const fresh = await searchPlayer(nickname.trim(), selectedPlatform)
-      if (fresh.player) {
-        addRecentSearch({
-          nickname: fresh.player.nickname,
-          platform: fresh.player.platform,
-          pubgId: fresh.player.pubgId,
-        })
-        router.push(`/players/${fresh.player.pubgId}`)
+      // Job done — pubgId 확보 후 이동
+      const navigatePubgId = knownPubgId ?? (await searchPlayer(nickname.trim(), selectedPlatform)).pubgId
+
+      if (navigatePubgId) {
+        addRecentSearch({ nickname: nickname.trim(), platform, pubgId: navigatePubgId })
+        router.push(`/players/${navigatePubgId}`)
       } else {
         setState('error')
         setErrorMsg('플레이어 정보를 가져오지 못했습니다.')

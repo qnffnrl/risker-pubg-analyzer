@@ -5,7 +5,7 @@ export const playStyleAnalyses = pgTable(
   'play_style_analyses',
   {
     id: uuid('id').primaryKey().defaultRandom(),
-    playerId: uuid('player_id').notNull().references(() => players.id),
+    playerId: uuid('player_id').notNull().unique().references(() => players.id),
     analyzedAt: timestamp('analyzed_at', { withTimezone: true }).defaultNow().notNull(),
     matchCount: integer('match_count').notNull(),
     aggressionScore: numeric('aggression_score', { precision: 5, scale: 2 }),

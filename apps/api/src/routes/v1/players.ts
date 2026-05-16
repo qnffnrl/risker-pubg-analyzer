@@ -62,6 +62,7 @@ async function handleSearch(nickname: string, platform: z.infer<typeof PlatformS
     createSuccessResponse({
       jobId,
       playerId: player?.id ?? null,
+      pubgId: player?.pubgId ?? null,
       cached: false,
     }),
     202,

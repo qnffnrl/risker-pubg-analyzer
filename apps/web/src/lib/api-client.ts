@@ -5,6 +5,7 @@ export type Platform = 'steam' | 'kakao' | 'psn' | 'xbox'
 export interface SearchResponse {
   jobId: string | null
   playerId: string | null
+  pubgId: string | null
   cached: boolean
   player?: {
     id: string
