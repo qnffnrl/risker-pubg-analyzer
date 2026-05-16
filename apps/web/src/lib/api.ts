@@ -89,6 +89,31 @@ export interface CompareResult {
   players: Array<{ player: PlayerData; analysis: AnalysisData | null }>
 }
 
+export interface WeaponSummaryData {
+  XPTotal: number
+  LevelCurrent: number
+  TierCurrent: number
+  StatsTotal: {
+    Kills: number
+    DamagePlayer: number
+    HeadShots: number
+    Groggies: number
+    Assists: number
+    LongestKill: number
+    Shots?: number
+    Hits?: number
+  }
+}
+
+export interface WeaponStatsData {
+  weaponData: Record<string, WeaponSummaryData>
+  fetchedAt: string
+}
+
+export async function getWeaponStats(pubgId: string): Promise<WeaponStatsData> {
+  return apiFetch<WeaponStatsData>(`/api/v1/players/${encodeURIComponent(pubgId)}/weapons`)
+}
+
 export async function getCompare(pubgIdA: string, pubgIdB: string): Promise<CompareResult> {
   return apiFetch<CompareResult>(
     `/api/v1/compare?players=${encodeURIComponent(pubgIdA)},${encodeURIComponent(pubgIdB)}`,
