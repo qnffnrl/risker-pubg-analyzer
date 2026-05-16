@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Star, RefreshCw } from 'lucide-react'
 import { PlayerAvatar } from '@/components/ui/player-avatar'
 import { PlatformBadge } from '@/components/ui/platform-badge'
-import { addFavorite, removeFavorite, isFavorite } from '@/lib/storage'
+import { useFavorites } from '@/lib/hooks/use-favorites'
 import type { PlayerData, AnalysisData } from '@/lib/api'
 
 interface PlayerHeaderProps {
@@ -13,20 +13,13 @@ interface PlayerHeaderProps {
 }
 
 export function PlayerHeader({ player, analysis }: PlayerHeaderProps) {
-  const [fav, setFav] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
+  const { isFavorite, toggleFavorite } = useFavorites()
 
-  useEffect(() => {
-    setFav(isFavorite(player.pubgId))
-  }, [player.pubgId])
+  const fav = isFavorite(player.pubgId)
 
   function toggleFav() {
-    if (fav) {
-      removeFavorite(player.pubgId)
-    } else {
-      addFavorite({ nickname: player.nickname, platform: player.platform, pubgId: player.pubgId })
-    }
-    setFav(!fav)
+    toggleFavorite({ nickname: player.nickname, platform: player.platform, pubgId: player.pubgId })
   }
 
   async function handleRefresh() {
