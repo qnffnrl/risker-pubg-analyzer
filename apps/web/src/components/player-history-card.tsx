@@ -1,9 +1,12 @@
 'use client'
 
-import Link from 'next/link'
-import { X, Star } from 'lucide-react'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { X, Star, Loader2 } from 'lucide-react'
 import { PlayerAvatar } from '@/components/ui/player-avatar'
 import { PlatformBadge } from '@/components/ui/platform-badge'
+import { searchPlayer } from '@/lib/api-client'
+import { addRecentSearch } from '@/lib/storage'
 import type { Platform } from '@/lib/storage'
 
 interface PlayerHistoryCardProps {
@@ -35,18 +38,47 @@ export function PlayerHistoryCard({
   onRemove,
   onToggleFav,
 }: PlayerHistoryCardProps) {
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
+
+  async function handleClick() {
+    if (loading) return
+    setLoading(true)
+    try {
+      const res = await searchPlayer(nickname, platform)
+      const targetPubgId = res.player?.pubgId ?? res.pubgId ?? pubgId
+      addRecentSearch({ nickname: res.player?.nickname ?? nickname, platform, pubgId: targetPubgId })
+      router.push(`/players/${targetPubgId}`)
+    } catch {
+      // 검색 실패 시 기존 pubgId로 이동 (최후 수단)
+      router.push(`/players/${pubgId}`)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="group flex items-center gap-3 rounded-xl border border-border bg-card p-3 transition-colors hover:border-primary/40 hover:bg-card/80">
-      <Link href={`/players/${pubgId}`} className="flex flex-1 items-center gap-3 min-w-0">
-        <PlayerAvatar nickname={nickname} size="sm" />
+      <button
+        onClick={handleClick}
+        disabled={loading}
+        className="flex flex-1 items-center gap-3 min-w-0 text-left disabled:opacity-60"
+      >
+        {loading ? (
+          <Loader2 className="h-8 w-8 shrink-0 animate-spin text-primary" />
+        ) : (
+          <PlayerAvatar nickname={nickname} size="sm" />
+        )}
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <span className="truncate text-sm font-semibold text-foreground">{nickname}</span>
             <PlatformBadge platform={platform} />
           </div>
-          <span className="text-xs text-muted-foreground">{timeAgo(timestamp)}</span>
+          <span className="text-xs text-muted-foreground">
+            {loading ? '검색 중...' : timeAgo(timestamp)}
+          </span>
         </div>
-      </Link>
+      </button>
 
       <div className="flex shrink-0 items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
         {onToggleFav && (
