@@ -1,0 +1,33 @@
+import { z } from 'zod'
+
+const WeaponSummarySchema = z.object({
+  XPTotal: z.number(),
+  LevelCurrent: z.number(),
+  TierCurrent: z.number(),
+  StatsTotal: z.object({
+    Kills: z.number(),
+    DamagePlayer: z.number(),
+    HeadShots: z.number(),
+    Groggies: z.number(),
+    Assists: z.number(),
+    LongestKill: z.number(),
+    Shots: z.number().optional(),
+    Hits: z.number().optional(),
+  }),
+})
+
+const WeaponMasteryAttributesSchema = z.object({
+  weaponSummaries: z.record(WeaponSummarySchema),
+})
+
+const WeaponMasteryDataSchema = z.object({
+  type: z.literal('weaponMastery'),
+  attributes: WeaponMasteryAttributesSchema,
+})
+
+export const PubgWeaponMasteryResponseSchema = z.object({
+  data: WeaponMasteryDataSchema,
+})
+
+export type PubgWeaponMastery = z.infer<typeof WeaponMasteryDataSchema>
+export type WeaponSummary = z.infer<typeof WeaponSummarySchema>
