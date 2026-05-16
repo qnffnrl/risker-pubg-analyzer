@@ -1,25 +1,36 @@
+import { notFound } from 'next/navigation'
 import { AppShell } from '@/components/layout/app-shell'
-import { PlayerCardSkeleton, StatCardSkeleton, RadarChartSkeleton } from '@/components/ui/loading-skeleton'
+import { getPlayer, getPlayerMatches } from '@/lib/api'
+import { PlayerHeader } from './player-header'
+import { SummaryStats } from './summary-stats'
+import { StylePreview } from './style-preview'
+import { MatchList } from './match-list'
 
 interface Props {
   params: { pubgId: string }
 }
 
-export default function PlayerPage({ params }: Props) {
+export default async function PlayerPage({ params }: Props) {
+  const { pubgId } = params
+
+  let profile
+  try {
+    profile = await getPlayer(pubgId)
+  } catch {
+    notFound()
+  }
+
+  const matchesData = await getPlayerMatches(pubgId, 20, 0).catch(() => ({ matches: [], limit: 20, offset: 0 }))
+
   return (
     <AppShell showSidebar showHeaderSearch>
-      <div className="mx-auto max-w-5xl px-4 py-8">
-        <p className="mb-6 text-sm text-muted-foreground">
-          플레이어: <span className="font-mono text-foreground">{params.pubgId}</span>
-        </p>
-        {/* T-009에서 구현 예정 */}
-        <div className="space-y-4">
-          <PlayerCardSkeleton />
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {[0, 1, 2, 3].map((i) => <StatCardSkeleton key={i} />)}
-          </div>
-          <RadarChartSkeleton className="h-64 w-full" />
-        </div>
+      <div className="mx-auto max-w-4xl space-y-6 px-4 py-8">
+        <PlayerHeader player={profile.player} analysis={profile.latestAnalysis} />
+        <SummaryStats analysis={profile.latestAnalysis} />
+        {profile.latestAnalysis && (
+          <StylePreview analysis={profile.latestAnalysis} pubgId={pubgId} />
+        )}
+        <MatchList initialMatches={matchesData.matches} pubgId={pubgId} />
       </div>
     </AppShell>
   )

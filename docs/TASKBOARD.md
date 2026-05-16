@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-17 (T-008 main 병합 완료, T-009 진행 중)
+> 최종 갱신: 2026-05-17 (T-009 구현 완료, 검증 대기)
 
 ## 🧭 기술 스택 결정사항
 
@@ -22,7 +22,7 @@
 
 ## 🔥 진행 중
 
-_없음_
+| T-009 | 플레이어 프로필 + 최근 매치 목록 페이지 | feat | [PRD](prd/T-009-PRD-20260516-player-profile-page.md) | 구현 완료 (검증 대기) |
 
 ## ✅ 완료
 
@@ -75,6 +75,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-17 03:30 | feat | T-009 플레이어 프로필 페이지 구현 — PlayerHeader/SummaryStats/StylePreview/MatchList, 미니 레이더차트, 매치카드, 즐겨찾기 토글, 모드 필터 | (pending) |
 | 2026-05-17 03:00 | feat | T-008 검색 페이지 병합 — SearchBar API+폴링, localStorage, api-client, participant.stats.playerId 버그픽스, play_style_analyses unique constraint | d143804 |
 | 2026-05-17 02:00 | feat | T-007 분석 결과 API 병합 — players/jobs/compare 라우트, 트래픽 로깅 미들웨어(IP 마스킹), CORS, @hono/zod-validator 검증 | e3cd31c |
 | 2026-05-17 01:00 | feat | T-006 분석 엔진 main 병합 — 4대 성향(공격성/생존/포지셔닝/팀플) 순수 함수, clamp 정규화, analysis 프로세서, play_style_analyses upsert | ad80540 |
