@@ -120,6 +120,15 @@ const WEAPON_CATEGORIES: Record<string, string> = {
   Item_Weapon_DP28_C: 'LMG',
   Item_Weapon_M249_C: 'LMG',
   Item_Weapon_MG3_C: 'LMG',
+  // 권총
+  Item_Weapon_M1911_C: '권총',
+  Item_Weapon_Glock18_C: '권총',
+  Item_Weapon_DesertEagle_C: '권총',
+  Item_Weapon_Rhino_C: '권총',
+  Item_Weapon_NagantM1895_C: '권총',
+  Item_Weapon_Sawnoff_C: '권총',
+  Item_Weapon_Winchester_C: '권총',
+  Item_Weapon_vz61Skorpion_C: 'SMG',
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -129,6 +138,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   SMG: 'bg-green-500/20 text-green-400 border-green-500/30',
   SG: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
   LMG: 'bg-red-500/20 text-red-400 border-red-500/30',
+  권총: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
   기타: 'bg-zinc-500/20 text-zinc-400 border-zinc-500/30',
 }
 
