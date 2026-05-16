@@ -294,11 +294,9 @@ export function WeaponView({ weaponData, fetchedAt }: Props) {
         )}
       </div>
 
-      {fetchedAt && (
-        <p className="text-right text-xs text-zinc-600">
-          마지막 업데이트: {new Date(fetchedAt).toLocaleString('ko-KR')}
-        </p>
-      )}
+      <p className="text-right text-xs text-zinc-600">
+        역대 누적 기준 (PUBG 무기 마스터리){fetchedAt && ` · ${new Date(fetchedAt).toLocaleDateString('ko-KR')} 기준`}
+      </p>
     </div>
   )
 }
