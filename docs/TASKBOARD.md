@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-16 (T-001 완료)
+> 최종 갱신: 2026-05-16 (T-002 구현 완료, 사용자 검증 대기)
 
 ## 🧭 기술 스택 결정사항
 
@@ -24,27 +24,21 @@
 
 | ID | 작업명 | 유형 | PRD | 진행률 |
 |----|--------|------|-----|--------|
-| (없음) | | | | |
+| T-002 | DB 스키마 설계 (플레이어/매치/분석 결과/트래픽 테이블) | infra | [PRD](prd/T-002-PRD-20260516-db-schema.md) | 구현 완료 (검증 대기) |
 
 ## ✅ 완료
 
 | ID | 작업명 | 유형 | 완료일 |
 |----|--------|------|--------|
+| T-000 | 디자인 시스템 & 글로벌 레이아웃 | design | 2026-05-16 |
 | T-001 | 모노레포 스캐폴딩 (Next.js + Hono + BullMQ Worker) | infra | 2026-05-16 |
 
 ## 📋 대기
-
-### Phase 0: 디자인 시스템
-
-| ID | 작업명 | 유형 | PRD | 진행률 |
-|----|--------|------|-----|--------|
-| T-000 | 디자인 시스템 & 글로벌 레이아웃 (openclaw.ai 스타일, 반응형) | design | [PRD](prd/T-000-PRD-20260516-design-system.md) | 0% |
 
 ### Phase 1: 기반 인프라
 
 | ID | 작업명 | 유형 | PRD | 진행률 |
 |----|--------|------|-----|--------|
-| T-002 | DB 스키마 설계 (플레이어/매치/분석 결과/트래픽 테이블) | infra | [PRD](prd/T-002-PRD-20260516-db-schema.md) | 0% |
 | T-003 | 앱 컨테이너화 (Dockerfile + docker-compose.prod.yml) | infra | [PRD](prd/T-003-PRD-20260516-containerization.md) | 0% |
 | T-014 | CI/CD (GitHub Actions → risker.co.kr, SSH:2222) | infra | [PRD](prd/T-014-PRD-20260516-cicd.md) | 0% |
 
@@ -85,6 +79,8 @@
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-16 22:30 | infra | T-002 DB 스키마 구현 — players/matches/playerMatchStats/playStyleAnalyses/analysisJobs/trafficLogs Drizzle 스키마, pgEnum, 인덱스 | (pending) |
+| 2026-05-16 22:00 | feat | T-000 main 병합 완료 — 디자인 시스템 & 글로벌 레이아웃 | b54b160 |
 | 2026-05-16 20:00 | infra | T-001 모노레포 스캐폴딩 완료 — web/api/worker/shared/db 앱 뼈대 구현, turbo build 전체 통과 | bfc3c38 |
 | 2026-05-16 18:00 | docs | 전체 PRD 21개 생성 (T-000~T-020) + GitHub Actions 워크플로우 | - |
 | 2026-05-16 17:00 | infra | 프로젝트 초기 생성 (모노레포 스캐폴딩 + CLAUDE.md + docs) | 45e4f60 |
