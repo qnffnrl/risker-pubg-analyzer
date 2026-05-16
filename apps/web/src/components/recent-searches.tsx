@@ -1,39 +1,15 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { Clock } from 'lucide-react'
-import {
-  getRecentSearches,
-  removeRecentSearch,
-  addFavorite,
-  removeFavorite,
-  isFavorite,
-  type RecentSearch,
-} from '@/lib/storage'
+import { useRecentSearches } from '@/lib/hooks/use-recent-searches'
+import { useFavorites } from '@/lib/hooks/use-favorites'
 import { PlayerHistoryCard } from './player-history-card'
 
 export function RecentSearches() {
-  const [items, setItems] = useState<RecentSearch[]>([])
+  const { searches, removeSearch } = useRecentSearches()
+  const { isFavorite, toggleFavorite } = useFavorites()
 
-  useEffect(() => {
-    setItems(getRecentSearches())
-  }, [])
-
-  if (items.length === 0) return null
-
-  function handleRemove(pubgId: string) {
-    removeRecentSearch(pubgId)
-    setItems(getRecentSearches())
-  }
-
-  function handleToggleFav(item: RecentSearch) {
-    if (isFavorite(item.pubgId)) {
-      removeFavorite(item.pubgId)
-    } else {
-      addFavorite({ nickname: item.nickname, platform: item.platform, pubgId: item.pubgId })
-    }
-    setItems(getRecentSearches())
-  }
+  if (searches.length === 0) return null
 
   return (
     <section className="mx-auto w-full max-w-xl">
@@ -42,14 +18,14 @@ export function RecentSearches() {
         <h2 className="text-sm font-medium text-muted-foreground">최근 검색</h2>
       </div>
       <div className="flex flex-col gap-2">
-        {items.map((item) => (
+        {searches.map((item) => (
           <PlayerHistoryCard
             key={item.pubgId}
             {...item}
             timestamp={item.searchedAt}
             isFav={isFavorite(item.pubgId)}
-            onRemove={() => handleRemove(item.pubgId)}
-            onToggleFav={() => handleToggleFav(item)}
+            onRemove={() => removeSearch(item.pubgId)}
+            onToggleFav={() => toggleFavorite({ nickname: item.nickname, platform: item.platform, pubgId: item.pubgId })}
           />
         ))}
       </div>

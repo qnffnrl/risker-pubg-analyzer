@@ -1,23 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { Star } from 'lucide-react'
-import { getFavorites, removeFavorite, type Favorite } from '@/lib/storage'
+import { useFavorites } from '@/lib/hooks/use-favorites'
 import { PlayerHistoryCard } from './player-history-card'
 
 export function Favorites() {
-  const [items, setItems] = useState<Favorite[]>([])
+  const { favorites, removeFavorite } = useFavorites()
 
-  useEffect(() => {
-    setItems(getFavorites())
-  }, [])
-
-  if (items.length === 0) return null
-
-  function handleRemove(pubgId: string) {
-    removeFavorite(pubgId)
-    setItems(getFavorites())
-  }
+  if (favorites.length === 0) return null
 
   return (
     <section className="mx-auto w-full max-w-xl">
@@ -26,13 +16,13 @@ export function Favorites() {
         <h2 className="text-sm font-medium text-muted-foreground">즐겨찾기</h2>
       </div>
       <div className="flex flex-col gap-2">
-        {items.map((item) => (
+        {favorites.map((item) => (
           <PlayerHistoryCard
             key={item.pubgId}
             {...item}
             timestamp={item.addedAt}
             isFav
-            onRemove={() => handleRemove(item.pubgId)}
+            onRemove={() => removeFavorite(item.pubgId)}
           />
         ))}
       </div>
