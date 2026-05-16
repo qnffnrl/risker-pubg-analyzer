@@ -59,7 +59,9 @@ export async function playerFetchProcessor(job: Job<PlayerFetchJob>): Promise<vo
       })
     job.log(`Weapon mastery saved for player ${player.id}`)
   } catch (err) {
-    job.log(`Weapon mastery fetch failed (non-fatal): ${(err as Error).message}`)
+    const msg = (err as Error).message
+    job.log(`Weapon mastery fetch failed (non-fatal): ${msg}`)
+    console.warn(`[playerFetch] weapon mastery error for ${player.id}:`, msg)
   }
 
   // Enqueue match collection
