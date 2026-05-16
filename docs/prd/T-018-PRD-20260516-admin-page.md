@@ -31,7 +31,7 @@
 ## 관리자 대시보드 UI
 
 ### URL
-`http://risker.co.kr/risker-pubg-analyzer/admin`
+`https://pubg.risker.co.kr/admin`
 
 ### 대시보드 구성
 

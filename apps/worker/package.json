@@ -1,0 +1,31 @@
+{
+  "name": "@risker/worker",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsup src/index.ts --format cjs --dts",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@bull-board/api": "^6.7.0",
+    "@bull-board/hono": "^6.7.0",
+    "@hono/node-server": "^1.13.7",
+    "@risker/shared": "workspace:*",
+    "bullmq": "^5.47.0",
+    "hono": "^4.7.0",
+    "ioredis": "^5.4.2",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.2",
+    "tsup": "^8.3.0",
+    "typescript": "^5.8.0"
+  }
+}

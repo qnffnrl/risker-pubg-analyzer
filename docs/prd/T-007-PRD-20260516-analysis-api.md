@@ -70,7 +70,7 @@ GET  /api/v1/compare?players={id1},{id2}
 - PII 주의: IP는 로깅하되 마스킹 옵션 제공 (`X-Forwarded-For` 처리)
 
 ### CORS 미들웨어
-- `http://risker.co.kr` 허용
+- `https://pubg.risker.co.kr` 허용
 - 로컬 개발: `http://localhost:3000` 허용
 
 ### Rate Limit 미들웨어 (선택)

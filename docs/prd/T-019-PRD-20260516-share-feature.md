@@ -65,7 +65,7 @@ Risker PUBG Analyzer
 PlayerName의 배그 DNA
 공격성 72 · 생존형 38 · 포지셔닝 61 · 팀플 55
 [러셔 (Rusher)] 교전을 즐기며 공격적으로 킬을 추구합니다
-risker.co.kr/risker-pubg-analyzer/players/...
+pubg.risker.co.kr/players/...
 ```
 
 ## 완료 조건

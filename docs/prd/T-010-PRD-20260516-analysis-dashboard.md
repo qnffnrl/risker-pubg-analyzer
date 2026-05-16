@@ -10,7 +10,7 @@
 ## 페이지 구성
 
 ### URL
-`http://risker.co.kr/risker-pubg-analyzer/players/{pubgId}/analysis`
+`https://pubg.risker.co.kr/players/{pubgId}/analysis`
 (또는 `/players/{pubgId}` 탭으로 통합 가능)
 
 ### 레이아웃 (데스크톱 — 2컬럼)

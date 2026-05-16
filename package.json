@@ -2,17 +2,18 @@
   "name": "risker-pubg-analyzer",
   "private": true,
   "version": "0.0.1",
+  "packageManager": "pnpm@9.12.0",
   "engines": {
     "node": ">=20",
     "pnpm": ">=9"
   },
   "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
-    "lint": "turbo run lint",
-    "typecheck": "turbo run typecheck",
-    "test": "turbo run test",
-    "clean": "turbo run clean"
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "clean": "turbo clean"
   },
   "devDependencies": {
     "turbo": "^2.5.0",
