@@ -23,10 +23,10 @@ type Tab = 'radar' | 'scores' | 'table'
 function toScores(analysis: AnalysisData | null): StyleScores | null {
   if (!analysis) return null
   return {
-    aggression: parseFloat(analysis.aggressionScore) * 100,
-    survival: parseFloat(analysis.survivalScore) * 100,
-    positioning: parseFloat(analysis.positioningScore) * 100,
-    teamplay: parseFloat(analysis.teamplayScore) * 100,
+    aggression: parseFloat(analysis.aggressionScore),
+    survival: parseFloat(analysis.survivalScore),
+    positioning: parseFloat(analysis.positioningScore),
+    teamplay: parseFloat(analysis.teamplayScore),
   }
 }
 
