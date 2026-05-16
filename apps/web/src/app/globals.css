@@ -4,14 +4,20 @@
 
 @layer base {
   :root {
+    /* 배경 계층 */
     --background: 210 30% 5%;
     --foreground: 213 27% 88%;
     --card: 213 30% 8%;
     --card-foreground: 213 27% 88%;
+    --card-hover: 213 28% 10%;
     --popover: 213 30% 8%;
     --popover-foreground: 213 27% 88%;
+
+    /* 포인트 컬러 */
     --primary: 168 100% 42%;
     --primary-foreground: 210 30% 5%;
+    --amber: 38 92% 50%;
+
     --secondary: 213 28% 12%;
     --secondary-foreground: 213 27% 70%;
     --muted: 213 28% 12%;
@@ -24,6 +30,12 @@
     --input: 213 28% 12%;
     --ring: 168 100% 42%;
     --radius: 0.5rem;
+
+    /* 성향별 컬러 변수 */
+    --aggression: 0 84% 60%;
+    --survival: 142 71% 45%;
+    --positioning: 217 91% 60%;
+    --teamplay: 38 92% 50%;
   }
 }
 
