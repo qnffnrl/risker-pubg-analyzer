@@ -1,0 +1,128 @@
+version: "3.9"
+
+x-restart: &default-restart
+  restart: unless-stopped
+
+networks:
+  pubg_net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+
+services:
+  # ── 인프라 ──────────────────────────────────────────────────────────────────
+  postgres:
+    <<: *default-restart
+    image: postgres:16-alpine
+    container_name: pubg_postgres
+    environment:
+      POSTGRES_USER: ${DB_USER:-pubg}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME:-pubg_analyzer}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks: [pubg_net]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-pubg} -d ${DB_NAME:-pubg_analyzer}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    <<: *default-restart
+    image: redis:7-alpine
+    container_name: pubg_redis
+    volumes:
+      - redis_data:/data
+    networks: [pubg_net]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ── DB 마이그레이션 (일회성 init 컨테이너) ─────────────────────────────────
+  db-migrate:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: pubg_db_migrate
+    environment:
+      DATABASE_URL: postgresql://${DB_USER:-pubg}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-pubg_analyzer}
+    networks: [pubg_net]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # @risker/db가 node_modules 안에 설치되어 있고 dist/migrate.cjs + migrations/ 포함
+    command: ["node", "node_modules/@risker/db/dist/migrate.cjs"]
+    restart: "no"
+
+  # ── 앱 서비스 ──────────────────────────────────────────────────────────────
+  api:
+    <<: *default-restart
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: pubg_api
+    ports:
+      - "8081:8081"
+    env_file: .env.prod
+    environment:
+      NODE_ENV: production
+      PORT: "8081"
+      DATABASE_URL: postgresql://${DB_USER:-pubg}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-pubg_analyzer}
+      REDIS_URL: redis://redis:6379
+    networks: [pubg_net]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      db-migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8081/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  worker:
+    <<: *default-restart
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile
+    container_name: pubg_worker
+    ports:
+      - "8082:8082"
+    env_file: .env.prod
+    environment:
+      NODE_ENV: production
+      BULL_BOARD_PORT: "8082"
+      DATABASE_URL: postgresql://${DB_USER:-pubg}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-pubg_analyzer}
+      REDIS_URL: redis://redis:6379
+    networks: [pubg_net]
+    depends_on:
+      redis:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+
+  web:
+    <<: *default-restart
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: pubg_web
+    ports:
+      - "8080:8080"
+    env_file: .env.prod
+    environment:
+      NODE_ENV: production
+      PORT: "8080"
+      NEXT_PUBLIC_API_URL: http://api:8081
+    networks: [pubg_net]
+    depends_on:
+      api:
+        condition: service_healthy

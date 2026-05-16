@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-16 (T-002 main 병합 완료)
+> 최종 갱신: 2026-05-16 (T-003 구현 완료, 사용자 검증 대기)
 
 ## 🧭 기술 스택 결정사항
 
@@ -22,7 +22,7 @@
 
 ## 🔥 진행 중
 
-_없음_
+| T-003 | 앱 컨테이너화 (Dockerfile + docker-compose.prod.yml) | infra | [PRD](prd/T-003-PRD-20260516-containerization.md) | 구현 완료 (검증 대기) |
 
 ## ✅ 완료
 
@@ -78,7 +78,8 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
-| 2026-05-16 22:30 | infra | T-002 DB 스키마 병합 — players/matches/playerMatchStats/playStyleAnalyses/analysisJobs/trafficLogs, pgEnum, 인덱스 | (pending) |
+| 2026-05-16 23:00 | infra | T-003 컨테이너화 구현 — web/api/worker Dockerfile(멀티스테이지), docker-compose.prod.yml, Drizzle 마이그레이션 SQL 생성, migrate.ts | (pending) |
+| 2026-05-16 22:30 | infra | T-002 DB 스키마 병합 — players/matches/playerMatchStats/playStyleAnalyses/analysisJobs/trafficLogs, pgEnum, 인덱스 | eabff3c |
 | 2026-05-16 22:00 | feat | T-000 main 병합 완료 — 디자인 시스템 & 글로벌 레이아웃 (AppShell/Header/Sidebar/BottomNav, StatCard/RadarChart/StyleBadge 등) | b54b160 |
 | 2026-05-16 21:00 | feat | T-000 디자인 시스템 구현 — AppShell/Header/Sidebar/BottomNav 레이아웃, StatCard/PlayerAvatar/RadarChart/StyleBadge/PlatformBadge/LoadingSkeleton UI, CSS 변수 보완, Tailwind 애니메이션 추가 | 6ceedf9 |
 | 2026-05-16 20:00 | infra | T-001 모노레포 스캐폴딩 완료 — web/api/worker/shared/db 앱 뼈대 구현, turbo build 전체 통과 | bfc3c38 |
