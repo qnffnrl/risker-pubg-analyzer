@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-17 (T-007 main 병합 완료, T-008 대기)
+> 최종 갱신: 2026-05-17 (T-008 구현 완료, 검증 대기)
 
 ## 🧭 기술 스택 결정사항
 
@@ -22,7 +22,7 @@
 
 ## 🔥 진행 중
 
-_없음_
+| T-008 | 플레이어 검색 페이지 (닉네임 + 플랫폼 선택, 랜딩) | feat | [PRD](prd/T-008-PRD-20260516-search-page.md) | 구현 완료 (검증 대기) |
 
 ## ✅ 완료
 
@@ -74,6 +74,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-17 02:30 | feat | T-008 플레이어 검색 페이지 구현 — SearchBar API 연동+폴링, 최근 검색/즐겨찾기 localStorage, api-client/storage 유틸, /players/[pubgId] placeholder | (pending) |
 | 2026-05-17 02:00 | feat | T-007 분석 결과 API 병합 — players/jobs/compare 라우트, 트래픽 로깅 미들웨어(IP 마스킹), CORS, @hono/zod-validator 검증 | e3cd31c |
 | 2026-05-17 01:00 | feat | T-006 분석 엔진 main 병합 — 4대 성향(공격성/생존/포지셔닝/팀플) 순수 함수, clamp 정규화, analysis 프로세서, play_style_analyses upsert | ad80540 |
 | 2026-05-17 00:00 | feat | T-005 BullMQ 워커 구현 — playerFetch/matchCollection 프로세서, @risker/db 연동, 캐시 체크, job payload Zod 스키마 | a9921f4 |

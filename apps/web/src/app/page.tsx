@@ -1,5 +1,7 @@
 import { AppShell } from '@/components/layout/app-shell'
 import { SearchBar } from '@/components/search-bar'
+import { RecentSearches } from '@/components/recent-searches'
+import { Favorites } from '@/components/favorites'
 
 export default function HomePage() {
   return (
@@ -12,7 +14,7 @@ export default function HomePage() {
         <div className="pointer-events-none absolute left-1/2 top-0 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/4 rounded-full bg-primary/5 blur-3xl" />
 
         {/* 히어로 섹션 */}
-        <section className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-24 text-center">
+        <section className="relative z-10 flex flex-col items-center justify-center px-6 py-16 text-center sm:py-24">
           {/* 배지 */}
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-medium text-primary animate-fade-in">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
@@ -53,7 +55,7 @@ export default function HomePage() {
           </div>
 
           {/* 통계 */}
-          <div className="mt-16 grid grid-cols-3 gap-8 text-center">
+          <div className="mt-12 grid grid-cols-3 gap-8 text-center">
             {[
               { value: '4가지', label: '성향 지표' },
               { value: '20게임', label: '매치 분석' },
@@ -65,6 +67,12 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+        </section>
+
+        {/* 즐겨찾기 + 최근 검색 */}
+        <section className="relative z-10 mx-auto w-full max-w-xl space-y-6 px-6 pb-12">
+          <Favorites />
+          <RecentSearches />
         </section>
       </div>
     </AppShell>
