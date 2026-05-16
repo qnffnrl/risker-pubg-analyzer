@@ -212,6 +212,66 @@ players.get('/:pubgId/weapons', async (c) => {
   return c.json(createSuccessResponse({ weaponData: weaponStat.weaponData, fetchedAt: weaponStat.fetchedAt }))
 })
 
+// GET /api/v1/players/:pubgId/maps
+players.get('/:pubgId/maps', async (c) => {
+  const { pubgId } = c.req.param()
+
+  const player = await db.query.players.findFirst({
+    where: eq(schema.players.pubgId, pubgId),
+  })
+
+  if (!player) {
+    return c.json(createErrorResponse('PLAYER_NOT_FOUND', 'Player not found'), 404)
+  }
+
+  const rows = await db
+    .select({
+      mapName: schema.matches.mapName,
+      placement: schema.playerMatchStats.placement,
+      kills: schema.playerMatchStats.kills,
+      damageDealt: schema.playerMatchStats.damageDealt,
+      distanceOnFoot: schema.playerMatchStats.distanceOnFoot,
+      distanceInVehicle: schema.playerMatchStats.distanceInVehicle,
+      timeSurvived: schema.playerMatchStats.timeSurvived,
+    })
+    .from(schema.playerMatchStats)
+    .innerJoin(schema.matches, eq(schema.playerMatchStats.matchId, schema.matches.id))
+    .where(eq(schema.playerMatchStats.playerId, player.id))
+
+  // 맵별 집계
+  const mapMap: Record<string, {
+    games: number; kills: number; damage: number;
+    placements: number[]; foot: number; vehicle: number; wins: number
+  }> = {}
+
+  for (const r of rows) {
+    const key = r.mapName ?? 'Unknown'
+    if (!mapMap[key]) mapMap[key] = { games: 0, kills: 0, damage: 0, placements: [], foot: 0, vehicle: 0, wins: 0 }
+    const m = mapMap[key]!
+    m.games++
+    m.kills += r.kills ?? 0
+    m.damage += parseFloat(r.damageDealt ?? '0')
+    m.placements.push(r.placement ?? 99)
+    m.foot += parseFloat(r.distanceOnFoot ?? '0')
+    m.vehicle += parseFloat(r.distanceInVehicle ?? '0')
+    if (r.placement === 1) m.wins++
+  }
+
+  const mapStats = Object.entries(mapMap).map(([mapName, s]) => ({
+    mapName,
+    games: s.games,
+    wins: s.wins,
+    winRate: s.games > 0 ? s.wins / s.games : 0,
+    avgKills: s.games > 0 ? s.kills / s.games : 0,
+    avgDamage: s.games > 0 ? s.damage / s.games : 0,
+    avgPlacement: s.placements.length > 0 ? s.placements.reduce((a, b) => a + b, 0) / s.placements.length : 0,
+    avgFootDistance: s.games > 0 ? s.foot / s.games : 0,
+    avgVehicleDistance: s.games > 0 ? s.vehicle / s.games : 0,
+  })).sort((a, b) => b.games - a.games)
+
+  return c.json(createSuccessResponse({ mapStats, totalGames: rows.length }))
+})
+
 // POST /api/v1/players/:pubgId/refresh
 players.post('/:pubgId/refresh', async (c) => {
   const { pubgId } = c.req.param()

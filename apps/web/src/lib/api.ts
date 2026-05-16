@@ -117,6 +117,27 @@ export async function getWeaponStats(pubgId: string): Promise<WeaponStatsData> {
   return apiFetch<WeaponStatsData>(`/api/v1/players/${encodeURIComponent(pubgId)}/weapons`)
 }
 
+export interface MapStat {
+  mapName: string
+  games: number
+  wins: number
+  winRate: number
+  avgKills: number
+  avgDamage: number
+  avgPlacement: number
+  avgFootDistance: number
+  avgVehicleDistance: number
+}
+
+export interface MapStatsData {
+  mapStats: MapStat[]
+  totalGames: number
+}
+
+export async function getMapStats(pubgId: string): Promise<MapStatsData> {
+  return apiFetch<MapStatsData>(`/api/v1/players/${encodeURIComponent(pubgId)}/maps`)
+}
+
 export async function getCompare(pubgIdA: string, pubgIdB: string): Promise<CompareResult> {
   return apiFetch<CompareResult>(
     `/api/v1/compare?players=${encodeURIComponent(pubgIdA)},${encodeURIComponent(pubgIdB)}`,

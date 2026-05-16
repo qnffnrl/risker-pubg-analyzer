@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { AppShell } from '@/components/layout/app-shell'
-import { getPlayer, getPlayerMatches, getWeaponStats } from '@/lib/api'
+import { getPlayer, getPlayerMatches, getWeaponStats, getMapStats } from '@/lib/api'
 import { AutoRefresh } from '@/components/auto-refresh'
 import { PlayerHeader } from './player-header'
 import { SummaryStats } from './summary-stats'
@@ -21,9 +21,10 @@ export default async function PlayerPage({ params }: Props) {
     notFound()
   }
 
-  const [matchesData, weaponStats] = await Promise.all([
+  const [matchesData, weaponStats, mapStats] = await Promise.all([
     getPlayerMatches(pubgId, 20, 0).catch(() => ({ matches: [], limit: 20, offset: 0 })),
     getWeaponStats(pubgId).catch(() => null),
+    getMapStats(pubgId).catch(() => null),
   ])
 
   const isPending = matchesData.matches.length === 0 || !profile.latestAnalysis
@@ -46,7 +47,7 @@ export default async function PlayerPage({ params }: Props) {
         {profile.latestAnalysis && (
           <StylePreview analysis={profile.latestAnalysis} pubgId={pubgId} />
         )}
-        <PlayerTabs pubgId={pubgId} initialMatches={matchesData.matches} weaponStats={weaponStats} />
+        <PlayerTabs pubgId={pubgId} initialMatches={matchesData.matches} weaponStats={weaponStats} mapStats={mapStats} />
       </div>
     </AppShell>
   )
