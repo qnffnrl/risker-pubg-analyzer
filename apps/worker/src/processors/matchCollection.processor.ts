@@ -60,7 +60,7 @@ export async function matchCollectionProcessor(job: Job<MatchCollectionJob>): Pr
 
       // Find this player's stats in included
       const participant = matchResponse.included.find(
-        (r) => r.type === 'participant' && r.attributes.actor === pubgAccountId,
+        (r) => r.type === 'participant' && r.attributes.stats.playerId === pubgAccountId,
       )
       if (!participant || participant.type !== 'participant') continue
 
