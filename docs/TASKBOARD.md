@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-17 (T-009 main 병합 완료)
+> 최종 갱신: 2026-05-16 (T-010 main 병합 완료)
 
 ## 🧭 기술 스택 결정사항
 
@@ -28,6 +28,7 @@ _없음_
 
 | ID | 작업명 | 유형 | 완료일 |
 |----|--------|------|--------|
+| T-010 | 플레이 스타일 분석 대시보드 (레이더 차트 + 지표 카드) | feat | 2026-05-16 |
 | T-009 | 플레이어 프로필 + 최근 매치 목록 페이지 | feat | 2026-05-17 |
 | T-008 | 플레이어 검색 페이지 (닉네임 + 플랫폼 선택, 랜딩) | feat | 2026-05-17 |
 | T-007 | 분석 결과 API (Hono + 트래픽 로깅 미들웨어) | feat | 2026-05-17 |
@@ -54,7 +55,6 @@ _없음_
 |----|--------|------|-----|--------|
 | T-008 | 플레이어 검색 페이지 (닉네임 + 플랫폼 선택, 랜딩) | feat | [PRD](prd/T-008-PRD-20260516-search-page.md) | 0% |
 | T-009 | 플레이어 프로필 + 최근 매치 목록 페이지 | feat | [PRD](prd/T-009-PRD-20260516-player-profile-page.md) | 0% |
-| T-010 | 플레이 스타일 분석 대시보드 (레이더 차트 + 지표 카드) | feat | [PRD](prd/T-010-PRD-20260516-analysis-dashboard.md) | 0% |
 | T-012 | 로컬 스토리지 (최근 검색 + 즐겨찾기, 로그인 없음) | feat | [PRD](prd/T-012-PRD-20260516-local-storage.md) | 0% |
 
 ### Phase 4: 고도화
@@ -76,6 +76,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-16 16:34 | feat | T-010 분석 대시보드 main 병합 — /analysis 페이지(SSR), 레이더 차트 대형, 성향 레이블 12종, 4대 지표 Section+StatCard, style-label.ts | 2029477 |
 | 2026-05-17 04:00 | feat | T-009 프로필 페이지 병합 — PlayerHeader/SummaryStats/StylePreview/MatchList, 레이더차트, 매치카드, 즐겨찾기, 모드필터, SSR API_URL 분리 | 6855d9c |
 | 2026-05-17 03:00 | feat | T-008 검색 페이지 병합 — SearchBar API+폴링, localStorage, api-client, participant.stats.playerId 버그픽스, play_style_analyses unique constraint | d143804 |
 | 2026-05-17 02:00 | feat | T-007 분석 결과 API 병합 — players/jobs/compare 라우트, 트래픽 로깅 미들웨어(IP 마스킹), CORS, @hono/zod-validator 검증 | e3cd31c |
