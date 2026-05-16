@@ -128,7 +128,6 @@ const WEAPON_CATEGORIES: Record<string, string> = {
   Item_Weapon_NagantM1895_C: '권총',
   Item_Weapon_Sawnoff_C: '권총',
   Item_Weapon_Winchester_C: '권총',
-  Item_Weapon_vz61Skorpion_C: 'SMG',
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
