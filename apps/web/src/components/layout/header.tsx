@@ -32,10 +32,10 @@ export function Header({ showSearch = false }: HeaderProps) {
         <Link href="/" className="transition-colors hover:text-foreground">
           홈
         </Link>
-        <Link href="#" className="transition-colors hover:text-foreground">
+        <Link href="/" className="transition-colors hover:text-foreground">
           분석
         </Link>
-        <Link href="#" className="transition-colors hover:text-foreground">
+        <Link href="/compare" className="transition-colors hover:text-foreground">
           비교
         </Link>
         <Link href="/admin" className="transition-colors hover:text-foreground">
