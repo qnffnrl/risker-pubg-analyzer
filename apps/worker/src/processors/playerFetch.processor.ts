@@ -49,7 +49,7 @@ export async function playerFetchProcessor(job: Job<PlayerFetchJob>): Promise<vo
     forceRefresh: false,
   }
   await matchCollectionQueue.add('collect', matchCollectionPayload, {
-    jobId: `match-collection:${player.id}`,
+    jobId: `match-collection_${player.id}`,
     // Deduplicate: don't add if already queued
   })
 
