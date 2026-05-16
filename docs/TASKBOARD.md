@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-16 (T-010 main 병합 완료)
+> 최종 갱신: 2026-05-16 (T-011 main 병합 완료)
 
 ## 🧭 기술 스택 결정사항
 
@@ -28,6 +28,7 @@ _없음_
 
 | ID | 작업명 | 유형 | 완료일 |
 |----|--------|------|--------|
+| T-011 | LLM 성향 자연어 요약 (claude CLI + AutoRefresh 버그픽스) | feat | 2026-05-16 |
 | T-010 | 플레이 스타일 분석 대시보드 (레이더 차트 + 지표 카드) | feat | 2026-05-16 |
 | T-009 | 플레이어 프로필 + 최근 매치 목록 페이지 | feat | 2026-05-17 |
 | T-008 | 플레이어 검색 페이지 (닉네임 + 플랫폼 선택, 랜딩) | feat | 2026-05-17 |
@@ -61,7 +62,6 @@ _없음_
 
 | ID | 작업명 | 유형 | PRD | 진행률 |
 |----|--------|------|-----|--------|
-| T-011 | LLM 성향 자연어 요약 (Claude API, claude-haiku) | feat | [PRD](prd/T-011-PRD-20260516-llm-summary.md) | 0% |
 | T-013 | 플레이어 비교 기능 (2명 오버레이 레이더 차트) | feat | [PRD](prd/T-013-PRD-20260516-player-comparison.md) | 0% |
 | T-015 | 무기 & 교전 분석 (선호 무기 Top10, 교전 거리 분포) | feat | [PRD](prd/T-015-PRD-20260516-weapon-analysis.md) | 0% |
 | T-016 | 맵 & 존 분석 (맵별 성적, 랜딩존 선호도) | feat | [PRD](prd/T-016-PRD-20260516-map-zone-analysis.md) | 0% |
@@ -76,6 +76,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-16 17:50 | feat | T-011 LLM 요약 main 병합 — claude CLI execFile, bash+npm 설치, ~/.claude 볼륨마운트, forceRefresh 체인 버그픽스, AutoRefresh+MatchList 동기화 | ea667b5 |
 | 2026-05-16 16:34 | feat | T-010 분석 대시보드 main 병합 — /analysis 페이지(SSR), 레이더 차트 대형, 성향 레이블 12종, 4대 지표 Section+StatCard, style-label.ts | 2029477 |
 | 2026-05-17 04:00 | feat | T-009 프로필 페이지 병합 — PlayerHeader/SummaryStats/StylePreview/MatchList, 레이더차트, 매치카드, 즐겨찾기, 모드필터, SSR API_URL 분리 | 6855d9c |
 | 2026-05-17 03:00 | feat | T-008 검색 페이지 병합 — SearchBar API+폴링, localStorage, api-client, participant.stats.playerId 버그픽스, play_style_analyses unique constraint | d143804 |
