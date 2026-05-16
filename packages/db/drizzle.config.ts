@@ -6,7 +6,7 @@ if (!connectionString) {
 }
 
 export default {
-  schema: './src/schema.ts',
+  schema: './src/schema/index.ts',
   out: './migrations',
   dialect: 'postgresql',
   dbCredentials: {
