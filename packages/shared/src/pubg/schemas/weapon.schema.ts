@@ -21,7 +21,7 @@ const WeaponMasteryAttributesSchema = z.object({
 })
 
 const WeaponMasteryDataSchema = z.object({
-  type: z.literal('weaponMastery'),
+  type: z.literal('weaponMasterySummary'),
   attributes: WeaponMasteryAttributesSchema,
 })
 
