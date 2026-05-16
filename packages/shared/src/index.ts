@@ -19,6 +19,10 @@ export {
 } from './schemas/player'
 export type { Platform, Player, PlayerSearchRequest } from './schemas/player'
 
+// Job payload schemas
+export { PlayerFetchJobSchema, MatchCollectionJobSchema, AnalysisJobSchema } from './schemas/jobs'
+export type { PlayerFetchJob, MatchCollectionJob, AnalysisJob } from './schemas/jobs'
+
 // PUBG API schemas, types, constants
 export * from './pubg/index'
 

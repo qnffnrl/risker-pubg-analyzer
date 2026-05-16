@@ -1,25 +1,25 @@
 import { Worker } from 'bullmq'
-import { QUEUE_NAMES } from '@risker/shared'
+import { QUEUE_NAMES, MatchCollectionJobSchema } from '@risker/shared'
 import { redisConnection } from '../redis.js'
+import { matchCollectionProcessor } from '../processors/matchCollection.processor.js'
 
-// Actual job processing logic will be implemented in T-005
 export const matchCollectionWorker = new Worker(
   QUEUE_NAMES.MATCH_COLLECTION,
   async (job) => {
-    console.log(`[worker] Processing job ${job.id} in queue ${QUEUE_NAMES.MATCH_COLLECTION}`)
-    console.log('[worker] Job data:', job.data)
-    // TODO: Implement in T-005
+    const data = MatchCollectionJobSchema.parse(job.data)
+    job.data = data
+    await matchCollectionProcessor(job)
   },
   {
     connection: redisConnection,
-    concurrency: 3,
+    concurrency: 2,
   },
 )
 
 matchCollectionWorker.on('completed', (job) => {
-  console.log(`[worker] Job ${job.id} completed`)
+  console.log(`[match-collection] Job ${job.id} completed`)
 })
 
 matchCollectionWorker.on('failed', (job, err) => {
-  console.error(`[worker] Job ${job?.id} failed:`, err)
+  console.error(`[match-collection] Job ${job?.id} failed:`, err.message)
 })
