@@ -69,7 +69,7 @@ export async function playerFetchProcessor(job: Job<PlayerFetchJob>): Promise<vo
     playerId: player.id,
     pubgAccountId,
     platform,
-    matchLimit: 20,
+    matchLimit: 100,
     forceRefresh: job.data.forceRefresh ?? false,
   }
   // forceRefresh 시 unique jobId로 BullMQ 중복 방지 우회

@@ -32,9 +32,19 @@ export async function matchCollectionProcessor(job: Job<MatchCollectionJob>): Pr
   const matchIds = await pubg.getRecentMatchIds(shard, pubgAccountId, matchLimit)
   job.log(`Found ${matchIds.length} match IDs`)
 
+  // Get all matchIds already stored for this player (join matches + playerMatchStats)
+  const existingRows = await db
+    .select({ pubgMatchId: schema.matches.pubgMatchId })
+    .from(schema.playerMatchStats)
+    .innerJoin(schema.matches, eq(schema.playerMatchStats.matchId, schema.matches.id))
+    .where(eq(schema.playerMatchStats.playerId, playerId))
+  const existingMatchIds = new Set(existingRows.map((r) => r.pubgMatchId))
+  job.log(`Already have ${existingMatchIds.size} matches in DB, skipping those`)
+
   // Fetch each match and upsert
   let saved = 0
   for (const matchId of matchIds) {
+    if (existingMatchIds.has(matchId)) continue
     try {
       const matchResponse = await pubg.getMatch(shard, matchId)
       const attr = matchResponse.data.attributes
