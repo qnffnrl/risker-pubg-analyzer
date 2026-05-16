@@ -162,9 +162,9 @@ const DISTANCE_ZONE: Record<string, '근거리' | '중거리' | '장거리'> = {
 }
 
 const DISTANCE_COLORS: Record<string, string> = {
-  근거리: 'bg-green-500',
-  중거리: 'bg-blue-500',
-  장거리: 'bg-purple-500',
+  근거리: 'bg-green-500/70',
+  중거리: 'bg-blue-500/70',
+  장거리: 'bg-purple-500/70',
 }
 
 const DISTANCE_TEXT_COLORS: Record<string, string> = {
@@ -360,7 +360,7 @@ export function WeaponView({ weaponData, fetchedAt }: Props) {
                   </div>
                   <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-800">
                     <div
-                      className={`h-full rounded-full transition-all ${DISTANCE_COLORS[zone]}/70`}
+                      className={`h-full rounded-full transition-all ${DISTANCE_COLORS[zone]}`}
                       style={{ width: `${barWidth}%` }}
                     />
                   </div>
