@@ -46,7 +46,7 @@ export async function playerFetchProcessor(job: Job<PlayerFetchJob>): Promise<vo
     pubgAccountId,
     platform,
     matchLimit: 20,
-    forceRefresh: false,
+    forceRefresh: job.data.forceRefresh ?? false,
   }
   await matchCollectionQueue.add('collect', matchCollectionPayload, {
     jobId: `match-collection_${player.id}`,
