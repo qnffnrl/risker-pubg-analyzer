@@ -85,6 +85,6 @@
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
-| 2026-05-16 20:00 | infra | T-001 모노레포 스캐폴딩 완료 — web/api/worker/shared/db 앱 뼈대 구현, turbo build 전체 통과 | - |
+| 2026-05-16 20:00 | infra | T-001 모노레포 스캐폴딩 완료 — web/api/worker/shared/db 앱 뼈대 구현, turbo build 전체 통과 | bfc3c38 |
 | 2026-05-16 18:00 | docs | 전체 PRD 21개 생성 (T-000~T-020) + GitHub Actions 워크플로우 | - |
 | 2026-05-16 17:00 | infra | 프로젝트 초기 생성 (모노레포 스캐폴딩 + CLAUDE.md + docs) | 45e4f60 |
