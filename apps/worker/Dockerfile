@@ -34,8 +34,12 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV BULL_BOARD_PORT=8082
 
-RUN addgroup --system --gid 1001 nodejs \
- && adduser  --system --uid 1001 appuser
+RUN addgroup -g 1001 nodejs \
+ && adduser -D -u 1001 -G nodejs -h /home/appuser appuser
+
+# claude CLI — used by LLM summary generator (credentials mounted at runtime)
+# bash required: claude bin script uses bash shebang on Alpine
+RUN apk add --no-cache bash && npm install -g @anthropic-ai/claude-code
 
 COPY --from=builder --chown=appuser:nodejs /deploy ./
 

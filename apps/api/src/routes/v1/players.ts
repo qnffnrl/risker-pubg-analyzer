@@ -54,6 +54,7 @@ async function handleSearch(nickname: string, platform: z.infer<typeof PlatformS
       nickname,
       platform,
       requestedAt: new Date().toISOString(),
+      forceRefresh: false,
     },
     { jobId, removeOnComplete: { age: 3600 }, removeOnFail: { age: 86400 } },
   )
@@ -193,6 +194,7 @@ players.post('/:pubgId/refresh', async (c) => {
       nickname: player.nickname,
       platform: player.platform,
       requestedAt: new Date().toISOString(),
+      forceRefresh: true,
     },
     { jobId },
   )

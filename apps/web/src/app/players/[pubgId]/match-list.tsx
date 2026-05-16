@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { MatchCard } from '@/components/match-card'
 import { getPlayerMatches, type MatchStat } from '@/lib/api'
 
@@ -18,6 +18,13 @@ export function MatchList({ initialMatches, pubgId }: MatchListProps) {
   const [offset, setOffset] = useState(initialMatches.length)
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(initialMatches.length >= 20)
+
+  // router.refresh() 시 서버에서 새 initialMatches가 오면 state 동기화
+  useEffect(() => {
+    setMatches(initialMatches)
+    setOffset(initialMatches.length)
+    setHasMore(initialMatches.length >= 20)
+  }, [initialMatches.length])
 
   const filtered = modeFilter === '전체'
     ? matches

@@ -5,6 +5,7 @@ export const PlayerFetchJobSchema = z.object({
   nickname: z.string().min(1),
   platform: PlatformSchema,
   requestedAt: z.string().datetime(),
+  forceRefresh: z.boolean().default(false),
 })
 export type PlayerFetchJob = z.infer<typeof PlayerFetchJobSchema>
 

@@ -3,6 +3,7 @@ import { eq, desc, schema } from '@risker/db'
 import type { AnalysisJob } from '@risker/shared'
 import { db } from '../lib/db.js'
 import { analyzePlayStyle, type MatchRow } from '../lib/analysis/engine.js'
+import { generateLlmSummary } from '../lib/llm.js'
 
 const CACHE_TTL_HOURS = Number(process.env['ANALYSIS_CACHE_TTL_HOURS'] ?? 24)
 
@@ -56,6 +57,29 @@ export async function analysisProcessor(job: Job<AnalysisJob>): Promise<void> {
 
   const result = analyzePlayStyle(matchRows)
 
+  // Look up nickname for LLM prompt
+  const [player] = await db
+    .select({ nickname: schema.players.nickname })
+    .from(schema.players)
+    .where(eq(schema.players.id, playerId))
+    .limit(1)
+
+  job.log(`Generating LLM summary for ${player?.nickname ?? playerId}`)
+  const llmSummary = await generateLlmSummary({
+    nickname: player?.nickname ?? playerId,
+    matchCount: result.matchCount,
+    aggressionScore: result.aggressionScore,
+    survivalScore: result.survivalScore,
+    positioningScore: result.positioningScore,
+    teamplayScore: result.teamplayScore,
+    aggressionMetrics: result.aggressionMetrics as unknown as Record<string, number>,
+    survivalMetrics: result.survivalMetrics as unknown as Record<string, number>,
+    positioningMetrics: result.positioningMetrics as unknown as Record<string, number>,
+    teamplayMetrics: result.teamplayMetrics as unknown as Record<string, number>,
+  })
+  job.log(`LLM summary: ${llmSummary ? llmSummary.slice(0, 80) + '…' : 'skipped'}`)
+
+  const now = new Date()
   const expiresAt = new Date(Date.now() + CACHE_TTL_HOURS * 60 * 60 * 1000)
 
   await db
@@ -71,6 +95,8 @@ export async function analysisProcessor(job: Job<AnalysisJob>): Promise<void> {
       survivalMetrics: result.survivalMetrics as unknown as Record<string, unknown>,
       positioningMetrics: result.positioningMetrics as unknown as Record<string, unknown>,
       teamplayMetrics: result.teamplayMetrics as unknown as Record<string, unknown>,
+      llmSummary,
+      llmGeneratedAt: llmSummary ? now : null,
       expiresAt,
     })
     .onConflictDoUpdate({
@@ -85,8 +111,10 @@ export async function analysisProcessor(job: Job<AnalysisJob>): Promise<void> {
         survivalMetrics: result.survivalMetrics as unknown as Record<string, unknown>,
         positioningMetrics: result.positioningMetrics as unknown as Record<string, unknown>,
         teamplayMetrics: result.teamplayMetrics as unknown as Record<string, unknown>,
+        llmSummary,
+        llmGeneratedAt: llmSummary ? now : null,
         expiresAt,
-        analyzedAt: new Date(),
+        analyzedAt: now,
       },
     })
 

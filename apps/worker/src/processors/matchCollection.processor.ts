@@ -97,8 +97,11 @@ export async function matchCollectionProcessor(job: Job<MatchCollectionJob>): Pr
   job.log(`Saved ${saved}/${matchIds.length} matches`)
 
   const analysisPayload: AnalysisJob = { playerId, pubgAccountId, platform }
+  const analysisJobId = forceRefresh
+    ? `analysis_${playerId}_${Date.now()}`
+    : `analysis_${playerId}`
   await analysisQueue.add('analyze', analysisPayload, {
-    jobId: `analysis_${playerId}`,
+    jobId: analysisJobId,
   })
   job.log(`Analysis job enqueued for player ${playerId}`)
 }
