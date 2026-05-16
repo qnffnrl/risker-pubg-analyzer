@@ -84,3 +84,13 @@ export async function getPlayerMatches(pubgId: string, limit = 20, offset = 0): 
 export async function getPlayerAnalysis(pubgId: string): Promise<AnalysisData> {
   return apiFetch<AnalysisData>(`/api/v1/players/${encodeURIComponent(pubgId)}/analysis`)
 }
+
+export interface CompareResult {
+  players: Array<{ player: PlayerData; analysis: AnalysisData | null }>
+}
+
+export async function getCompare(pubgIdA: string, pubgIdB: string): Promise<CompareResult> {
+  return apiFetch<CompareResult>(
+    `/api/v1/compare?players=${encodeURIComponent(pubgIdA)},${encodeURIComponent(pubgIdB)}`,
+  )
+}

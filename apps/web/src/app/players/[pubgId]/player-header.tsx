@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Star, RefreshCw } from 'lucide-react'
+import Link from 'next/link'
+import { Star, RefreshCw, GitCompareArrows } from 'lucide-react'
 import { PlayerAvatar } from '@/components/ui/player-avatar'
 import { PlatformBadge } from '@/components/ui/platform-badge'
 import { useFavorites } from '@/lib/hooks/use-favorites'
@@ -53,6 +54,13 @@ export function PlayerHeader({ player, analysis }: PlayerHeaderProps) {
         )}
       </div>
       <div className="flex shrink-0 items-center gap-2">
+        <Link
+          href={`/compare?a=${encodeURIComponent(player.pubgId)}`}
+          className="rounded-lg border border-border p-2 text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+          aria-label="비교하기"
+        >
+          <GitCompareArrows className="h-4 w-4" />
+        </Link>
         <button
           onClick={toggleFav}
           className="rounded-lg border border-border p-2 text-muted-foreground transition-colors hover:border-amber-400/50 hover:text-amber-400"
