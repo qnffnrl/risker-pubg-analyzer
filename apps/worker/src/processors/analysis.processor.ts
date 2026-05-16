@@ -33,7 +33,6 @@ export async function analysisProcessor(job: Job<AnalysisJob>): Promise<void> {
     .innerJoin(schema.matches, eq(schema.playerMatchStats.matchId, schema.matches.id))
     .where(eq(schema.playerMatchStats.playerId, playerId))
     .orderBy(desc(schema.matches.playedAt))
-    .limit(20)
 
   job.log(`Loaded ${rows.length} match stats for player ${playerId}`)
 
