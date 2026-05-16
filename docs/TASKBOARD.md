@@ -28,7 +28,8 @@ _없음_
 
 | ID | 작업명 | 유형 | 완료일 |
 |----|--------|------|--------|
-| T-021 | 매치 수집 한도 100으로 증가 + Skip-if-exists 최적화 | feat | 2026-05-17 |
+| T-022 | 맵 이름 매핑 보완 + 생존전 모드 필터 | fix | 2026-05-17 |
+| T-021 | 매치 수집 한도 100으로 증가 + Skip-if-exists + 분석 limit 제거 | feat | 2026-05-17 |
 | T-016 | 맵 & 존 분석 (맵별 성적, 강점 맵, 이동 패턴) | feat | 2026-05-17 |
 | T-015 | 무기 & 교전 분석 (weapon_stats DB, Mastery 수집, /weapons API, 무기 탭 UI) | feat | 2026-05-16 |
 | T-014 | CI/CD (GitHub Actions → risker.co.kr SSH:2222, 헬스체크, README) | infra | 2026-05-16 |
@@ -66,7 +67,6 @@ _없음_
 
 | ID | 작업명 | 유형 | PRD | 진행률 |
 |----|--------|------|-----|--------|
-| T-021 | 매치 수집 한도 증가 & Skip-if-exists 최적화 | feat | [PRD](prd/T-021-PRD-20260517-match-limit-increase.md) | 0% |
 | T-017 | 성과 추이 차트 (시계열 라인 차트, 폼 분석) | feat | [PRD](prd/T-017-PRD-20260516-performance-trend.md) | 0% |
 | T-018 | 관리자 페이지 (트래픽 모니터링 + 비밀번호 인증) | feat | [PRD](prd/T-018-PRD-20260516-admin-page.md) | 0% |
 | T-019 | 공유 기능 (OG 이미지 동적 생성 + PNG 저장) | feat | [PRD](prd/T-019-PRD-20260516-share-feature.md) | 0% |
@@ -78,8 +78,8 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
-| 2026-05-17 | fix | T-022 맵 이름 매핑 보완(DihorOtok/Summerland) + /maps 생존전 모드 필터 | - |
-| 2026-05-17 | feat | T-021 matchLimit 100 증가 + skip-if-exists 최적화 (matchCollection.processor.ts) | - |
+| 2026-05-17 | fix | T-022 맵 이름 매핑 보완(DihorOtok/Summerland) + /maps 생존전 모드 필터 + main 병합 | be403c2 |
+| 2026-05-17 | feat | T-021 matchLimit 100 증가 + skip-if-exists + 분석 limit(20) 제거 + main 병합 | 2f4f15f |
 | 2026-05-17 | feat | T-016 맵 & 존 분석 — /maps API, MapView UI, 맵 탭 + main 병합 | 6070b98 |
 | 2026-05-17 | fix | T-015 무기 ID 전면 정정(AK47_C 등) + LongestDefeat 사용 + 교전거리 분포 차트 추가 + main 병합 | 85d9e26 |
 | 2026-05-17 | fix | T-015 최장 킬 거리 버그 수정 (LongestKill 0 필터링) + 주력 콤보 AR+DMR/SR 로직 + main 병합 | 29b54b2 |
