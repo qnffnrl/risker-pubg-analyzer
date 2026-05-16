@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-16 (T-004 구현 완료, 사용자 검증 대기)
+> 최종 갱신: 2026-05-16 (T-004 main 병합 완료)
 
 ## 🧭 기술 스택 결정사항
 
@@ -22,12 +22,13 @@
 
 ## 🔥 진행 중
 
-| T-004 | PUBG API 클라이언트 (Rate Limit + Zod 검증) | feat | [PRD](prd/T-004-PRD-20260516-pubg-api-client.md) | 구현 완료 (검증 대기) |
+_없음_
 
 ## ✅ 완료
 
 | ID | 작업명 | 유형 | 완료일 |
 |----|--------|------|--------|
+| T-004 | PUBG API 클라이언트 (Rate Limit + Zod 검증) | feat | 2026-05-16 |
 | T-003 | 앱 컨테이너화 (Dockerfile + docker-compose.prod.yml) | infra | 2026-05-16 |
 | T-002 | DB 스키마 설계 (플레이어/매치/분석 결과/트래픽 테이블) | infra | 2026-05-16 |
 | T-000 | 디자인 시스템 & 글로벌 레이아웃 | design | 2026-05-16 |
@@ -45,7 +46,6 @@
 
 | ID | 작업명 | 유형 | PRD | 진행률 |
 |----|--------|------|-----|--------|
-| T-004 | PUBG API 클라이언트 (Rate Limit + Zod 검증) | feat | [PRD](prd/T-004-PRD-20260516-pubg-api-client.md) | 0% |
 | T-005 | 플레이어 검색 + 매치 수집 Worker (BullMQ) | feat | [PRD](prd/T-005-PRD-20260516-match-collection-worker.md) | 0% |
 | T-006 | 플레이 스타일 분석 엔진 (4대 성향 통계) | feat | [PRD](prd/T-006-PRD-20260516-analysis-engine.md) | 0% |
 | T-007 | 분석 결과 API (Hono + 트래픽 로깅 미들웨어) | feat | [PRD](prd/T-007-PRD-20260516-analysis-api.md) | 0% |
@@ -78,7 +78,7 @@
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
-| 2026-05-16 23:30 | feat | T-004 PUBG API 클라이언트 구현 — PubgApiClient(rate limit/retry), Zod 스키마(player/match/season/stats/weapon), Shard/MAP 상수, p-limit | (pending) |
+| 2026-05-16 23:30 | feat | T-004 PUBG API 클라이언트 병합 — PubgApiClient(rate limit/retry), Zod 스키마(player/match/season/stats/weapon), Shard/MAP 상수 | (this) |
 | 2026-05-16 23:00 | infra | T-003 컨테이너화 병합 — web/api/worker Dockerfile(멀티스테이지), docker-compose.prod.yml, Drizzle 마이그레이션 SQL, migrate.ts | 54fcfd0 |
 | 2026-05-16 22:30 | infra | T-002 DB 스키마 병합 — players/matches/playerMatchStats/playStyleAnalyses/analysisJobs/trafficLogs, pgEnum, 인덱스 | eabff3c |
 | 2026-05-16 22:00 | feat | T-000 main 병합 완료 — 디자인 시스템 & 글로벌 레이아웃 (AppShell/Header/Sidebar/BottomNav, StatCard/RadarChart/StyleBadge 등) | b54b160 |
