@@ -1,0 +1,25 @@
+node_modules/
+.next/
+dist/
+.turbo/
+*.log
+.env
+.env.local
+.env.*.local
+
+# DB
+*.db
+*.sqlite
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
+
+# pnpm
+pnpm-debug.log*
