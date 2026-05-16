@@ -22,6 +22,7 @@ COPY packages/shared/tsconfig.json ./packages/shared/
 COPY packages/db/src ./packages/db/src
 COPY packages/db/tsconfig.json ./packages/db/
 COPY packages/db/drizzle.config.ts ./packages/db/
+COPY packages/db/migrations ./packages/db/migrations
 COPY apps/api ./apps/api
 RUN pnpm --filter @risker/shared build
 RUN pnpm --filter @risker/db build
