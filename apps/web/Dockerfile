@@ -26,6 +26,8 @@ COPY apps/web ./apps/web
 RUN pnpm --filter @risker/shared build
 RUN pnpm --filter @risker/db build
 ENV NEXT_STANDALONE=true
+ARG NEXT_PUBLIC_API_URL=https://pubg.risker.co.kr
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 RUN pnpm --filter @risker/web build
 
 # ── runner: minimal production image ──────────────────────────────────────────
