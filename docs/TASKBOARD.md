@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-16 (T-004 main 병합 완료)
+> 최종 갱신: 2026-05-16 (T-005 구현 완료, 검증 대기)
 
 ## 🧭 기술 스택 결정사항
 
@@ -22,7 +22,7 @@
 
 ## 🔥 진행 중
 
-_없음_
+| T-005 | 플레이어 검색 + 매치 수집 Worker (BullMQ) | feat | [PRD](prd/T-005-PRD-20260516-match-collection-worker.md) | 구현 완료 (검증 대기) |
 
 ## ✅ 완료
 
@@ -78,7 +78,8 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
-| 2026-05-16 23:30 | feat | T-004 PUBG API 클라이언트 병합 — PubgApiClient(rate limit/retry), Zod 스키마(player/match/season/stats/weapon), Shard/MAP 상수 | (this) |
+| 2026-05-17 00:00 | feat | T-005 BullMQ 워커 구현 — playerFetch/matchCollection 프로세서, @risker/db 연동, 캐시 체크, job payload Zod 스키마 | (pending) |
+| 2026-05-16 23:30 | feat | T-004 PUBG API 클라이언트 병합 — PubgApiClient(rate limit/retry), Zod 스키마(player/match/season/stats/weapon), Shard/MAP 상수 | 1eb37bf |
 | 2026-05-16 23:00 | infra | T-003 컨테이너화 병합 — web/api/worker Dockerfile(멀티스테이지), docker-compose.prod.yml, Drizzle 마이그레이션 SQL, migrate.ts | 54fcfd0 |
 | 2026-05-16 22:30 | infra | T-002 DB 스키마 병합 — players/matches/playerMatchStats/playStyleAnalyses/analysisJobs/trafficLogs, pgEnum, 인덱스 | eabff3c |
 | 2026-05-16 22:00 | feat | T-000 main 병합 완료 — 디자인 시스템 & 글로벌 레이아웃 (AppShell/Header/Sidebar/BottomNav, StatCard/RadarChart/StyleBadge 등) | b54b160 |

@@ -1,14 +1,14 @@
 import { Worker } from 'bullmq'
-import { QUEUE_NAMES } from '@risker/shared'
+import { QUEUE_NAMES, PlayerFetchJobSchema } from '@risker/shared'
 import { redisConnection } from '../redis.js'
+import { playerFetchProcessor } from '../processors/playerFetch.processor.js'
 
-// Actual job processing logic will be implemented in T-005
 export const playerFetchWorker = new Worker(
   QUEUE_NAMES.PLAYER_FETCH,
   async (job) => {
-    console.log(`[worker] Processing job ${job.id} in queue ${QUEUE_NAMES.PLAYER_FETCH}`)
-    console.log('[worker] Job data:', job.data)
-    // TODO: Implement in T-005
+    const data = PlayerFetchJobSchema.parse(job.data)
+    job.data = data
+    await playerFetchProcessor(job)
   },
   {
     connection: redisConnection,
@@ -17,9 +17,9 @@ export const playerFetchWorker = new Worker(
 )
 
 playerFetchWorker.on('completed', (job) => {
-  console.log(`[worker] Job ${job.id} completed`)
+  console.log(`[player-fetch] Job ${job.id} completed`)
 })
 
 playerFetchWorker.on('failed', (job, err) => {
-  console.error(`[worker] Job ${job?.id} failed:`, err)
+  console.error(`[player-fetch] Job ${job?.id} failed:`, err.message)
 })
