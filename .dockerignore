@@ -1,0 +1,13 @@
+.git
+.gitignore
+.turbo
+docs/
+*.md
+*.log
+.env*
+!.env.example
+**/node_modules
+**/.next
+**/dist
+**/.turbo
+**/tsconfig.tsbuildinfo
