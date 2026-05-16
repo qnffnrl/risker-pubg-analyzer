@@ -1,12 +1,9 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { X, Star, Loader2 } from 'lucide-react'
 import { PlayerAvatar } from '@/components/ui/player-avatar'
 import { PlatformBadge } from '@/components/ui/platform-badge'
-import { searchPlayer } from '@/lib/api-client'
-import { addRecentSearch } from '@/lib/storage'
+import { usePlayerNavigate } from '@/lib/hooks/use-player-navigate'
 import type { Platform } from '@/lib/storage'
 
 interface PlayerHistoryCardProps {
@@ -38,29 +35,12 @@ export function PlayerHistoryCard({
   onRemove,
   onToggleFav,
 }: PlayerHistoryCardProps) {
-  const router = useRouter()
-  const [loading, setLoading] = useState(false)
-
-  async function handleClick() {
-    if (loading) return
-    setLoading(true)
-    try {
-      const res = await searchPlayer(nickname, platform)
-      const targetPubgId = res.player?.pubgId ?? res.pubgId ?? pubgId
-      addRecentSearch({ nickname: res.player?.nickname ?? nickname, platform, pubgId: targetPubgId })
-      router.push(`/players/${targetPubgId}`)
-    } catch {
-      // 검색 실패 시 기존 pubgId로 이동 (최후 수단)
-      router.push(`/players/${pubgId}`)
-    } finally {
-      setLoading(false)
-    }
-  }
+  const { navigateToPlayer, loading } = usePlayerNavigate()
 
   return (
     <div className="group flex items-center gap-3 rounded-xl border border-border bg-card p-3 transition-colors hover:border-primary/40 hover:bg-card/80">
       <button
-        onClick={handleClick}
+        onClick={() => navigateToPlayer(nickname, platform, pubgId)}
         disabled={loading}
         className="flex flex-1 items-center gap-3 min-w-0 text-left disabled:opacity-60"
       >
@@ -75,7 +55,7 @@ export function PlayerHistoryCard({
             <PlatformBadge platform={platform} />
           </div>
           <span className="text-xs text-muted-foreground">
-            {loading ? '검색 중...' : timeAgo(timestamp)}
+            {loading ? '데이터 수집 중...' : timeAgo(timestamp)}
           </span>
         </div>
       </button>
