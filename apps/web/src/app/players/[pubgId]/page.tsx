@@ -42,7 +42,7 @@ export default async function PlayerPage({ params }: Props) {
         {profile.latestAnalysis && (
           <StylePreview analysis={profile.latestAnalysis} pubgId={pubgId} />
         )}
-        <MatchList key={matchesData.matches[0]?.matchId ?? 'empty'} initialMatches={matchesData.matches} pubgId={pubgId} />
+        <MatchList initialMatches={matchesData.matches} pubgId={pubgId} />
       </div>
     </AppShell>
   )
