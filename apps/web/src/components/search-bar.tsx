@@ -14,7 +14,7 @@ type Platform = (typeof PLATFORMS)[number]['value']
 
 export function SearchBar() {
   const [query, setQuery] = useState('')
-  const [platform, setPlatform] = useState<Platform>('steam')
+  const [platform, setPlatform] = useState<Platform>('kakao')
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()

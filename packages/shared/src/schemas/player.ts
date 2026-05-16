@@ -21,7 +21,7 @@ export type Player = z.infer<typeof PlayerSchema>
 
 export const PlayerSearchRequestSchema = z.object({
   name: z.string().min(1).max(64),
-  platform: PlatformSchema.default('steam'),
+  platform: PlatformSchema.default('kakao'),
 })
 
 export type PlayerSearchRequest = z.infer<typeof PlayerSearchRequestSchema>
