@@ -102,6 +102,8 @@ services:
       BULL_BOARD_PORT: "8082"
       DATABASE_URL: postgresql://${DB_USER:-pubg}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-pubg_analyzer}
       REDIS_URL: redis://redis:6379
+    volumes:
+      - ${CLAUDE_CREDENTIALS_PATH}:/home/appuser/.claude:ro
     networks: [pubg_net]
     depends_on:
       redis:
