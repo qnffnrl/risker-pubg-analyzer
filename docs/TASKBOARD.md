@@ -76,6 +76,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-17 | fix | T-015 최장 킬 거리 버그 수정 (LongestKill 0 필터링) + 주력 콤보 AR+DMR/SR 로직 + main 병합 | 29b54b2 |
 | 2026-05-16 21:07 | feat | T-015 무기 & 교전 분석 — weapon_stats 스키마/마이그레이션, playerFetch 무기수집, /weapons API, WeaponView+PlayerTabs 탭 UI | ce8ec35 |
 | 2026-05-16 19:30 | infra | T-014 CI/CD 완료 — GitHub Actions deploy, --env-file, Dockerfile ARG, claude 권한 해결 | 72f385c |
 | 2026-05-16 18:40 | feat | T-013 플레이어 비교 main 병합 — /compare 3-상태 SSR, 오버레이 레이더 차트, 성향 바, 지표 테이블, URL 복사, 모바일 탭, 프로필 헤더 비교 버튼 | 3c41589 |
