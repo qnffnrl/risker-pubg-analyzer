@@ -78,6 +78,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-17 | fix | T-022 맵 이름 매핑 보완(DihorOtok/Summerland) + /maps 생존전 모드 필터 | - |
 | 2026-05-17 | feat | T-021 matchLimit 100 증가 + skip-if-exists 최적화 (matchCollection.processor.ts) | - |
 | 2026-05-17 | feat | T-016 맵 & 존 분석 — /maps API, MapView UI, 맵 탭 + main 병합 | 6070b98 |
 | 2026-05-17 | fix | T-015 무기 ID 전면 정정(AK47_C 등) + LongestDefeat 사용 + 교전거리 분포 차트 추가 + main 병합 | 85d9e26 |

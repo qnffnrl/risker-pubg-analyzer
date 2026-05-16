@@ -14,11 +14,13 @@ const MAP_NAMES: Record<string, string> = {
   Tiger_Main: '태이고',
   Kiki_Main: '데스턴',
   Vikendi_Main: '비켄디',
+  DihorOtok_Main: '비켄디',
   Chimera_Main: '파라모',
   Heaven_Main: '헤이븐',
   Neon_Main: '론도',
   DihoroV2_Main: '카라킨',
   Range_Main: '훈련장',
+  Summerland_Main: '서머랜드',
 }
 
 const MAP_COLORS: Record<string, string> = {
@@ -28,10 +30,12 @@ const MAP_COLORS: Record<string, string> = {
   Tiger_Main: 'bg-orange-500/70',
   Kiki_Main: 'bg-blue-500/70',
   Vikendi_Main: 'bg-cyan-500/70',
+  DihorOtok_Main: 'bg-cyan-500/70',
   Chimera_Main: 'bg-purple-500/70',
   Heaven_Main: 'bg-red-500/70',
   Neon_Main: 'bg-pink-500/70',
   DihoroV2_Main: 'bg-amber-500/70',
+  Summerland_Main: 'bg-teal-500/70',
 }
 
 const MAP_TEXT_COLORS: Record<string, string> = {
@@ -41,10 +45,12 @@ const MAP_TEXT_COLORS: Record<string, string> = {
   Tiger_Main: 'text-orange-400',
   Kiki_Main: 'text-blue-400',
   Vikendi_Main: 'text-cyan-400',
+  DihorOtok_Main: 'text-cyan-400',
   Chimera_Main: 'text-purple-400',
   Heaven_Main: 'text-red-400',
   Neon_Main: 'text-pink-400',
   DihoroV2_Main: 'text-amber-400',
+  Summerland_Main: 'text-teal-400',
 }
 
 function getMapName(key: string): string {
