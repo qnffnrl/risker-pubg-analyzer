@@ -1,10 +1,14 @@
 'use client'
 
-import Link from 'next/link'
-import { Clock, Star } from 'lucide-react'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { Clock, Star, Loader2 } from 'lucide-react'
 import { useRecentSearches } from '@/lib/hooks/use-recent-searches'
 import { useFavorites } from '@/lib/hooks/use-favorites'
 import { PlayerAvatar } from '@/components/ui/player-avatar'
+import { searchPlayer } from '@/lib/api-client'
+import { addRecentSearch, addFavorite } from '@/lib/storage'
+import type { Platform } from '@/lib/storage'
 
 const PLATFORM_LABEL: Record<string, string> = {
   steam: 'Steam',
@@ -13,6 +17,61 @@ const PLATFORM_LABEL: Record<string, string> = {
   psn: 'PSN',
   xbox: 'Xbox',
   stadia: 'Stadia',
+}
+
+function SidebarItem({
+  nickname,
+  platform,
+  pubgId,
+  type,
+}: {
+  nickname: string
+  platform: Platform
+  pubgId: string
+  type: 'recent' | 'favorite'
+}) {
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
+
+  async function handleClick() {
+    if (loading) return
+    setLoading(true)
+    try {
+      const res = await searchPlayer(nickname, platform)
+      const targetPubgId = res.player?.pubgId ?? res.pubgId ?? pubgId
+      const targetNickname = res.player?.nickname ?? nickname
+      if (type === 'recent') {
+        addRecentSearch({ nickname: targetNickname, platform, pubgId: targetPubgId })
+      } else {
+        addFavorite({ nickname: targetNickname, platform, pubgId: targetPubgId })
+      }
+      router.push(`/players/${targetPubgId}`)
+    } catch {
+      router.push(`/players/${pubgId}`)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <button
+      onClick={handleClick}
+      disabled={loading}
+      className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-secondary/50 hover:text-foreground disabled:opacity-60"
+    >
+      {loading ? (
+        <Loader2 className="h-6 w-6 shrink-0 animate-spin text-primary" />
+      ) : (
+        <PlayerAvatar nickname={nickname} size="sm" />
+      )}
+      <div className="min-w-0 flex-1 text-left">
+        <div className="truncate font-medium text-foreground">{nickname}</div>
+        <div className="truncate text-muted-foreground">
+          {loading ? '검색 중...' : (PLATFORM_LABEL[platform] ?? platform)}
+        </div>
+      </div>
+    </button>
+  )
 }
 
 export function Sidebar() {
@@ -38,21 +97,13 @@ export function Sidebar() {
               </div>
             ) : (
               recentList.map((item) => (
-                <Link
+                <SidebarItem
                   key={item.pubgId}
-                  href={`/players/${item.pubgId}`}
-                  className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-secondary/50 hover:text-foreground"
-                >
-                  <PlayerAvatar nickname={item.nickname} size="sm" />
-                  <div className="min-w-0 flex-1">
-                    <div className="truncate font-medium text-foreground">
-                      {item.nickname}
-                    </div>
-                    <div className="truncate text-muted-foreground">
-                      {PLATFORM_LABEL[item.platform] ?? item.platform}
-                    </div>
-                  </div>
-                </Link>
+                  nickname={item.nickname}
+                  platform={item.platform}
+                  pubgId={item.pubgId}
+                  type="recent"
+                />
               ))
             )}
           </div>
@@ -71,21 +122,13 @@ export function Sidebar() {
               </div>
             ) : (
               favoriteList.map((item) => (
-                <Link
+                <SidebarItem
                   key={item.pubgId}
-                  href={`/players/${item.pubgId}`}
-                  className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-secondary/50 hover:text-foreground"
-                >
-                  <PlayerAvatar nickname={item.nickname} size="sm" />
-                  <div className="min-w-0 flex-1">
-                    <div className="truncate font-medium text-foreground">
-                      {item.nickname}
-                    </div>
-                    <div className="truncate text-muted-foreground">
-                      {PLATFORM_LABEL[item.platform] ?? item.platform}
-                    </div>
-                  </div>
-                </Link>
+                  nickname={item.nickname}
+                  platform={item.platform}
+                  pubgId={item.pubgId}
+                  type="favorite"
+                />
               ))
             )}
           </div>
