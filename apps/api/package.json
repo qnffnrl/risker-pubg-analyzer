@@ -12,16 +12,20 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
+    "@hono/zod-validator": "^0.8.0",
+    "@risker/db": "workspace:^",
     "@risker/shared": "workspace:*",
+    "bullmq": "^5.47.0",
     "hono": "^4.7.0",
+    "ioredis": "^5.4.2",
     "pino": "^9.6.0",
     "pino-pretty": "^13.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "tsx": "^4.19.2",
     "tsup": "^8.3.0",
+    "tsx": "^4.19.2",
     "typescript": "^5.8.0"
   }
 }
