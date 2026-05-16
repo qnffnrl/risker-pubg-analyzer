@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { eq, and, gt, desc, schema } from '@risker/db'
+import { eq, and, gt, desc, inArray, schema } from '@risker/db'
 import { PlatformSchema, createSuccessResponse, createErrorResponse } from '@risker/shared'
 import { db } from '../../lib/db.js'
 import { playerFetchQueue } from '../../lib/redis.js'
@@ -224,6 +224,15 @@ players.get('/:pubgId/maps', async (c) => {
     return c.json(createErrorResponse('PLAYER_NOT_FOUND', 'Player not found'), 404)
   }
 
+  const SURVIVAL_MODES = [
+    'squad', 'squad-fpp',
+    'duo', 'duo-fpp',
+    'solo', 'solo-fpp',
+    'normal-squad', 'normal-squad-fpp',
+    'normal-duo', 'normal-duo-fpp',
+    'normal-solo', 'normal-solo-fpp',
+  ]
+
   const rows = await db
     .select({
       mapName: schema.matches.mapName,
@@ -236,7 +245,12 @@ players.get('/:pubgId/maps', async (c) => {
     })
     .from(schema.playerMatchStats)
     .innerJoin(schema.matches, eq(schema.playerMatchStats.matchId, schema.matches.id))
-    .where(eq(schema.playerMatchStats.playerId, player.id))
+    .where(
+      and(
+        eq(schema.playerMatchStats.playerId, player.id),
+        inArray(schema.matches.mode, SURVIVAL_MODES),
+      )
+    )
 
   // 맵별 집계
   const mapMap: Record<string, {

@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-16 (T-014 main 병합 완료)
+> 최종 갱신: 2026-05-17 (T-021 feature branch 완료)
 
 ## 🧭 기술 스택 결정사항
 
@@ -28,6 +28,8 @@ _없음_
 
 | ID | 작업명 | 유형 | 완료일 |
 |----|--------|------|--------|
+| T-021 | 매치 수집 한도 100으로 증가 + Skip-if-exists 최적화 | feat | 2026-05-17 |
+| T-016 | 맵 & 존 분석 (맵별 성적, 강점 맵, 이동 패턴) | feat | 2026-05-17 |
 | T-015 | 무기 & 교전 분석 (weapon_stats DB, Mastery 수집, /weapons API, 무기 탭 UI) | feat | 2026-05-16 |
 | T-014 | CI/CD (GitHub Actions → risker.co.kr SSH:2222, 헬스체크, README) | infra | 2026-05-16 |
 | T-013 | 플레이어 비교 기능 (/compare 페이지, 오버레이 레이더 차트, 지표 테이블) | feat | 2026-05-16 |
@@ -64,7 +66,7 @@ _없음_
 
 | ID | 작업명 | 유형 | PRD | 진행률 |
 |----|--------|------|-----|--------|
-| T-016 | 맵 & 존 분석 (맵별 성적, 랜딩존 선호도) | feat | [PRD](prd/T-016-PRD-20260516-map-zone-analysis.md) | 0% |
+| T-021 | 매치 수집 한도 증가 & Skip-if-exists 최적화 | feat | [PRD](prd/T-021-PRD-20260517-match-limit-increase.md) | 0% |
 | T-017 | 성과 추이 차트 (시계열 라인 차트, 폼 분석) | feat | [PRD](prd/T-017-PRD-20260516-performance-trend.md) | 0% |
 | T-018 | 관리자 페이지 (트래픽 모니터링 + 비밀번호 인증) | feat | [PRD](prd/T-018-PRD-20260516-admin-page.md) | 0% |
 | T-019 | 공유 기능 (OG 이미지 동적 생성 + PNG 저장) | feat | [PRD](prd/T-019-PRD-20260516-share-feature.md) | 0% |
@@ -76,6 +78,9 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-17 | fix | T-022 맵 이름 매핑 보완(DihorOtok/Summerland) + /maps 생존전 모드 필터 | - |
+| 2026-05-17 | feat | T-021 matchLimit 100 증가 + skip-if-exists 최적화 (matchCollection.processor.ts) | - |
+| 2026-05-17 | feat | T-016 맵 & 존 분석 — /maps API, MapView UI, 맵 탭 + main 병합 | 6070b98 |
 | 2026-05-17 | fix | T-015 무기 ID 전면 정정(AK47_C 등) + LongestDefeat 사용 + 교전거리 분포 차트 추가 + main 병합 | 85d9e26 |
 | 2026-05-17 | fix | T-015 최장 킬 거리 버그 수정 (LongestKill 0 필터링) + 주력 콤보 AR+DMR/SR 로직 + main 병합 | 29b54b2 |
 | 2026-05-16 21:07 | feat | T-015 무기 & 교전 분석 — weapon_stats 스키마/마이그레이션, playerFetch 무기수집, /weapons API, WeaponView+PlayerTabs 탭 UI | ce8ec35 |
