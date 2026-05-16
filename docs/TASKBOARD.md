@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-16 (T-000 구현 완료, 사용자 검증 대기)
+> 최종 갱신: 2026-05-16 (T-000 main 병합 완료)
 
 ## 🧭 기술 스택 결정사항
 
@@ -22,23 +22,16 @@
 
 ## 🔥 진행 중
 
-| ID | 작업명 | 유형 | PRD | 진행률 |
-|----|--------|------|-----|--------|
-| T-000 | 디자인 시스템 & 글로벌 레이아웃 | design | [PRD](prd/T-000-PRD-20260516-design-system.md) | 구현 완료 (검증 대기) |
+_없음_
 
 ## ✅ 완료
 
 | ID | 작업명 | 유형 | 완료일 |
 |----|--------|------|--------|
+| T-000 | 디자인 시스템 & 글로벌 레이아웃 | design | 2026-05-16 |
 | T-001 | 모노레포 스캐폴딩 (Next.js + Hono + BullMQ Worker) | infra | 2026-05-16 |
 
 ## 📋 대기
-
-### Phase 0: 디자인 시스템
-
-| ID | 작업명 | 유형 | PRD | 진행률 |
-|----|--------|------|-----|--------|
-| T-000 | 디자인 시스템 & 글로벌 레이아웃 (openclaw.ai 스타일, 반응형) | design | [PRD](prd/T-000-PRD-20260516-design-system.md) | 0% |
 
 ### Phase 1: 기반 인프라
 
@@ -85,6 +78,7 @@
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-16 22:00 | feat | T-000 main 병합 완료 — 디자인 시스템 & 글로벌 레이아웃 (AppShell/Header/Sidebar/BottomNav, StatCard/RadarChart/StyleBadge 등) | b54b160 |
 | 2026-05-16 21:00 | feat | T-000 디자인 시스템 구현 — AppShell/Header/Sidebar/BottomNav 레이아웃, StatCard/PlayerAvatar/RadarChart/StyleBadge/PlatformBadge/LoadingSkeleton UI, CSS 변수 보완, Tailwind 애니메이션 추가 | 6ceedf9 |
 | 2026-05-16 20:00 | infra | T-001 모노레포 스캐폴딩 완료 — web/api/worker/shared/db 앱 뼈대 구현, turbo build 전체 통과 | bfc3c38 |
 | 2026-05-16 18:00 | docs | 전체 PRD 21개 생성 (T-000~T-020) + GitHub Actions 워크플로우 | - |

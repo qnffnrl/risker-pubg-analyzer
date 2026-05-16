@@ -16,13 +16,13 @@
 
 | ID | 상태 | 제목 | PRD 파일 | 완료일 |
 |----|------|------|---------|--------|
-| T-000 | 📋 대기 | 디자인 시스템 & 글로벌 레이아웃 | [T-000](T-000-PRD-20260516-design-system.md) | - |
+| T-000 | ✅ 완료 | 디자인 시스템 & 글로벌 레이아웃 | [T-000](done/T-000-PRD-20260516-design-system.md) | 2026-05-16 |
 
 ### Phase 1: 기반 인프라
 
 | ID | 상태 | 제목 | PRD 파일 | 완료일 |
 |----|------|------|---------|--------|
-| T-001 | ✅ 완료 | 모노레포 스캐폴딩 (Next.js + Hono + BullMQ) | [T-001](T-001-PRD-20260516-monorepo-scaffold.md) | 2026-05-16 |
+| T-001 | ✅ 완료 | 모노레포 스캐폴딩 (Next.js + Hono + BullMQ) | [T-001](done/T-001-PRD-20260516-monorepo-scaffold.md) | 2026-05-16 |
 | T-002 | 📋 대기 | DB 스키마 설계 (Drizzle + PostgreSQL) | [T-002](T-002-PRD-20260516-db-schema.md) | - |
 | T-003 | 📋 대기 | 앱 컨테이너화 (Dockerfile + docker-compose) | [T-003](T-003-PRD-20260516-containerization.md) | - |
 | T-014 | 📋 대기 | CI/CD (GitHub Actions → risker.co.kr) | [T-014](T-014-PRD-20260516-cicd.md) | - |
