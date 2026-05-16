@@ -76,6 +76,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-17 | fix | T-015 무기 ID 전면 정정(AK47_C 등) + LongestDefeat 사용 + 교전거리 분포 차트 추가 + main 병합 | 85d9e26 |
 | 2026-05-17 | fix | T-015 최장 킬 거리 버그 수정 (LongestKill 0 필터링) + 주력 콤보 AR+DMR/SR 로직 + main 병합 | 29b54b2 |
 | 2026-05-16 21:07 | feat | T-015 무기 & 교전 분석 — weapon_stats 스키마/마이그레이션, playerFetch 무기수집, /weapons API, WeaponView+PlayerTabs 탭 UI | ce8ec35 |
 | 2026-05-16 19:30 | infra | T-014 CI/CD 완료 — GitHub Actions deploy, --env-file, Dockerfile ARG, claude 권한 해결 | 72f385c |
