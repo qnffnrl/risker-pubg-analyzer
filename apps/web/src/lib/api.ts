@@ -1,4 +1,5 @@
-const API_BASE = process.env['NEXT_PUBLIC_API_URL'] ?? 'http://localhost:8081'
+// API_URL: 서버사이드 전용 (Docker 내부 네트워크), NEXT_PUBLIC_API_URL: 클라이언트 빌드타임
+const API_BASE = process.env['API_URL'] ?? process.env['NEXT_PUBLIC_API_URL'] ?? 'http://localhost:8081'
 
 async function apiFetch<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
