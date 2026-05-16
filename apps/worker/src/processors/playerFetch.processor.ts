@@ -48,9 +48,13 @@ export async function playerFetchProcessor(job: Job<PlayerFetchJob>): Promise<vo
     matchLimit: 20,
     forceRefresh: job.data.forceRefresh ?? false,
   }
+  // forceRefresh 시 unique jobId로 BullMQ 중복 방지 우회
+  const matchJobId = matchCollectionPayload.forceRefresh
+    ? `match-collection_${player.id}_${Date.now()}`
+    : `match-collection_${player.id}`
+
   await matchCollectionQueue.add('collect', matchCollectionPayload, {
-    jobId: `match-collection_${player.id}`,
-    // Deduplicate: don't add if already queued
+    jobId: matchJobId,
   })
 
   job.log(`Match collection job enqueued for player ${player.id}`)
