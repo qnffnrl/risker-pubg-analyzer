@@ -59,10 +59,14 @@ export async function matchCollectionProcessor(job: Job<MatchCollectionJob>): Pr
           durationSec: attr.duration,
           totalPlayers: matchResponse.included.filter((r) => r.type === 'participant').length,
           rawData: matchResponse.data as unknown as Record<string, unknown>,
+          includedData: matchResponse.included as unknown as Record<string, unknown>[],
         })
         .onConflictDoUpdate({
           target: schema.matches.pubgMatchId,
-          set: { rawData: matchResponse.data as unknown as Record<string, unknown> },
+          set: {
+            rawData: matchResponse.data as unknown as Record<string, unknown>,
+            includedData: matchResponse.included as unknown as Record<string, unknown>[],
+          },
         })
         .returning()
 

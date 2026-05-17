@@ -11,6 +11,7 @@ export const matches = pgTable(
     durationSec: integer('duration_sec'),
     totalPlayers: integer('total_players'),
     rawData: jsonb('raw_data'),
+    includedData: jsonb('included_data'),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => [
