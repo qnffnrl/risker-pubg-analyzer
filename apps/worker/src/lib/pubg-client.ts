@@ -93,7 +93,7 @@ export class PubgApiClient {
       `/shards/${shard}/players/${accountId}/weapon_mastery`,
       PubgWeaponMasteryResponseSchema,
     )
-    return data.data
+    return data.data as PubgWeaponMastery
   }
 
   /** Returns match IDs from the player's relationships (most recent first) */

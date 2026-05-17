@@ -85,6 +85,7 @@ _없음_
 | 2026-05-17 | feat | T-018 관리자 페이지 — HMAC 일일 토큰 인증, 트래픽 통계 API(summary/traffic/popular-players/logs/queue), 관리자 로그인 + 대시보드 UI + main 병합 | c865d3c |
 | 2026-05-17 | feat | T-020 시즌 & 모드 필터 — 필터바(모드/맵/기간), URL 쿼리 동기화, 모드별 비교 카드, MatchList 더보기 offset 개선 | b94f3ae |
 | 2026-05-17 | feat | T-025 Refresh UX — 새로고침 폴링 완료 감지 자동 리로드 + 타임아웃 에러 메시지 + 랭크 빈 상태 안내 | 13562c8 |
+| 2026-05-17 | fix | CI/CD — pubg_postgres 컨테이너 이름 충돌 수정(migration 전 down 추가) + worker Zod input/output 타입 캐스트 | (pending) |
 | 2026-05-17 | fix | CI/CD — 컨테이너 재시작 전 down --remove-orphans 추가, Drizzle journal 타임스탬프 오름차순 보정 | d709c96 |
 | 2026-05-17 | feat | T-024 매치 상세 페이지 — included_data DB 저장, GET /matches/:matchId API, /matches/[matchId] SSR 페이지, 참가자/팀 테이블, 텔레메트리 URL, MatchCard 상세 링크 + main 병합 | 4ebd8fd |
 | 2026-05-17 | feat | T-023 랭크 통계 — ranked_stats DB, getRankedStats API, RankedView + SVG 엠블럼 + main 병합 | 7b3b43c |

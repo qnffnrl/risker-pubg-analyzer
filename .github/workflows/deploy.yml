@@ -46,6 +46,9 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
+            echo "=== Stopping existing containers ==="
+            docker compose -f docker-compose.prod.yml --env-file .env.prod down --remove-orphans || true
+
             echo "=== Running DB migrations ==="
             docker compose -f docker-compose.prod.yml --env-file .env.prod build --no-cache db-migrate
             docker compose -f docker-compose.prod.yml --env-file .env.prod up db-migrate
