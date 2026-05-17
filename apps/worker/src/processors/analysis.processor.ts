@@ -64,6 +64,22 @@ export async function analysisProcessor(job: Job<AnalysisJob>): Promise<void> {
 
   const result = analyzePlayStyle(matchRows)
 
+  // Compute v2 scores (Phase 1: aggregate-only, telemetry optional)
+  const { calcSkill } = await import('../lib/analysis/metrics/skill.js')
+  const { calcAggressionV2 } = await import('../lib/analysis/metrics/aggression.v2.js')
+  const { calcSurvivalV2 } = await import('../lib/analysis/metrics/survival.v2.js')
+  const { calcPositioningV2 } = await import('../lib/analysis/metrics/positioning.v2.js')
+  const { calcTeamplayV2 } = await import('../lib/analysis/metrics/teamplay.v2.js')
+
+  const skillResult = calcSkill(matchRows)
+  const aggrV2 = calcAggressionV2(matchRows)
+  const survV2 = calcSurvivalV2(matchRows)
+  const posV2 = calcPositioningV2(matchRows)
+  const teamV2 = calcTeamplayV2(matchRows)
+  const scoreVersion = 'v1'  // Will be 'v2' when telemetry available — Phase 2
+
+  job.log(`V2 scores: skill=${skillResult.score} aggr=${aggrV2.score} surv=${survV2.score} pos=${posV2.score} team=${teamV2.score}`)
+
   // Look up nickname and pubgId for LLM prompt
   const [player] = await db
     .select({ nickname: schema.players.nickname, pubgId: schema.players.pubgId })
@@ -151,6 +167,16 @@ export async function analysisProcessor(job: Job<AnalysisJob>): Promise<void> {
       clutchScore: String(result.clutchScore),
       consistencyMetrics: result.consistencyMetrics as unknown as Record<string, unknown>,
       clutchMetrics: result.clutchMetrics as unknown as Record<string, unknown>,
+      scoreVersion,
+      aggressionScoreV2: String(aggrV2.score),
+      survivalScoreV2: String(survV2.score),
+      positioningScoreV2: String(posV2.score),
+      teamplayScoreV2: String(teamV2.score),
+      aggressionMetricsV2: aggrV2.metrics as unknown as Record<string, unknown>,
+      survivalMetricsV2: survV2.metrics as unknown as Record<string, unknown>,
+      positioningMetricsV2: posV2.metrics as unknown as Record<string, unknown>,
+      teamplayMetricsV2: teamV2.metrics as unknown as Record<string, unknown>,
+      skillScore: String(skillResult.score),
       llmSummary,
       llmGeneratedAt: llmSummary ? now : null,
       topWeakness: topWeakness as unknown as Record<string, unknown> | null,
@@ -174,6 +200,16 @@ export async function analysisProcessor(job: Job<AnalysisJob>): Promise<void> {
         clutchScore: String(result.clutchScore),
         consistencyMetrics: result.consistencyMetrics as unknown as Record<string, unknown>,
         clutchMetrics: result.clutchMetrics as unknown as Record<string, unknown>,
+        scoreVersion,
+        aggressionScoreV2: String(aggrV2.score),
+        survivalScoreV2: String(survV2.score),
+        positioningScoreV2: String(posV2.score),
+        teamplayScoreV2: String(teamV2.score),
+        aggressionMetricsV2: aggrV2.metrics as unknown as Record<string, unknown>,
+        survivalMetricsV2: survV2.metrics as unknown as Record<string, unknown>,
+        positioningMetricsV2: posV2.metrics as unknown as Record<string, unknown>,
+        teamplayMetricsV2: teamV2.metrics as unknown as Record<string, unknown>,
+        skillScore: String(skillResult.score),
         llmSummary,
         llmGeneratedAt: llmSummary ? now : null,
         topWeakness: topWeakness as unknown as Record<string, unknown> | null,

@@ -2,11 +2,12 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { AppShell } from '@/components/layout/app-shell'
-import { getPlayer, getPlayerAnalysis } from '@/lib/api'
-import { RadarChart } from '@/components/ui/radar-chart'
+import { getPlayer, getPlayerAnalysis, type AnalysisData, type AggressionMetrics, type SurvivalMetrics, type PositioningMetrics, type TeamplayMetrics, type ConsistencyMetrics, type ClutchMetrics } from '@/lib/api'
+import { RadarChart, type StyleScores } from '@/components/ui/radar-chart'
 import { StatCard } from '@/components/ui/stat-card'
 import { getStyleLabel } from '@/lib/style-label'
 import { WeaknessCard } from '@/components/analysis/WeaknessCard'
+import { AnalysisToggle } from './analysis-toggle'
 
 interface Props {
   params: { pubgId: string }
@@ -89,7 +90,7 @@ export default async function AnalysisPage({ params }: Props) {
   const consistencyNum = analysis.consistencyScore != null ? Number(analysis.consistencyScore) : 0
   const clutchNum = analysis.clutchScore != null ? Number(analysis.clutchScore) : 0
 
-  const scores = {
+  const v1Scores: StyleScores = {
     aggression: Number(analysis.aggressionScore),
     survival: Number(analysis.survivalScore),
     positioning: Number(analysis.positioningScore),
@@ -98,7 +99,18 @@ export default async function AnalysisPage({ params }: Props) {
     clutch: clutchNum,
   }
 
-  const label = getStyleLabel(scores.aggression, scores.survival, scores.positioning, scores.teamplay)
+  const v2Scores: StyleScores | null = analysis.aggressionScoreV2
+    ? {
+        aggression: Number(analysis.aggressionScoreV2),
+        survival: Number(analysis.survivalScoreV2 ?? 0),
+        positioning: Number(analysis.positioningScoreV2 ?? 0),
+        teamplay: Number(analysis.teamplayScoreV2 ?? 0),
+        consistency: consistencyNum,
+        clutch: clutchNum,
+      }
+    : null
+
+  const label = getStyleLabel(v1Scores.aggression, v1Scores.survival, v1Scores.positioning, v1Scores.teamplay)
   const agg = analysis.aggressionMetrics
   const sur = analysis.survivalMetrics
   const pos = analysis.positioningMetrics
@@ -128,54 +140,31 @@ export default async function AnalysisPage({ params }: Props) {
         <div className="flex flex-col gap-6 lg:flex-row">
           {/* 좌측: 레이더 차트 + 성향 레이블 */}
           <div className="flex flex-col items-center gap-4 lg:w-[40%]">
-            <div className="w-full rounded-xl border border-border bg-card p-6">
-              <h2 className="mb-4 text-center text-sm font-semibold text-muted-foreground uppercase tracking-wider">플레이 스타일</h2>
-              <div className="flex justify-center">
-                <RadarChart data={scores} size="lg" />
-              </div>
-              {/* 점수 표 */}
-              <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
-                {[
-                  { label: '공격성', value: scores.aggression, color: 'text-rose-400' },
-                  { label: '생존형', value: scores.survival, color: 'text-emerald-400' },
-                  { label: '포지셔닝', value: scores.positioning, color: 'text-blue-400' },
-                  { label: '팀플레이', value: scores.teamplay, color: 'text-amber-400' },
-                  { label: '일관성', value: scores.consistency, color: 'text-violet-400' },
-                  { label: '결정력', value: scores.clutch, color: 'text-orange-400' },
-                ].map(({ label, value, color }) => (
-                  <div key={label} className="flex items-center justify-between rounded-lg bg-secondary/50 px-3 py-2">
-                    <span className="text-muted-foreground">{label}</span>
-                    <span className={`font-bold tabular-nums ${color}`}>{value.toFixed(1)}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* 성향 레이블 */}
-            <div className="w-full rounded-xl border border-primary/30 bg-primary/5 p-5 text-center">
-              <div className="mb-2 text-3xl">{label.icon}</div>
-              <div className="text-lg font-bold text-foreground">{label.name}</div>
-              <div className="mt-1 text-sm text-muted-foreground">{label.desc}</div>
-            </div>
-
-            {/* 분석 기준 */}
-            <p className="text-center text-xs text-muted-foreground">
-              최근 {analysis.matchCount}매치 기준 · 업데이트: {analyzedAt}
-            </p>
-
-            {/* LLM 요약 (T-011) */}
-            {analysis.llmSummary && (
-              <div className="w-full rounded-xl border border-border bg-card p-4">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">AI 코칭 메시지</p>
-                <p className="text-sm leading-relaxed text-foreground">{analysis.llmSummary}</p>
+            {/* Skill Score Card */}
+            {analysis.skillScore && (
+              <div className="w-full border border-neutral-800 rounded-lg p-4 text-center">
+                <p className="text-xs text-neutral-400 mb-1">실력 점수</p>
+                <p className="text-4xl font-bold text-white">{Math.round(Number(analysis.skillScore))}</p>
+                <p className="text-xs text-neutral-500 mt-1">킬력·데미지·순위 기반 종합 점수</p>
               </div>
             )}
+
+            {/* v1/v2 toggle + radar chart */}
+            <AnalysisToggle
+              v1Scores={v1Scores}
+              v2Scores={v2Scores}
+              hasV2={v2Scores !== null}
+              label={label}
+              matchCount={analysis.matchCount}
+              analyzedAt={analyzedAt}
+              llmSummary={analysis.llmSummary ?? null}
+            />
           </div>
 
           {/* 우측: 6대 성향 상세 지표 */}
           <div className="flex flex-col gap-4 lg:w-[60%]">
             {/* 공격성 */}
-            <Section title="공격성" color="text-rose-400" score={scores.aggression}>
+            <Section title="공격성" color="text-rose-400" score={v1Scores.aggression}>
               <StatCard label="킬/매치" value={fmt(agg['avg_kills'])} color="aggression" />
               <StatCard label="데미지/매치" value={Math.round(agg['avg_damage'] ?? 0)} color="aggression" />
               <StatCard label="헤드샷율" value={fmtPct(agg['headshot_rate'])} color="aggression" />
@@ -203,7 +192,7 @@ export default async function AnalysisPage({ params }: Props) {
             </Section>
 
             {/* 생존형 */}
-            <Section title="생존형" color="text-emerald-400" score={scores.survival}>
+            <Section title="생존형" color="text-emerald-400" score={v1Scores.survival}>
               <StatCard label="평균 생존시간" value={fmtTime(sur['avg_survival_time_sec'])} color="survival" />
               <StatCard label="평균 순위" value={`#${fmt(sur['avg_placement'])}`} color="survival" />
               <StatCard label="탑10율" value={fmtPct(sur['top10_rate'])} color="survival" />
@@ -239,7 +228,7 @@ export default async function AnalysisPage({ params }: Props) {
             </Section>
 
             {/* 포지셔닝 */}
-            <Section title="포지셔닝" color="text-blue-400" score={scores.positioning}>
+            <Section title="포지셔닝" color="text-blue-400" score={v1Scores.positioning}>
               <StatCard label="도보 이동" value={fmtDist(pos['avg_walk_distance'])} color="positioning" />
               <StatCard label="차량 이동" value={fmtDist(pos['avg_vehicle_distance'])} color="positioning" />
               <StatCard label="차량 사용율" value={fmtPct(pos['vehicle_usage_rate'])} color="positioning" />
@@ -248,7 +237,7 @@ export default async function AnalysisPage({ params }: Props) {
             </Section>
 
             {/* 팀플레이 */}
-            <Section title="팀플레이" color="text-amber-400" score={scores.teamplay}>
+            <Section title="팀플레이" color="text-amber-400" score={v1Scores.teamplay}>
               <StatCard label="평균 부활" value={fmt(team['avg_revives'])} color="teamplay" />
               <StatCard label="평균 어시스트" value={fmt(team['avg_assists'])} color="teamplay" />
               <StatCard label="팀킬" value={fmt(team['avg_team_kills'])} color="teamplay" />
