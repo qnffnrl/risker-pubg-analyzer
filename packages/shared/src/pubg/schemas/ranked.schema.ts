@@ -35,7 +35,7 @@ const RankedStatsAttributesSchema = z.object({
 })
 
 const RankedStatsDataSchema = z.object({
-  type: z.literal('rankedPlayerSeason'),
+  type: z.literal('rankedplayerstats'),
   attributes: RankedStatsAttributesSchema,
 })
 
