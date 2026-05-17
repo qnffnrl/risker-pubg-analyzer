@@ -1,6 +1,6 @@
 # TASKBOARD - Risker PUBG Analyzer 작업 현황판
 
-> 최종 갱신: 2026-05-17 (T-026 분석 지표 고도화 main 병합)
+> 최종 갱신: 2026-05-17 (T-027 텔레메트리 파이프라인 main 병합)
 
 ## 🧭 기술 스택 결정사항
 
@@ -22,14 +22,13 @@
 
 ## 🔥 진행 중
 
-| ID | 작업명 | 유형 | 시작일 |
-|----|--------|------|--------|
-| T-027 | 텔레메트리 수집/저장 파이프라인 | feat | 2026-05-17 |
+_없음_
 
 ## ✅ 완료
 
 | ID | 작업명 | 유형 | 완료일 |
 |----|--------|------|--------|
+| T-027 | 텔레메트리 수집/저장 파이프라인 (match_telemetry, telemetry-fetch 큐, 백필 로직) | feat | 2026-05-17 |
 | T-026 | 분석 지표 고도화 (일관성/결정력 신규 카테고리, 공격성/생존 지표 확장, PNG 다운 /og 경로 버그) | feat+fix | 2026-05-17 |
 | T-019 | 공유 기능 (OG 메타태그, SVG OG 이미지, 링크 복사, Canvas PNG 저장) | feat | 2026-05-17 |
 | T-018 | 관리자 페이지 (HMAC 인증, 트래픽 통계 API, 대시보드 UI) | feat | 2026-05-17 |
@@ -64,7 +63,6 @@
 
 | ID | 작업명 | 유형 | PRD | 진행률 |
 |----|--------|------|-----|--------|
-| T-027 | 텔레메트리 수집/저장 파이프라인 | feat | [PRD](prd/T-027-PRD-20260517-telemetry-pipeline.md) | 0% |
 | T-028 | 약점 진단 룰 엔진 + AI 코칭 메시지 | feat | [PRD](prd/T-028-PRD-20260517-weakness-rule-engine.md) | 0% |
 | T-029 | 킬/데스 히트맵 (맵별 시각화) | feat | [PRD](prd/T-029-PRD-20260517-death-killmap.md) | 0% |
 | T-030 | 4축 성향 점수 리팩토링 (실력 의존도 분리) | feat | [PRD](prd/T-030-PRD-20260517-score-v2-refactor.md) | 0% |
@@ -81,6 +79,7 @@
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-17 | feat | T-027 텔레메트리 파이프라인 — match_telemetry 테이블, telemetry-fetch BullMQ 큐, getTelemetry CDN 다운로드, 기존 매치 백필 로직, loader.ts, migration 0007 + main 병합 | d1eab7d |
 | 2026-05-17 | feat+fix | T-026 분석 지표 고도화 — 공격성/생존 지표 확장, 일관성/결정력 신규 카테고리, 6축 레이더 차트, migration 0005/0006, PNG 다운 /og 경로 버그 수정 + main 병합 | 4b5b89c |
 | 2026-05-17 | feat | T-019 공유 기능 — /og 동적 OG 이미지(SVG), generateMetadata OG/Twitter 태그, 링크 복사 버튼(2초 복사됨! 피드백), PNG 저장 버튼 | eb85009 |
 | 2026-05-17 | feat | T-018 관리자 페이지 — HMAC 일일 토큰 인증, 트래픽 통계 API(summary/traffic/popular-players/logs/queue), 관리자 로그인 + 대시보드 UI + main 병합 | c865d3c |
