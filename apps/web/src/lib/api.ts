@@ -152,6 +152,7 @@ export interface RankedModeStats {
   wins: number
   winRatio: number
   kills: number
+  assists?: number
   deaths?: number
   kda: number
   damageDealt: number

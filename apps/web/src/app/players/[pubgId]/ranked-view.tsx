@@ -109,11 +109,15 @@ export function RankedView({ rankedData, seasonId }: Props) {
   const stats = rankedData[activeMode]
   if (!stats) return null
 
-  const hsRate = stats.headshotKillRatio != null
-    ? (stats.headshotKillRatio * 100).toFixed(1)
-    : stats.headshotKills && stats.kills
-      ? ((stats.headshotKills / stats.kills) * 100).toFixed(1)
-      : '—'
+  // PUBG ranked API returns kda: 0 always — calculate manually
+  const calcKda = stats.deaths && stats.deaths > 0
+    ? ((stats.kills + (stats.assists ?? 0)) / stats.deaths).toFixed(2)
+    : (stats.kills + (stats.assists ?? 0)).toFixed(2)
+
+  // headshotKills/headshotKillRatio are always 0 in ranked API
+  const hsRate = stats.headshotKills && stats.headshotKills > 0 && stats.kills > 0
+    ? ((stats.headshotKills / stats.kills) * 100).toFixed(1)
+    : null
 
   const shortSeasonId = seasonId.replace('division.bro.', '').replace('pc-', '시즌 ')
 
@@ -155,9 +159,9 @@ export function RankedView({ rankedData, seasonId }: Props) {
         {[
           { label: '게임 수', value: `${stats.roundsPlayed}` },
           { label: '승률', value: `${(stats.winRatio * 100).toFixed(1)}%` },
-          { label: 'KDA', value: stats.kda.toFixed(2) },
+          { label: 'KDA', value: calcKda },
           { label: '평균 순위', value: `#${stats.avgRank.toFixed(1)}` },
-          { label: '헤드샷률', value: `${hsRate}%` },
+          { label: '헤드샷률', value: hsRate ? `${hsRate}%` : '—' },
           { label: '데미지/게임', value: stats.roundsPlayed > 0 ? Math.round(stats.damageDealt / stats.roundsPlayed).toLocaleString() : '—' },
         ].map(({ label, value }) => (
           <div key={label} className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-3 text-center">
@@ -174,8 +178,8 @@ export function RankedView({ rankedData, seasonId }: Props) {
           {[
             { label: '승리', value: `${stats.wins}회` },
             { label: '킬', value: `${stats.kills}킬` },
-            { label: '최다 킬', value: stats.roundMostKills != null ? `${stats.roundMostKills}킬` : '—' },
-            { label: '최장 킬', value: stats.longestKill != null ? `${Math.round(stats.longestKill)}m` : '—' },
+            { label: '최다 킬', value: stats.roundMostKills ? `${stats.roundMostKills}킬` : '—' },
+            { label: '최장 킬', value: stats.longestKill ? `${Math.round(stats.longestKill)}m` : '—' },
             { label: '기절 (DBNO)', value: stats.dBNOs != null ? `${stats.dBNOs}회` : '—' },
             { label: '부활', value: stats.revives != null ? `${stats.revives}회` : '—' },
           ].map(({ label, value }) => (
