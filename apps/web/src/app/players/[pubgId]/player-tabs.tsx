@@ -5,6 +5,7 @@ import type { MatchStat, WeaponStatsData, MapStatsData } from '@/lib/api'
 import { MatchList } from './match-list'
 import { WeaponView } from './weapon-view'
 import { MapView } from './map-view'
+import { TrendView } from './trend-view'
 
 interface Props {
   pubgId: string
@@ -13,7 +14,7 @@ interface Props {
   mapStats: MapStatsData | null
 }
 
-const TABS = ['전적', '무기', '맵'] as const
+const TABS = ['전적', '무기', '맵', '추이'] as const
 type Tab = (typeof TABS)[number]
 
 export function PlayerTabs({ pubgId, initialMatches, weaponStats, mapStats }: Props) {
@@ -51,6 +52,9 @@ export function PlayerTabs({ pubgId, initialMatches, weaponStats, mapStats }: Pr
           mapStats={mapStats?.mapStats ?? []}
           totalGames={mapStats?.totalGames ?? 0}
         />
+      )}
+      {activeTab === '추이' && (
+        <TrendView matches={initialMatches} />
       )}
     </div>
   )

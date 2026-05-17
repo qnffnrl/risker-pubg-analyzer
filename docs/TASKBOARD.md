@@ -78,6 +78,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-17 | feat | T-017 성과 추이 차트 — 라인 차트, 폼 분석 카드, 핫스트릭/슬럼프 배지 | - |
 | 2026-05-17 | fix | T-022 맵 이름 매핑 보완(DihorOtok/Summerland) + /maps 생존전 모드 필터 + main 병합 | be403c2 |
 | 2026-05-17 | feat | T-021 matchLimit 100 증가 + skip-if-exists + 분석 limit(20) 제거 + main 병합 | 2f4f15f |
 | 2026-05-17 | feat | T-016 맵 & 존 분석 — /maps API, MapView UI, 맵 탭 + main 병합 | 6070b98 |
