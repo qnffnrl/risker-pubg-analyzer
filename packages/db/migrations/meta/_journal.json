@@ -22,6 +22,20 @@
       "when": 1778933000000,
       "tag": "0002_weapon_stats",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1747468800000,
+      "tag": "0003_ranked_stats",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1747468900000,
+      "tag": "0004_match_included",
+      "breakpoints": true
     }
   ]
 }
