@@ -3,6 +3,7 @@ import { players } from './players.js'
 import { jobs } from './jobs.js'
 import { compare } from './compare.js'
 import { matchesRouter } from './matches.js'
+import { admin } from './admin.js'
 
 const v1 = new Hono()
 
@@ -12,5 +13,6 @@ v1.route('/players', players)
 v1.route('/jobs', jobs)
 v1.route('/compare', compare)
 v1.route('/matches', matchesRouter)
+v1.route('/admin', admin)
 
 export { v1 }
