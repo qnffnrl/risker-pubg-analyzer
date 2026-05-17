@@ -8,7 +8,8 @@
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "backfill:telemetry": "tsx src/scripts/backfill-telemetry.ts"
   },
   "dependencies": {
     "@bull-board/api": "^6.7.0",
