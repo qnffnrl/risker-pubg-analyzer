@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import type { RankedModeStats, RankedTier } from '@/lib/api'
 
 interface Props {
@@ -20,24 +20,65 @@ const TIER_COLORS: Record<string, string> = {
   Unranked: 'text-zinc-500',
 }
 
-const TIER_BG: Record<string, string> = {
-  Bronze: 'bg-amber-700/20 border-amber-700/40',
-  Silver: 'bg-zinc-400/20 border-zinc-400/40',
-  Gold: 'bg-yellow-400/20 border-yellow-400/40',
-  Platinum: 'bg-cyan-400/20 border-cyan-400/40',
-  Diamond: 'bg-blue-400/20 border-blue-400/40',
-  Master: 'bg-purple-400/20 border-purple-400/40',
-  Unranked: 'bg-zinc-700/20 border-zinc-700/40',
-}
 
-const TIER_ICONS: Record<string, string> = {
-  Bronze: '🥉',
-  Silver: '🥈',
-  Gold: '🥇',
-  Platinum: '🔵',
-  Diamond: '💎',
-  Master: '👑',
-  Unranked: '—',
+// PUBG-style tier SVG emblems — hexagonal shield shape with tier-specific design
+const TIER_SVG: Record<string, (size: number) => React.ReactNode> = {
+  Bronze: (s) => (
+    <svg width={s} height={s} viewBox="0 0 48 48" fill="none">
+      <polygon points="24,3 43,13.5 43,34.5 24,45 5,34.5 5,13.5" fill="#3d1f0a" stroke="#b45309" strokeWidth="2"/>
+      <polygon points="24,9 38,17 38,33 24,41 10,33 10,17" fill="#78350f" stroke="#d97706" strokeWidth="1"/>
+      <text x="24" y="29" textAnchor="middle" fill="#fbbf24" fontSize="14" fontWeight="bold" fontFamily="serif">B</text>
+    </svg>
+  ),
+  Silver: (s) => (
+    <svg width={s} height={s} viewBox="0 0 48 48" fill="none">
+      <polygon points="24,3 43,13.5 43,34.5 24,45 5,34.5 5,13.5" fill="#1c1c1e" stroke="#9ca3af" strokeWidth="2"/>
+      <polygon points="24,9 38,17 38,33 24,41 10,33 10,17" fill="#374151" stroke="#d1d5db" strokeWidth="1"/>
+      <text x="24" y="29" textAnchor="middle" fill="#f3f4f6" fontSize="14" fontWeight="bold" fontFamily="serif">S</text>
+    </svg>
+  ),
+  Gold: (s) => (
+    <svg width={s} height={s} viewBox="0 0 48 48" fill="none">
+      <polygon points="24,3 43,13.5 43,34.5 24,45 5,34.5 5,13.5" fill="#3b2005" stroke="#f59e0b" strokeWidth="2"/>
+      <polygon points="24,9 38,17 38,33 24,41 10,33 10,17" fill="#78350f" stroke="#fcd34d" strokeWidth="1"/>
+      <text x="24" y="29" textAnchor="middle" fill="#fde68a" fontSize="14" fontWeight="bold" fontFamily="serif">G</text>
+    </svg>
+  ),
+  Platinum: (s) => (
+    <svg width={s} height={s} viewBox="0 0 48 48" fill="none">
+      <polygon points="24,3 43,13.5 43,34.5 24,45 5,34.5 5,13.5" fill="#0a1f2e" stroke="#06b6d4" strokeWidth="2"/>
+      <polygon points="24,9 38,17 38,33 24,41 10,33 10,17" fill="#164e63" stroke="#67e8f9" strokeWidth="1"/>
+      <polygon points="24,16 30,20 30,28 24,32 18,28 18,20" fill="none" stroke="#a5f3fc" strokeWidth="1.5"/>
+      <text x="24" y="29" textAnchor="middle" fill="#e0f2fe" fontSize="12" fontWeight="bold" fontFamily="serif">P</text>
+    </svg>
+  ),
+  Diamond: (s) => (
+    <svg width={s} height={s} viewBox="0 0 48 48" fill="none">
+      <polygon points="24,3 43,13.5 43,34.5 24,45 5,34.5 5,13.5" fill="#0d1b3e" stroke="#3b82f6" strokeWidth="2"/>
+      <polygon points="24,9 38,17 38,33 24,41 10,33 10,17" fill="#1e3a8a" stroke="#93c5fd" strokeWidth="1"/>
+      <polygon points="24,13 34,22 24,35 14,22" fill="#bfdbfe" stroke="#eff6ff" strokeWidth="1"/>
+      <line x1="14" y1="22" x2="34" y2="22" stroke="#93c5fd" strokeWidth="0.8"/>
+      <line x1="24" y1="13" x2="24" y2="35" stroke="#93c5fd" strokeWidth="0.8"/>
+    </svg>
+  ),
+  Master: (s) => (
+    <svg width={s} height={s} viewBox="0 0 48 48" fill="none">
+      <polygon points="24,3 43,13.5 43,34.5 24,45 5,34.5 5,13.5" fill="#1a0533" stroke="#a855f7" strokeWidth="2"/>
+      <polygon points="24,9 38,17 38,33 24,41 10,33 10,17" fill="#3b0764" stroke="#d8b4fe" strokeWidth="1"/>
+      {/* crown */}
+      <path d="M14 30 L14 20 L19 25 L24 16 L29 25 L34 20 L34 30 Z" fill="#fde68a" stroke="#f59e0b" strokeWidth="0.8"/>
+      <rect x="14" y="30" width="20" height="3" rx="1" fill="#f59e0b"/>
+      <circle cx="14" cy="20" r="1.5" fill="#fbbf24"/>
+      <circle cx="24" cy="16" r="1.5" fill="#fbbf24"/>
+      <circle cx="34" cy="20" r="1.5" fill="#fbbf24"/>
+    </svg>
+  ),
+  Unranked: (s) => (
+    <svg width={s} height={s} viewBox="0 0 48 48" fill="none">
+      <polygon points="24,3 43,13.5 43,34.5 24,45 5,34.5 5,13.5" fill="#18181b" stroke="#52525b" strokeWidth="2"/>
+      <text x="24" y="29" textAnchor="middle" fill="#71717a" fontSize="12" fontWeight="bold">?</text>
+    </svg>
+  ),
 }
 
 const MODE_LABELS: Record<string, string> = {
@@ -49,15 +90,22 @@ const MODE_LABELS: Record<string, string> = {
   'solo-fpp': 'SOLO (FPP)',
 }
 
+function TierEmblem({ tierName, size = 48 }: { tierName: string; size?: number }) {
+  const render = TIER_SVG[tierName] ?? TIER_SVG['Unranked']!
+  return <>{render(size)}</>
+}
+
 function TierBadge({ tier }: { tier: RankedTier }) {
   const tierName = tier.tier === 'Unranked' || !tier.tier ? 'Unranked' : tier.tier
   return (
-    <span className={`inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-xs font-semibold ${TIER_BG[tierName] ?? TIER_BG['Unranked']}`}>
-      <span>{TIER_ICONS[tierName] ?? '—'}</span>
-      <span className={TIER_COLORS[tierName] ?? 'text-zinc-500'}>
-        {tierName === 'Unranked' ? 'Unranked' : `${tierName} ${tier.subTier}`}
-      </span>
-    </span>
+    <div className="flex items-center gap-3">
+      <TierEmblem tierName={tierName} size={52} />
+      <div>
+        <p className={`text-base font-bold ${TIER_COLORS[tierName] ?? 'text-zinc-500'}`}>
+          {tierName === 'Unranked' ? 'Unranked' : `${tierName} ${tier.subTier}`}
+        </p>
+      </div>
+    </div>
   )
 }
 
