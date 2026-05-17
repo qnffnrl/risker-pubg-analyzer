@@ -2,11 +2,10 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Search, BarChart2, Settings } from 'lucide-react'
+import { Home, BarChart2, Settings } from 'lucide-react'
 
 const NAV_ITEMS = [
   { href: '/', label: '홈', icon: Home },
-  { href: '/search', label: '검색', icon: Search },
   { href: '/compare', label: '비교', icon: BarChart2 },
   { href: '/admin', label: '관리자', icon: Settings },
 ] as const
