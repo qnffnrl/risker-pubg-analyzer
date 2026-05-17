@@ -39,12 +39,33 @@ export function PlayerHeader({ player, analysis }: PlayerHeaderProps) {
     const url = `/api/og?pubgId=${encodeURIComponent(player.pubgId)}`
     try {
       const res = await fetch(url)
-      const blob = await res.blob()
-      const a = document.createElement('a')
-      a.href = URL.createObjectURL(blob)
-      a.download = `${player.nickname}-pubg-analysis.svg`
-      a.click()
-      URL.revokeObjectURL(a.href)
+      const svgText = await res.text()
+
+      // SVG → PNG via browser Canvas
+      const canvas = document.createElement('canvas')
+      canvas.width = 1200
+      canvas.height = 630
+      const ctx = canvas.getContext('2d')!
+
+      const svgBlob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' })
+      const svgUrl = URL.createObjectURL(svgBlob)
+
+      await new Promise<void>((resolve, reject) => {
+        const img = new Image()
+        img.onload = () => { ctx.drawImage(img, 0, 0); resolve() }
+        img.onerror = reject
+        img.src = svgUrl
+      })
+      URL.revokeObjectURL(svgUrl)
+
+      canvas.toBlob((blob) => {
+        if (!blob) return
+        const a = document.createElement('a')
+        a.href = URL.createObjectURL(blob)
+        a.download = `${player.nickname}-pubg-analysis.png`
+        a.click()
+        URL.revokeObjectURL(a.href)
+      }, 'image/png')
     } catch {
       // silent fail
     }
