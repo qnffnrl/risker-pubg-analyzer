@@ -181,3 +181,60 @@ export async function getCompare(pubgIdA: string, pubgIdB: string): Promise<Comp
     `/api/v1/compare?players=${encodeURIComponent(pubgIdA)},${encodeURIComponent(pubgIdB)}`,
   )
 }
+
+export interface ParticipantStats {
+  DBNOs: number
+  assists: number
+  boosts: number
+  damageDealt: number
+  deathType: string
+  headshotKills: number
+  heals: number
+  killPlace: number
+  kills: number
+  longestKill: number
+  name: string
+  playerId: string
+  revives: number
+  rideDistance: number
+  roadKills: number
+  swimDistance: number
+  teamKills: number
+  timeSurvived: number
+  vehicleDestroys: number
+  walkDistance: number
+  weaponsAcquired: number
+  winPlace: number
+}
+
+export interface MatchParticipant {
+  id: string
+  stats: ParticipantStats
+}
+
+export interface MatchRoster {
+  id: string
+  rank: number
+  teamId: number
+  won: boolean
+  participantIds: string[]
+}
+
+export interface MatchDetailData {
+  match: {
+    pubgMatchId: string
+    mapName: string | null
+    mode: string | null
+    playedAt: string | null
+    durationSec: number | null
+    totalPlayers: number | null
+  }
+  participants: MatchParticipant[]
+  rosters: MatchRoster[]
+  telemetryUrl: string | null
+  dataUnavailable?: boolean
+}
+
+export async function getMatchDetail(matchId: string): Promise<MatchDetailData> {
+  return apiFetch<MatchDetailData>(`/api/v1/matches/${encodeURIComponent(matchId)}`)
+}

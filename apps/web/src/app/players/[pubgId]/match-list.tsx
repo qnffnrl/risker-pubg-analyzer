@@ -67,7 +67,7 @@ export function MatchList({ initialMatches, pubgId }: MatchListProps) {
         {filtered.length === 0 ? (
           <p className="py-8 text-center text-sm text-muted-foreground">매치 데이터가 없습니다.</p>
         ) : (
-          filtered.map((m) => <MatchCard key={m.matchId} match={m} />)
+          filtered.map((m) => <MatchCard key={m.matchId} match={m} pubgId={pubgId} />)
         )}
       </div>
 

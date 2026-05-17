@@ -79,6 +79,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-17 | feat | T-024 매치 상세 페이지 — included_data DB 저장, GET /matches/:matchId API, /matches/[matchId] SSR 페이지, 참가자/팀 테이블, 텔레메트리 URL, MatchCard 상세 링크 | TBD |
 | 2026-05-17 | feat | T-023 랭크 통계 — ranked_stats DB, getRankedStats API, RankedView + SVG 엠블럼 + main 병합 | 7b3b43c |
 | 2026-05-17 | feat | T-017 성과 추이 차트 — 라인 차트, 폼 분석 카드, 핫스트릭/슬럼프 배지 + main 병합 | 80f1b27 |
 | 2026-05-17 | fix | T-022 맵 이름 매핑 보완(DihorOtok/Summerland) + /maps 생존전 모드 필터 + main 병합 | be403c2 |
