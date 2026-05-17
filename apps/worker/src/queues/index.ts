@@ -41,4 +41,17 @@ export const analysisQueue = new Queue(QUEUE_NAMES.ANALYSIS, {
   },
 })
 
-export const allQueues = [playerFetchQueue, matchCollectionQueue, analysisQueue]
+export const telemetryFetchQueue = new Queue('telemetry-fetch', {
+  connection: redisConnection,
+  defaultJobOptions: {
+    attempts: 2,
+    backoff: {
+      type: 'exponential',
+      delay: 5000,
+    },
+    removeOnComplete: { count: 200 },
+    removeOnFail: { count: 50 },
+  },
+})
+
+export const allQueues = [playerFetchQueue, matchCollectionQueue, analysisQueue, telemetryFetchQueue]

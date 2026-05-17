@@ -102,6 +102,25 @@ export class PubgApiClient {
     return player.relationships.matches.data.slice(0, limit).map((m) => m.id)
   }
 
+  /**
+   * Download telemetry events from a PUBG telemetry CDN URL.
+   * Telemetry CDN URLs don't need Authorization header — they are separate
+   * from the PUBG API and are not subject to the same rate limiting.
+   */
+  async getTelemetry(url: string): Promise<unknown[]> {
+    const res = await fetch(url, {
+      headers: {
+        'Accept': 'application/vnd.api+json, application/json',
+        'Accept-Encoding': 'gzip',
+      },
+    })
+    if (!res.ok) {
+      throw new Error(`Telemetry fetch failed: ${res.status} ${url}`)
+    }
+    const data = await res.json() as unknown[]
+    return data
+  }
+
   // ── Internal ────────────────────────────────────────────────────────────────
 
   private async request<T>(path: string, schema: ZodSchema<T>): Promise<T> {

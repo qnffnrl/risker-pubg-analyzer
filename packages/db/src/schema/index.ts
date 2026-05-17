@@ -1,5 +1,6 @@
 export * from './players'
 export * from './matches'
+export * from './matchTelemetry'
 export * from './playerMatchStats'
 export * from './playStyleAnalyses'
 export * from './analysisJobs'
