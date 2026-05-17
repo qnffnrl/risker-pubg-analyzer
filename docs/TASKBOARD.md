@@ -22,7 +22,9 @@
 
 ## 🔥 진행 중
 
-_없음_
+| ID | 작업명 | 유형 | 진행률 |
+|----|--------|------|--------|
+| T-025 | Refresh UX 개선 (폴링 완료 감지, 자동 리로드, 랭크 빈 상태 안내) | feat | 100% |
 
 ## ✅ 완료
 
@@ -80,6 +82,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-17 | feat | T-025 Refresh UX — 새로고침 폴링 완료 감지 자동 리로드 + 타임아웃 에러 메시지 + 랭크 빈 상태 안내 | 13562c8 |
 | 2026-05-17 | fix | CI/CD — 컨테이너 재시작 전 down --remove-orphans 추가, Drizzle journal 타임스탬프 오름차순 보정 | d709c96 |
 | 2026-05-17 | feat | T-024 매치 상세 페이지 — included_data DB 저장, GET /matches/:matchId API, /matches/[matchId] SSR 페이지, 참가자/팀 테이블, 텔레메트리 URL, MatchCard 상세 링크 + main 병합 | 4ebd8fd |
 | 2026-05-17 | feat | T-023 랭크 통계 — ranked_stats DB, getRankedStats API, RankedView + SVG 엠블럼 + main 병합 | 7b3b43c |
