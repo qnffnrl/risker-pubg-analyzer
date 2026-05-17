@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Star, RefreshCw, GitCompareArrows } from 'lucide-react'
+import { Star, RefreshCw, GitCompareArrows, Link2, Download } from 'lucide-react'
 import { PlayerAvatar } from '@/components/ui/player-avatar'
 import { PlatformBadge } from '@/components/ui/platform-badge'
 import { useFavorites } from '@/lib/hooks/use-favorites'
@@ -16,12 +16,38 @@ interface PlayerHeaderProps {
 export function PlayerHeader({ player, analysis }: PlayerHeaderProps) {
   const [refreshing, setRefreshing] = useState(false)
   const [refreshError, setRefreshError] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
   const { isFavorite, toggleFavorite } = useFavorites()
 
   const fav = isFavorite(player.pubgId)
 
   function toggleFav() {
     toggleFavorite({ nickname: player.nickname, platform: player.platform, pubgId: player.pubgId })
+  }
+
+  async function handleCopyLink() {
+    try {
+      await navigator.clipboard.writeText(window.location.href)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // fallback: do nothing
+    }
+  }
+
+  async function handleDownloadImage() {
+    const url = `/api/og?pubgId=${encodeURIComponent(player.pubgId)}`
+    try {
+      const res = await fetch(url)
+      const blob = await res.blob()
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(blob)
+      a.download = `${player.nickname}-pubg-analysis.png`
+      a.click()
+      URL.revokeObjectURL(a.href)
+    } catch {
+      // silent fail
+    }
   }
 
   async function handleRefresh() {
@@ -88,6 +114,25 @@ export function PlayerHeader({ player, analysis }: PlayerHeaderProps) {
           )}
         </div>
         <div className="flex shrink-0 items-center gap-2">
+          <div className="relative">
+            <button
+              onClick={handleCopyLink}
+              className="rounded-lg border border-border p-2 text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+              aria-label="링크 복사"
+            >
+              <Link2 className="h-4 w-4" />
+            </button>
+            {copied && (
+              <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-primary whitespace-nowrap">복사됨!</span>
+            )}
+          </div>
+          <button
+            onClick={handleDownloadImage}
+            className="rounded-lg border border-border p-2 text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+            aria-label="이미지 저장"
+          >
+            <Download className="h-4 w-4" />
+          </button>
           <Link
             href={`/compare?a=${encodeURIComponent(player.pubgId)}`}
             className="rounded-lg border border-border p-2 text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
