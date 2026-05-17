@@ -1,5 +1,5 @@
 import type { Job } from 'bullmq'
-import { eq, gt, and, schema } from '@risker/db'
+import { eq, gt, and, isNull, schema } from '@risker/db'
 import type { MatchCollectionJob, AnalysisJob, ParticipantStats } from '@risker/shared'
 import { PLATFORM_TO_SHARD } from '@risker/shared'
 import { db } from '../lib/db.js'
@@ -128,6 +128,31 @@ export async function matchCollectionProcessor(job: Job<MatchCollectionJob>): Pr
   }
 
   job.log(`Saved ${saved}/${matchIds.length} matches`)
+
+  // Backfill telemetry for existing matches that don't have it yet
+  try {
+    const matchesWithoutTelemetry = await db
+      .select({ id: schema.matches.id, includedData: schema.matches.includedData })
+      .from(schema.matches)
+      .innerJoin(schema.playerMatchStats, eq(schema.playerMatchStats.matchId, schema.matches.id))
+      .leftJoin(schema.matchTelemetry, eq(schema.matchTelemetry.matchId, schema.matches.id))
+      .where(and(eq(schema.playerMatchStats.playerId, playerId), isNull(schema.matchTelemetry.matchId)))
+    job.log(`Backfilling telemetry for ${matchesWithoutTelemetry.length} existing matches`)
+    for (const match of matchesWithoutTelemetry) {
+      try {
+        const included = match.includedData as Array<{ type: string; attributes?: { URL?: string } }> | null
+        const asset = included?.find((r) => r.type === 'asset')
+        const telemetryUrl = asset?.attributes?.URL
+        if (telemetryUrl) {
+          await telemetryFetchQueue.add('fetch', { matchId: match.id, telemetryUrl }, { jobId: `telemetry-${match.id}` })
+        }
+      } catch (err) {
+        job.log(`Backfill enqueue failed for match ${match.id}: ${String(err)}`)
+      }
+    }
+  } catch (err) {
+    job.log(`Telemetry backfill query failed: ${String(err)}`)
+  }
 
   const analysisPayload: AnalysisJob = { playerId, pubgAccountId, platform }
   const analysisJobId = forceRefresh
