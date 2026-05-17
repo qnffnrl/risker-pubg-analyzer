@@ -9,6 +9,7 @@ const envSchema = z.object({
     .default('development'),
   PUBG_API_KEY: z.string().optional(),
   ANTHROPIC_API_KEY: z.string().optional(),
+  ADMIN_PASSWORD: z.string().default('admin'),
 })
 
 export const env = envSchema.parse(process.env)
