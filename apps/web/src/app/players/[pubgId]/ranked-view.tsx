@@ -150,6 +150,7 @@ export function RankedView({ rankedData, seasonId }: Props) {
         <span className="text-2xl">🏆</span>
         <span className="text-sm">랭크 데이터가 없습니다</span>
         <span className="text-xs text-zinc-600">현재 시즌에 랭크 게임을 플레이하지 않았거나 아직 수집 중입니다</span>
+        <span className="text-xs text-primary/70">우측 상단 새로고침 버튼으로 최신 데이터를 수집할 수 있습니다</span>
       </div>
     )
   }
