@@ -82,7 +82,7 @@ export default async function PlayerPage({ params }: Props) {
         {profile.latestAnalysis && (
           <StylePreview analysis={profile.latestAnalysis} pubgId={pubgId} />
         )}
-        <PlayerTabs pubgId={pubgId} initialMatches={matchesData.matches} weaponStats={weaponStats} mapStats={mapStats} rankedStats={rankedStats} />
+        <PlayerTabs pubgId={pubgId} initialMatches={matchesData.matches} weaponStats={weaponStats} mapStats={mapStats} rankedStats={rankedStats} analysis={profile.latestAnalysis} />
       </div>
     </AppShell>
   )

@@ -24,6 +24,7 @@ export const playStyleAnalyses = pgTable(
     mapPreferences: jsonb('map_preferences'),
     llmSummary: text('llm_summary'),
     llmGeneratedAt: timestamp('llm_generated_at', { withTimezone: true }),
+    heatmapData: jsonb('heatmap_data'),
     expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
   },
   (table) => [

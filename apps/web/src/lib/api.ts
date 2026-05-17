@@ -94,6 +94,7 @@ export interface AnalysisData {
   consistencyMetrics?: ConsistencyMetrics | null
   clutchMetrics?: ClutchMetrics | null
   llmSummary: string | null
+  heatmapData?: Record<string, { mapName: string; kills: Array<[number, number]>; deaths: Array<[number, number]> }> | null
   expiresAt: string
 }
 

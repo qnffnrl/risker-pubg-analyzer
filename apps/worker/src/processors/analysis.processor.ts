@@ -88,6 +88,20 @@ export async function analysisProcessor(job: Job<AnalysisJob>): Promise<void> {
   })
   job.log(`LLM summary: ${llmSummary ? llmSummary.slice(0, 80) + '…' : 'skipped'}`)
 
+  // Heatmap aggregation (best-effort)
+  const { pubgAccountId } = job.data
+  let heatmapData: Record<string, unknown> | null = null
+  try {
+    const { aggregateHeatmaps } = await import('../lib/analysis/heatmap/aggregator.js')
+    const heatmaps = await aggregateHeatmaps(playerId, pubgAccountId)
+    if (Object.keys(heatmaps).length > 0) {
+      heatmapData = heatmaps as unknown as Record<string, unknown>
+    }
+  } catch {
+    /* skip on error */
+  }
+  job.log(`Heatmap aggregation: ${heatmapData ? Object.keys(heatmapData).length + ' map(s)' : 'skipped'}`)
+
   const now = new Date()
   const expiresAt = new Date(Date.now() + CACHE_TTL_HOURS * 60 * 60 * 1000)
 
@@ -110,6 +124,7 @@ export async function analysisProcessor(job: Job<AnalysisJob>): Promise<void> {
       clutchMetrics: result.clutchMetrics as unknown as Record<string, unknown>,
       llmSummary,
       llmGeneratedAt: llmSummary ? now : null,
+      heatmapData,
       expiresAt,
     })
     .onConflictDoUpdate({
@@ -130,6 +145,7 @@ export async function analysisProcessor(job: Job<AnalysisJob>): Promise<void> {
         clutchMetrics: result.clutchMetrics as unknown as Record<string, unknown>,
         llmSummary,
         llmGeneratedAt: llmSummary ? now : null,
+        heatmapData,
         expiresAt,
         analyzedAt: now,
       },
