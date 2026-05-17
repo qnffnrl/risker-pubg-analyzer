@@ -64,6 +64,13 @@
       "when": 1778933200400,
       "tag": "0008_weaknesses",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1778933200500,
+      "tag": "0009_heatmap",
+      "breakpoints": true
     }
   ]
 }

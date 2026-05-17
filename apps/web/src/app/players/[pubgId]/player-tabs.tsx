@@ -1,9 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import type { MatchStat, WeaponStatsData, MapStatsData, RankedStatsData } from '@/lib/api'
+import type { MatchStat, WeaponStatsData, MapStatsData, RankedStatsData, AnalysisData } from '@/lib/api'
 import { useMatchFilter } from '@/lib/hooks/use-match-filter'
 import { MatchFilterBar } from '@/components/match-filter-bar'
+import { MapHeatmap } from '@/components/heatmap/MapHeatmap'
 import { MatchList } from './match-list'
 import { WeaponView } from './weapon-view'
 import { MapView } from './map-view'
@@ -17,12 +18,13 @@ interface Props {
   weaponStats: WeaponStatsData | null
   mapStats: MapStatsData | null
   rankedStats: RankedStatsData | null
+  analysis: AnalysisData | null
 }
 
-const TABS = ['전적', '무기', '맵', '추이', '랭크'] as const
+const TABS = ['전적', '무기', '맵', '추이', '랭크', '히트맵'] as const
 type Tab = (typeof TABS)[number]
 
-export function PlayerTabs({ pubgId, initialMatches, weaponStats, mapStats, rankedStats }: Props) {
+export function PlayerTabs({ pubgId, initialMatches, weaponStats, mapStats, rankedStats, analysis }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('전적')
   const [allMatches, setAllMatches] = useState<MatchStat[]>(initialMatches)
   const { mode, map, period, setMode, setMap, setPeriod, filteredMatches } = useMatchFilter(allMatches)
@@ -75,6 +77,23 @@ export function PlayerTabs({ pubgId, initialMatches, weaponStats, mapStats, rank
       )}
       {activeTab === '랭크' && (
         <RankedView rankedData={rankedStats?.rankedData ?? {}} seasonId={rankedStats?.seasonId ?? ''} />
+      )}
+      {activeTab === '히트맵' && (
+        <div className="space-y-6">
+          {!analysis?.heatmapData || Object.keys(analysis.heatmapData).length === 0 ? (
+            <div className="text-center py-12 text-neutral-500">
+              <p>히트맵 데이터를 수집 중입니다.</p>
+              <p className="text-sm mt-1">텔레메트리 수집 완료 후 분석을 새로고침하면 표시됩니다.</p>
+            </div>
+          ) : (
+            Object.entries(analysis.heatmapData).map(([mapName, data]) => (
+              <div key={mapName} className="space-y-3">
+                <h3 className="font-semibold text-white">{mapName.replace('_Main', '')} ({data.kills.length + data.deaths.length} 이벤트)</h3>
+                <MapHeatmap mapName={mapName} data={data} />
+              </div>
+            ))
+          )}
+        </div>
       )}
     </div>
   )

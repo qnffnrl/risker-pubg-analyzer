@@ -26,6 +26,7 @@ export const playStyleAnalyses = pgTable(
     llmGeneratedAt: timestamp('llm_generated_at', { withTimezone: true }),
     topWeakness: jsonb('top_weakness'),
     allWeaknesses: jsonb('all_weaknesses'),
+    heatmapData: jsonb('heatmap_data'),
     expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
   },
   (table) => [
