@@ -57,6 +57,13 @@
       "when": 1778933200300,
       "tag": "0007_match_telemetry",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1778933200600,
+      "tag": "0010_score_v2",
+      "breakpoints": true
     }
   ]
 }

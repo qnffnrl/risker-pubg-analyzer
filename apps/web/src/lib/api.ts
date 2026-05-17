@@ -93,6 +93,16 @@ export interface AnalysisData {
   teamplayMetrics: TeamplayMetrics
   consistencyMetrics?: ConsistencyMetrics | null
   clutchMetrics?: ClutchMetrics | null
+  scoreVersion?: string
+  aggressionScoreV2?: string | null
+  survivalScoreV2?: string | null
+  positioningScoreV2?: string | null
+  teamplayScoreV2?: string | null
+  skillScore?: string | null
+  aggressionMetricsV2?: Record<string, unknown> | null
+  survivalMetricsV2?: Record<string, unknown> | null
+  positioningMetricsV2?: Record<string, unknown> | null
+  teamplayMetricsV2?: Record<string, unknown> | null
   llmSummary: string | null
   expiresAt: string
 }
