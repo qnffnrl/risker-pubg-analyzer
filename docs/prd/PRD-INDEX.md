@@ -25,7 +25,7 @@
 | T-001 | ✅ 완료 | 모노레포 스캐폴딩 (Next.js + Hono + BullMQ) | [T-001](done/T-001-PRD-20260516-monorepo-scaffold.md) | 2026-05-16 |
 | T-002 | ✅ 완료 | DB 스키마 설계 (Drizzle + PostgreSQL) | [T-002](done/T-002-PRD-20260516-db-schema.md) | 2026-05-16 |
 | T-003 | ✅ 완료 | 앱 컨테이너화 (Dockerfile + docker-compose) | [T-003](done/T-003-PRD-20260516-containerization.md) | 2026-05-16 |
-| T-014 | 📋 대기 | CI/CD (GitHub Actions → risker.co.kr) | [T-014](T-014-PRD-20260516-cicd.md) | - |
+| T-014 | ✅ 완료 | CI/CD (GitHub Actions → risker.co.kr) | [T-014](done/T-014-PRD-20260516-cicd.md) | 2026-05-16 |
 
 ### Phase 2: 핵심 데이터 파이프라인
 
@@ -52,34 +52,63 @@
 | T-011 | ✅ 완료 | LLM 성향 자연어 요약 (Claude CLI) | [T-011](done/T-011-PRD-20260516-llm-summary.md) | 2026-05-16 |
 | T-013 | ✅ 완료 | 플레이어 비교 기능 (오버레이 레이더 차트) | [T-013](done/T-013-PRD-20260516-player-comparison.md) | 2026-05-16 |
 | T-015 | ✅ 완료 | 무기 & 교전 분석 (선호 무기 Top10, 교전 거리) | [T-015](done/T-015-PRD-20260516-weapon-analysis.md) | 2026-05-17 |
-| T-016 | 📋 대기 | 맵 & 존 분석 (맵별 성적, 랜딩존 선호) | [T-016](T-016-PRD-20260516-map-zone-analysis.md) | - |
-| T-017 | 📋 대기 | 성과 추이 차트 (시계열 라인 차트, 폼 분석) | [T-017](T-017-PRD-20260516-performance-trend.md) | - |
-| T-018 | 📋 대기 | 관리자 페이지 (트래픽 모니터링 + 비밀번호 인증) | [T-018](T-018-PRD-20260516-admin-page.md) | - |
-| T-019 | 📋 대기 | 공유 기능 (OG 이미지 + 링크 복사 + PNG 저장) | [T-019](T-019-PRD-20260516-share-feature.md) | - |
-| T-020 | 📋 대기 | 시즌 & 모드 필터 (스쿼드/솔로/맵별 분석) | [T-020](T-020-PRD-20260516-season-mode-filter.md) | - |
+| T-016 | ✅ 완료 | 맵 & 존 분석 (맵별 성적, 랜딩존 선호) | [T-016](done/T-016-PRD-20260516-map-zone-analysis.md) | 2026-05-17 |
+| T-017 | ✅ 완료 | 성과 추이 차트 (시계열 라인 차트, 폼 분석) | [T-017](done/T-017-PRD-20260516-performance-trend.md) | 2026-05-17 |
+| T-018 | ✅ 완료 | 관리자 페이지 (트래픽 모니터링 + HMAC 인증) | [T-018](done/T-018-PRD-20260516-admin-page.md) | 2026-05-17 |
+| T-019 | ✅ 완료 | 공유 기능 (OG 이미지 + 링크 복사 + PNG 저장) | [T-019](done/T-019-PRD-20260516-share-feature.md) | 2026-05-17 |
+| T-020 | ✅ 완료 | 시즌 & 모드 필터 (스쿼드/솔로/맵별 분석) | [T-020](done/T-020-PRD-20260516-season-mode-filter.md) | 2026-05-17 |
+| T-021 | ✅ 완료 | 매치 수집 한도 100 증가 + Skip-if-exists + 분석 limit 제거 | - | 2026-05-17 |
+| T-022 | ✅ 완료 | 맵 이름 매핑 보완 + 생존전 모드 필터 | - | 2026-05-17 |
+| T-023 | ✅ 완료 | 랭크 통계 (ranked_stats, 티어 배지, SVG 엠블럼) | - | 2026-05-17 |
+| T-024 | ✅ 완료 | 매치 상세 페이지 (included_data 저장, /matches API, SSR) | - | 2026-05-17 |
+| T-025 | ✅ 완료 | Refresh UX (폴링 완료 감지, 자동 리로드, 랭크 빈 상태 안내) | - | 2026-05-17 |
+| T-026 | ✅ 완료 | 분석 지표 고도화 (일관성/결정력 신규 카테고리 + PNG 다운 버그) | [T-026](done/T-026-PRD-20260517-extended-analysis-metrics.md) | 2026-05-17 |
+
+### Phase 5: 실력 향상 코칭 (텔레메트리 기반)
+
+> 목표: 앱을 **"성향 진단 도구" → "실력 향상 코치"** 로 확장
+> T-027이 모든 후속 작업의 기반 — 선행 필수
+
+| ID | 상태 | 제목 | PRD 파일 |
+|----|------|------|---------|
+| T-027 | 📋 대기 | 텔레메트리 수집/저장 파이프라인 | [T-027](T-027-PRD-20260517-telemetry-pipeline.md) |
+| T-028 | 📋 대기 | 약점 진단 룰 엔진 + AI 코칭 메시지 | [T-028](T-028-PRD-20260517-weakness-rule-engine.md) |
+| T-029 | 📋 대기 | 킬/데스 히트맵 (맵별 시각화) | [T-029](T-029-PRD-20260517-death-killmap.md) |
+| T-030 | 📋 대기 | 4축 성향 점수 리팩토링 (실력 의존도 분리) | [T-030](T-030-PRD-20260517-score-v2-refactor.md) |
+| T-031 | 📋 대기 | 자가 비교 (과거의 나 vs 현재의 나) | [T-031](T-031-PRD-20260517-self-comparison.md) |
+
+#### Phase 5 개발 순서
+
+```
+T-027 (텔레메트리 파이프라인 — 모든 후속 작업의 기반)
+  ↓
+T-028 (약점 룰 엔진 + AI 코칭) ← 사용자 체감 가치 가장 큼
+  ↓
+T-029 (히트맵)  ─┐
+                 ├─ 병렬 가능
+T-031 (자가 비교)─┘
+  ↓
+T-030 (점수 v2 리팩토링 — 가장 큰 변경, 마지막)
+```
+
+#### Phase 5 의존 관계
+
+| Task | 의존 |
+|------|------|
+| T-027 | T-005, T-024 |
+| T-028 | T-006, T-010, T-011, T-027 |
+| T-029 | T-027, T-009, T-010 |
+| T-030 | T-006, T-010, T-013, T-027 |
+| T-031 | T-006, T-013, T-028, T-030 |
 
 ---
-
-## 개발 순서 (권장)
-
-```
-T-001 → T-000 → T-002 → T-003 → T-004
-  ↓
-T-005 → T-006 → T-007
-  ↓
-T-008 → T-012 → T-009 → T-010
-  ↓
-T-011, T-013, T-014 (병렬)
-  ↓
-T-015, T-016, T-017, T-018, T-019, T-020 (병렬)
-```
 
 ## 배포 정보
 
 | 항목 | 값 |
 |------|-----|
 | 앱 URL | `https://pubg.risker.co.kr` |
-| 서버 | Mac Mini @ risker.co.kr |
+| 서버 | Home Server @ risker.co.kr |
 | SSH 포트 | 2222 |
-| 배포 방식 | GitHub Actions → SSH → Docker Compose (호스트 완전 격리) |
+| 배포 방식 | GitHub Actions → SSH → Docker Compose |
 | PUBG API 문서 | https://documentation.pubg.com/en/introduction.html |
