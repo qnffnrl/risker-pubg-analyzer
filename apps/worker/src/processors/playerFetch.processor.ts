@@ -64,6 +64,36 @@ export async function playerFetchProcessor(job: Job<PlayerFetchJob>): Promise<vo
     console.warn(`[playerFetch] weapon mastery error for ${player.id}:`, err)
   }
 
+  // Collect ranked stats (non-fatal)
+  try {
+    const seasons = await pubg.getSeasons(shard)
+    const currentSeason = seasons.find((s) => s.attributes.isCurrentSeason && !s.attributes.isOffseason)
+    if (currentSeason) {
+      const ranked = await pubg.getRankedStats(shard, pubgAccountId, currentSeason.id)
+      await db.insert(schema.rankedStats)
+        .values({
+          playerId: player.id,
+          seasonId: currentSeason.id,
+          rankedData: ranked.attributes.rankedGameModeStats as unknown as Record<string, unknown>,
+          fetchedAt: new Date(),
+        })
+        .onConflictDoUpdate({
+          target: schema.rankedStats.playerId,
+          set: {
+            seasonId: currentSeason.id,
+            rankedData: ranked.attributes.rankedGameModeStats as unknown as Record<string, unknown>,
+            fetchedAt: new Date(),
+            updatedAt: new Date(),
+          },
+        })
+      job.log(`Ranked stats saved for player ${player.id} (season: ${currentSeason.id})`)
+    }
+  } catch (err) {
+    const msg = (err as Error).message
+    job.log(`Ranked stats fetch failed (non-fatal): ${msg}`)
+    console.warn(`[playerFetch] ranked stats error for ${player.id}:`, err)
+  }
+
   // Enqueue match collection
   const matchCollectionPayload: MatchCollectionJob = {
     playerId: player.id,

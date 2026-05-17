@@ -286,6 +286,33 @@ players.get('/:pubgId/maps', async (c) => {
   return c.json(createSuccessResponse({ mapStats, totalGames: rows.length }))
 })
 
+// GET /api/v1/players/:pubgId/ranked
+players.get('/:pubgId/ranked', async (c) => {
+  const { pubgId } = c.req.param()
+
+  const player = await db.query.players.findFirst({
+    where: eq(schema.players.pubgId, pubgId),
+  })
+
+  if (!player) {
+    return c.json(createErrorResponse('PLAYER_NOT_FOUND', 'Player not found'), 404)
+  }
+
+  const rankedStat = await db.query.rankedStats.findFirst({
+    where: eq(schema.rankedStats.playerId, player.id),
+  })
+
+  if (!rankedStat) {
+    return c.json(createErrorResponse('NOT_FOUND', 'Ranked data not found'), 404)
+  }
+
+  return c.json(createSuccessResponse({
+    rankedData: rankedStat.rankedData,
+    seasonId: rankedStat.seasonId,
+    fetchedAt: rankedStat.fetchedAt,
+  }))
+})
+
 // POST /api/v1/players/:pubgId/refresh
 players.post('/:pubgId/refresh', async (c) => {
   const { pubgId } = c.req.param()
