@@ -4,7 +4,7 @@ import type { MatchCollectionJob, AnalysisJob, ParticipantStats } from '@risker/
 import { PLATFORM_TO_SHARD } from '@risker/shared'
 import { db } from '../lib/db.js'
 import { PubgApiClient } from '../lib/pubg-client.js'
-import { analysisQueue } from '../queues/index.js'
+import { analysisQueue, telemetryFetchQueue } from '../queues/index.js'
 
 const pubg = new PubgApiClient()
 
@@ -106,6 +106,22 @@ export async function matchCollectionProcessor(job: Job<MatchCollectionJob>): Pr
         .onConflictDoNothing()
 
       saved++
+
+      // Enqueue telemetry fetch (best-effort, don't throw on failure)
+      try {
+        const asset = matchResponse.included.find((r) => r.type === 'asset')
+        const telemetryUrl = asset?.type === 'asset' ? asset.attributes.URL : undefined
+        if (telemetryUrl) {
+          await telemetryFetchQueue.add(
+            'fetch',
+            { matchId: match.id, telemetryUrl },
+            { jobId: `telemetry-${match.id}` },
+          )
+          job.log(`Telemetry job enqueued for match ${match.id}`)
+        }
+      } catch (telemetryErr) {
+        job.log(`Failed to enqueue telemetry for match ${match.id}: ${String(telemetryErr)}`)
+      }
     } catch (err) {
       job.log(`Failed to process match ${matchId}: ${String(err)}`)
     }

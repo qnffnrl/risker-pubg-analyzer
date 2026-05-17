@@ -8,6 +8,7 @@ import { createBullBoardRouter } from './bull-board.js'
 import './workers/player-fetch.worker.js'
 import './workers/match-collection.worker.js'
 import './workers/analysis.worker.js'
+import './workers/telemetry-fetch.worker.js'
 
 const app = new Hono()
 app.use('*', logger())

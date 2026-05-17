@@ -150,6 +150,21 @@ admin.get('/queue/status', async (c) => {
   }
 })
 
+// GET /admin/telemetry/stats
+admin.get('/telemetry/stats', async (c) => {
+  const totalMatchesResult = await db.select({ count: sql<number>`count(*)::int` }).from(schema.matches)
+  const withTelemetryResult = await db.select({ count: sql<number>`count(*)::int` }).from(schema.matchTelemetry)
+  const sizeResult = await db.select({
+    totalBytes: sql<number>`coalesce(sum(payload_bytes), 0)::bigint`,
+  }).from(schema.matchTelemetry)
+
+  return c.json(createSuccessResponse({
+    totalMatches: totalMatchesResult[0]?.count ?? 0,
+    withTelemetry: withTelemetryResult[0]?.count ?? 0,
+    totalPayloadMB: Math.round((Number(sizeResult[0]?.totalBytes ?? 0) / 1024 / 1024) * 100) / 100,
+  }))
+})
+
 // DELETE /admin/cache/:playerId
 admin.delete('/cache/:playerId', async (c) => {
   const playerId = c.req.param('playerId')

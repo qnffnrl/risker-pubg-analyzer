@@ -25,6 +25,7 @@ export { sql, eq, and, or, gt, gte, lt, lte, ne, desc, asc, inArray, notInArray,
 export type {
   Player, NewPlayer,
   Match, NewMatch,
+  MatchTelemetry, NewMatchTelemetry,
   PlayerMatchStat, NewPlayerMatchStat,
   PlayStyleAnalysis, NewPlayStyleAnalysis,
   AnalysisJob, NewAnalysisJob,
