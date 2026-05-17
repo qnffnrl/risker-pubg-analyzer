@@ -36,7 +36,7 @@ export function PlayerHeader({ player, analysis }: PlayerHeaderProps) {
   }
 
   async function handleDownloadImage() {
-    const url = `/api/og?pubgId=${encodeURIComponent(player.pubgId)}`
+    const url = `/og?pubgId=${encodeURIComponent(player.pubgId)}`
     try {
       const res = await fetch(url)
       const svgText = await res.text()
@@ -59,15 +59,23 @@ export function PlayerHeader({ player, analysis }: PlayerHeaderProps) {
       URL.revokeObjectURL(svgUrl)
 
       canvas.toBlob((blob) => {
-        if (!blob) return
+        if (!blob) {
+          setRefreshError('이미지 저장에 실패했습니다.')
+          setTimeout(() => setRefreshError(null), 3000)
+          return
+        }
+        const blobUrl = URL.createObjectURL(blob)
         const a = document.createElement('a')
-        a.href = URL.createObjectURL(blob)
+        a.href = blobUrl
         a.download = `${player.nickname}-pubg-analysis.png`
+        document.body.appendChild(a)
         a.click()
-        URL.revokeObjectURL(a.href)
+        document.body.removeChild(a)
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 100)
       }, 'image/png')
     } catch {
-      // silent fail
+      setRefreshError('이미지 저장에 실패했습니다.')
+      setTimeout(() => setRefreshError(null), 3000)
     }
   }
 

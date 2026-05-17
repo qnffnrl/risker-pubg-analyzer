@@ -27,6 +27,8 @@ function toScores(analysis: AnalysisData | null): StyleScores | null {
     survival: parseFloat(analysis.survivalScore),
     positioning: parseFloat(analysis.positioningScore),
     teamplay: parseFloat(analysis.teamplayScore),
+    consistency: analysis.consistencyScore != null ? Number(analysis.consistencyScore) : 0,
+    clutch: analysis.clutchScore != null ? Number(analysis.clutchScore) : 0,
   }
 }
 
@@ -108,6 +110,8 @@ const SCORE_LABELS: { key: keyof StyleScores; label: string }[] = [
   { key: 'survival', label: '생존형' },
   { key: 'positioning', label: '포지셔닝' },
   { key: 'teamplay', label: '팀플레이' },
+  { key: 'consistency', label: '일관성' },
+  { key: 'clutch', label: '결정력' },
 ]
 
 export function CompareView({ entryA, entryB }: CompareViewProps) {
@@ -194,8 +198,8 @@ export function CompareView({ entryA, entryB }: CompareViewProps) {
             <>
               <div className="flex justify-center">
                 <RadarChart
-                  data={scoresA ?? { aggression: 0, survival: 0, positioning: 0, teamplay: 0 }}
-                  compareData={scoresB ?? { aggression: 0, survival: 0, positioning: 0, teamplay: 0 }}
+                  data={scoresA ?? { aggression: 0, survival: 0, positioning: 0, teamplay: 0, consistency: 0, clutch: 0 }}
+                  compareData={scoresB ?? { aggression: 0, survival: 0, positioning: 0, teamplay: 0, consistency: 0, clutch: 0 }}
                   size="lg"
                 />
               </div>

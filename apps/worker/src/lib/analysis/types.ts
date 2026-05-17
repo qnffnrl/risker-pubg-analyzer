@@ -14,6 +14,9 @@ export interface MatchRow {
   placement: number
   totalPlayers: number
   durationSec: number
+  dbnos: number
+  killStreaks: number
+  swimDistance: number
 }
 
 export interface AggressionMetrics {
@@ -22,6 +25,9 @@ export interface AggressionMetrics {
   headshot_rate: number
   avg_assists: number
   kill_participation_rate: number
+  damage_per_kill: number
+  games_with_kills_rate: number
+  damage_per_minute: number
 }
 
 export interface SurvivalMetrics {
@@ -31,6 +37,10 @@ export interface SurvivalMetrics {
   win_rate: number
   avg_boosts: number
   avg_heals: number
+  survival_ratio: number
+  top10_to_win_rate: number
+  boost_ratio: number
+  total_items_per_game: number
 }
 
 export interface PositioningMetrics {
@@ -48,14 +58,29 @@ export interface TeamplayMetrics {
   support_score: number
 }
 
+export interface ConsistencyMetrics {
+  kill_consistency: number
+  damage_consistency: number
+}
+
+export interface ClutchMetrics {
+  knock_finish_rate: number
+  kill_streak_avg: number
+  top10_to_win_rate: number
+}
+
 export interface AnalysisResult {
   matchCount: number
   aggressionScore: number
   survivalScore: number
   positioningScore: number
   teamplayScore: number
+  consistencyScore: number
+  clutchScore: number
   aggressionMetrics: AggressionMetrics
   survivalMetrics: SurvivalMetrics
   positioningMetrics: PositioningMetrics
   teamplayMetrics: TeamplayMetrics
+  consistencyMetrics: ConsistencyMetrics
+  clutchMetrics: ClutchMetrics
 }

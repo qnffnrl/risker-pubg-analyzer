@@ -13,6 +13,8 @@ export interface StyleScores {
   survival: number     // 0-100
   positioning: number  // 0-100
   teamplay: number     // 0-100
+  consistency: number  // 0-100
+  clutch: number       // 0-100
 }
 
 type RadarSize = 'sm' | 'md' | 'lg'
@@ -36,6 +38,8 @@ const AXIS_LABELS: Record<keyof StyleScores, string> = {
   survival: '생존형',
   positioning: '포지셔닝',
   teamplay: '팀플레이',
+  consistency: '일관성',
+  clutch: '결정력',
 }
 
 /** StyleScores를 Recharts RadarChart용 배열 데이터로 변환 */
