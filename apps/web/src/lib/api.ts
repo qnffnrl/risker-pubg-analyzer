@@ -138,6 +138,44 @@ export async function getMapStats(pubgId: string): Promise<MapStatsData> {
   return apiFetch<MapStatsData>(`/api/v1/players/${encodeURIComponent(pubgId)}/maps`)
 }
 
+export interface RankedTier {
+  tier: string
+  subTier: string
+}
+
+export interface RankedModeStats {
+  currentTier: RankedTier
+  currentRankPoint: number
+  bestTier: RankedTier
+  bestRankPoint: number
+  roundsPlayed: number
+  wins: number
+  winRatio: number
+  kills: number
+  assists?: number
+  deaths?: number
+  kda: number
+  damageDealt: number
+  avgRank: number
+  top10Ratio?: number
+  headshotKills?: number
+  headshotKillRatio?: number
+  dBNOs?: number
+  revives?: number
+  roundMostKills?: number
+  longestKill?: number
+}
+
+export interface RankedStatsData {
+  rankedData: Record<string, RankedModeStats>
+  seasonId: string
+  fetchedAt: string
+}
+
+export async function getRankedStats(pubgId: string): Promise<RankedStatsData> {
+  return apiFetch<RankedStatsData>(`/api/v1/players/${encodeURIComponent(pubgId)}/ranked`)
+}
+
 export async function getCompare(pubgIdA: string, pubgIdB: string): Promise<CompareResult> {
   return apiFetch<CompareResult>(
     `/api/v1/compare?players=${encodeURIComponent(pubgIdA)},${encodeURIComponent(pubgIdB)}`,

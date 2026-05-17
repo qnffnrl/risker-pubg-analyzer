@@ -9,11 +9,13 @@ import {
   PubgSeasonsResponseSchema,
   PubgSeasonStatsResponseSchema,
   PubgWeaponMasteryResponseSchema,
+  PubgRankedStatsResponseSchema,
   type PubgPlayerData,
   type PubgMatchResponse,
   type PubgSeason,
   type PubgSeasonStats,
   type PubgWeaponMastery,
+  type PubgRankedStats,
 } from '@risker/shared'
 import {
   PlayerNotFoundError,
@@ -74,6 +76,14 @@ export class PubgApiClient {
     const data = await this.request(
       `/shards/${shard}/players/${accountId}/seasons/${seasonId}`,
       PubgSeasonStatsResponseSchema,
+    )
+    return data.data
+  }
+
+  async getRankedStats(shard: Shard, accountId: string, seasonId: string): Promise<PubgRankedStats> {
+    const data = await this.request(
+      `/shards/${shard}/players/${accountId}/seasons/${seasonId}/ranked`,
+      PubgRankedStatsResponseSchema,
     )
     return data.data
   }
