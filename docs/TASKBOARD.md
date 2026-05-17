@@ -79,7 +79,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
-| 2026-05-17 | feat | T-030 4축 v2 리팩토링 Phase1 — skill 점수 + v2 메트릭 스캐폴딩 + v2/v1 토글 UI | TBD |
+| 2026-05-17 | feat | T-030 4축 v2 리팩토링 Phase1 — skill 점수 + v2 메트릭 스캐폴딩 + v2/v1 토글 UI | 9a5948b |
 | 2026-05-17 | feat | T-027 텔레메트리 파이프라인 — match_telemetry 테이블, telemetry-fetch BullMQ 큐, getTelemetry CDN 다운로드, 기존 매치 백필 로직, loader.ts, migration 0007 + main 병합 | d1eab7d |
 | 2026-05-17 | feat+fix | T-026 분석 지표 고도화 — 공격성/생존 지표 확장, 일관성/결정력 신규 카테고리, 6축 레이더 차트, migration 0005/0006, PNG 다운 /og 경로 버그 수정 + main 병합 | 4b5b89c |
 | 2026-05-17 | feat | T-019 공유 기능 — /og 동적 OG 이미지(SVG), generateMetadata OG/Twitter 태그, 링크 복사 버튼(2초 복사됨! 피드백), PNG 저장 버튼 | eb85009 |
