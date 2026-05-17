@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { getTopDeathZones } from '@/lib/maps'
+import { getTopDeathZones, MAP_IMAGE_URLS, MAP_DISPLAY_NAMES } from '@/lib/maps'
 
 interface MapHeatmapPoints {
   mapName: string
@@ -18,16 +18,27 @@ export function MapHeatmap({ mapName, data }: MapHeatmapProps) {
   const [showDeaths, setShowDeaths] = useState(true)
 
   const topDeaths = getTopDeathZones(data.deaths, mapName)
+  const mapImageUrl = MAP_IMAGE_URLS[mapName]
+  const displayName = MAP_DISPLAY_NAMES[mapName] ?? mapName.replace('_Main', '')
 
   return (
     <div className="space-y-4">
-      <div className="relative w-full aspect-square bg-neutral-800 rounded-lg overflow-hidden">
-        {/* Map background — neutral grid pattern */}
-        <div className="absolute inset-0 grid grid-cols-8 grid-rows-8 opacity-10">
-          {Array.from({ length: 64 }).map((_, i) => (
-            <div key={i} className="border border-neutral-500" />
-          ))}
-        </div>
+      <div className="relative w-full aspect-square bg-neutral-900 rounded-lg overflow-hidden">
+        {/* 맵 배경 이미지 */}
+        {mapImageUrl ? (
+          <img
+            src={mapImageUrl}
+            alt={displayName}
+            className="absolute inset-0 w-full h-full object-cover opacity-60"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+          />
+        ) : (
+          <div className="absolute inset-0 grid grid-cols-8 grid-rows-8 opacity-10">
+            {Array.from({ length: 64 }).map((_, i) => (
+              <div key={i} className="border border-neutral-500" />
+            ))}
+          </div>
+        )}
 
         <svg
           viewBox="0 0 1000 1000"

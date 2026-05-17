@@ -5,6 +5,7 @@ import type { MatchStat, WeaponStatsData, MapStatsData, RankedStatsData, Analysi
 import { useMatchFilter } from '@/lib/hooks/use-match-filter'
 import { MatchFilterBar } from '@/components/match-filter-bar'
 import { MapHeatmap } from '@/components/heatmap/MapHeatmap'
+import { MAP_DISPLAY_NAMES } from '@/lib/maps'
 import { MatchList } from './match-list'
 import { WeaponView } from './weapon-view'
 import { MapView } from './map-view'
@@ -86,12 +87,18 @@ export function PlayerTabs({ pubgId, initialMatches, weaponStats, mapStats, rank
               <p className="text-sm mt-1">텔레메트리 수집 완료 후 분석을 새로고침하면 표시됩니다.</p>
             </div>
           ) : (
-            Object.entries(analysis.heatmapData).map(([mapName, data]) => (
-              <div key={mapName} className="space-y-3">
-                <h3 className="font-semibold text-white">{mapName.replace('_Main', '')} ({data.kills.length + data.deaths.length} 이벤트)</h3>
-                <MapHeatmap mapName={mapName} data={data} />
-              </div>
-            ))
+            <>
+              <p className="text-xs text-neutral-500">수집된 전체 매치의 킬·데스 위치를 맵별로 표시합니다.</p>
+              {Object.entries(analysis.heatmapData).map(([mapName, data]) => (
+                <div key={mapName} className="space-y-3">
+                  <h3 className="font-semibold text-white">
+                    {MAP_DISPLAY_NAMES[mapName] ?? mapName.replace('_Main', '')}
+                    <span className="text-sm font-normal text-neutral-400 ml-2">킬 {data.kills.length} / 데스 {data.deaths.length}</span>
+                  </h3>
+                  <MapHeatmap mapName={mapName} data={data} />
+                </div>
+              ))}
+            </>
           )}
         </div>
       )}

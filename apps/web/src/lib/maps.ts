@@ -11,6 +11,32 @@ export const MAP_SIZES: Record<string, number> = {
   Baltic_Main: 813000,
 }
 
+export const MAP_DISPLAY_NAMES: Record<string, string> = {
+  Baltic_Main: '에란겔',
+  Desert_Main: '미라마르',
+  Savage_Main: '산호크',
+  DihorOtok_Main: '비켄디',
+  Tiger_Main: '태고',
+  Kiki_Main: '론도',
+  Heaven_Main: '헤이븐',
+  Summerland_Main: '파라모',
+  Chimera_Main: '카라킨',
+  Erangel_Main: '에란겔',
+}
+
+export const MAP_IMAGE_URLS: Record<string, string> = {
+  Baltic_Main: '/maps/Baltic_Main.jpg',
+  Desert_Main: '/maps/Desert_Main.jpg',
+  Savage_Main: '/maps/Savage_Main.jpg',
+  DihorOtok_Main: '/maps/DihorOtok_Main.jpg',
+  Tiger_Main: '/maps/Tiger_Main.jpg',
+  Kiki_Main: '/maps/Kiki_Main.jpg',
+  Heaven_Main: '/maps/Heaven_Main.jpg',
+  Summerland_Main: '/maps/Summerland_Main.jpg',
+  Chimera_Main: '/maps/Chimera_Main.jpg',
+  Erangel_Main: '/maps/Baltic_Main.jpg',
+}
+
 export function normalizeCoord(loc: { x: number; y: number }, mapName: string): [number, number] {
   const size = MAP_SIZES[mapName] ?? 813000
   return [
@@ -21,7 +47,7 @@ export function normalizeCoord(loc: { x: number; y: number }, mapName: string): 
 
 // Major landmark positions (normalized 0~1) for "자주 죽는 지역" labeling
 export const MAP_LANDMARKS: Record<string, Array<{ name: string; x: number; y: number }>> = {
-  Erangel_Main: [
+  Baltic_Main: [
     { name: 'Pochinki', x: 0.46, y: 0.55 },
     { name: 'School', x: 0.56, y: 0.40 },
     { name: 'Georgopol', x: 0.25, y: 0.28 },
