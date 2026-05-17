@@ -44,7 +44,23 @@ matchesRouter.get('/:matchId', async (c) => {
         .set({ includedData: included as Record<string, unknown>[] })
         .where(eq(schema.matches.pubgMatchId, matchId))
     } catch {
-      return c.json(createErrorResponse('PUBG_API_ERROR', 'Failed to fetch match details'), 500)
+      // PUBG API 조회 실패 (14일 이상 지난 매치 등) — 기본 정보만 반환
+      return c.json(
+        createSuccessResponse({
+          match: {
+            pubgMatchId: matchRow.pubgMatchId,
+            mapName: matchRow.mapName,
+            mode: matchRow.mode,
+            playedAt: matchRow.playedAt,
+            durationSec: matchRow.durationSec,
+            totalPlayers: matchRow.totalPlayers,
+          },
+          participants: [],
+          rosters: [],
+          telemetryUrl: null,
+          dataUnavailable: true,
+        }),
+      )
     }
   }
 

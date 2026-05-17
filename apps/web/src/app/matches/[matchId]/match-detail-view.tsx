@@ -120,10 +120,19 @@ export function MatchDetailView({ data, pubgId }: Props) {
           <MyStats stats={myParticipant.stats} />
         )}
 
-        {/* 팀 순위표 */}
-        <TeamTable rosters={rosters} participantMap={participantMap} myPubgId={pubgId} />
+        {/* 상세 데이터 없음 안내 */}
+        {data.dataUnavailable ? (
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 px-5 py-8 text-center text-sm text-zinc-500">
+            상세 참가자 데이터를 불러올 수 없습니다.
+            <br />
+            <span className="text-xs">PUBG API는 14일 이상 지난 매치 데이터를 제공하지 않습니다.</span>
+          </div>
+        ) : (
+          <>
+            {/* 팀 순위표 */}
+            <TeamTable rosters={rosters} participantMap={participantMap} myPubgId={pubgId} />
 
-        {/* 전체 참가자 테이블 */}
+            {/* 전체 참가자 테이블 */}
         <div className="rounded-xl border border-border bg-card">
           <div className="flex items-center justify-between border-b border-border px-5 py-3">
             <h2 className="text-sm font-semibold text-foreground">전체 참가자</h2>
@@ -163,6 +172,8 @@ export function MatchDetailView({ data, pubgId }: Props) {
               </button>
             </div>
           </div>
+        )}
+        </>
         )}
       </div>
     </div>

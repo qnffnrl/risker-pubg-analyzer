@@ -232,6 +232,7 @@ export interface MatchDetailData {
   participants: MatchParticipant[]
   rosters: MatchRoster[]
   telemetryUrl: string | null
+  dataUnavailable?: boolean
 }
 
 export async function getMatchDetail(matchId: string): Promise<MatchDetailData> {
