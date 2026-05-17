@@ -42,7 +42,7 @@ export function PlayerHeader({ player, analysis }: PlayerHeaderProps) {
       const blob = await res.blob()
       const a = document.createElement('a')
       a.href = URL.createObjectURL(blob)
-      a.download = `${player.nickname}-pubg-analysis.png`
+      a.download = `${player.nickname}-pubg-analysis.svg`
       a.click()
       URL.revokeObjectURL(a.href)
     } catch {
