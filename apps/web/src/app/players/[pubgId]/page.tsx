@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const pos = analysis ? Math.round(Number(analysis.positioningScore)) : 0
     const team = analysis ? Math.round(Number(analysis.teamplayScore)) : 0
     const desc = `공격성 ${agg} · 생존형 ${sur} · 포지셔닝 ${pos} · 팀플레이 ${team}`
-    const ogImageUrl = `/api/og?pubgId=${encodeURIComponent(pubgId)}`
+    const ogImageUrl = `/og?pubgId=${encodeURIComponent(pubgId)}`
     return {
       title: `${nickname}의 PUBG 플레이 스타일 — Risker 분석`,
       description: desc,

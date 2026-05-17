@@ -98,6 +98,9 @@ export async function matchCollectionProcessor(job: Job<MatchCollectionJob>): Pr
           weaponsAcquired: stats.weaponsAcquired,
           revives: stats.revives,
           teamKills: stats.teamKills,
+          dbnos: stats.DBNOs,
+          killStreaks: stats.killStreaks,
+          swimDistance: String(stats.swimDistance),
           rawStats: stats as unknown as Record<string, unknown>,
         })
         .onConflictDoNothing()

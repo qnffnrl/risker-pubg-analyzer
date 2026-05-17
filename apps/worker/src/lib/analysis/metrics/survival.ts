@@ -30,6 +30,13 @@ export function calcSurvival(matches: MatchRow[]): { score: number; metrics: Sur
     [placementScore, 0.15],
   ])
 
+  const survivalRatio = avg(matches.map((m) => m.timeSurvived / Math.max(m.durationSec, 1)))
+  const top10Count = matches.filter((m) => m.placement <= 10).length
+  const winCount = matches.filter((m) => m.placement === 1).length
+  const top10ToWinRate = top10Count > 0 ? winCount / top10Count : 0
+  const boostRatio = avg(matches.map((m) => m.boosts / Math.max(m.boosts + m.heals, 1)))
+  const totalItemsPerGame = avg(matches.map((m) => m.heals + m.boosts))
+
   return {
     score,
     metrics: {
@@ -39,6 +46,10 @@ export function calcSurvival(matches: MatchRow[]): { score: number; metrics: Sur
       win_rate: winRate,
       avg_boosts: avgBoosts,
       avg_heals: avgHeals,
+      survival_ratio: survivalRatio,
+      top10_to_win_rate: top10ToWinRate,
+      boost_ratio: boostRatio,
+      total_items_per_game: totalItemsPerGame,
     },
   }
 }

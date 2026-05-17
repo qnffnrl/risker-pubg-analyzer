@@ -24,6 +24,10 @@ export function calcAggression(matches: MatchRow[]): { score: number; metrics: A
     [clampScore(kpRate, MAX_KP_RATE), 0.15],
   ])
 
+  const damagePerKill = avg(matches.map((m) => m.damageDealt / Math.max(m.kills, 1)))
+  const gamesWithKillsRate = matches.filter((m) => m.kills >= 1).length / matches.length
+  const damagePerMinute = avg(matches.map((m) => m.damageDealt / Math.max(m.timeSurvived / 60, 0.1)))
+
   return {
     score,
     metrics: {
@@ -32,6 +36,9 @@ export function calcAggression(matches: MatchRow[]): { score: number; metrics: A
       headshot_rate: headshotRate,
       avg_assists: avgAssists,
       kill_participation_rate: kpRate,
+      damage_per_kill: damagePerKill,
+      games_with_kills_rate: gamesWithKillsRate,
+      damage_per_minute: damagePerMinute,
     },
   }
 }

@@ -16,6 +16,11 @@ function fmt(n: number | undefined, decimals = 1): string {
   return n.toFixed(decimals)
 }
 
+function fmtInt(n: number | undefined): string {
+  if (n === undefined) return '-'
+  return Math.round(n).toString()
+}
+
 function fmtTime(sec: number | undefined): string {
   if (!sec) return '-'
   const m = Math.floor(sec / 60)
@@ -31,6 +36,27 @@ function fmtPct(n: number | undefined): string {
 function fmtDist(n: number | undefined): string {
   if (!n) return '-'
   return n >= 1000 ? `${(n / 1000).toFixed(1)}km` : `${Math.round(n)}m`
+}
+
+interface MetricRowProps {
+  label: string
+  value: string
+  hint?: string
+  showHint?: boolean
+}
+
+function MetricRow({ label, value, hint, showHint }: MetricRowProps) {
+  return (
+    <div className="flex flex-col gap-0.5 rounded-lg bg-secondary/40 px-3 py-2">
+      <div className="flex items-center justify-between">
+        <span className="text-xs text-muted-foreground">{label}</span>
+        <span className="text-xs font-bold tabular-nums text-foreground">{value}</span>
+      </div>
+      {hint && showHint && (
+        <span className="text-[10px] text-amber-400">⚠ {hint}</span>
+      )}
+    </div>
+  )
 }
 
 export default async function AnalysisPage({ params }: Props) {
@@ -59,18 +85,25 @@ export default async function AnalysisPage({ params }: Props) {
     )
   }
 
+  const consistencyNum = analysis.consistencyScore != null ? Number(analysis.consistencyScore) : 0
+  const clutchNum = analysis.clutchScore != null ? Number(analysis.clutchScore) : 0
+
   const scores = {
     aggression: Number(analysis.aggressionScore),
     survival: Number(analysis.survivalScore),
     positioning: Number(analysis.positioningScore),
     teamplay: Number(analysis.teamplayScore),
+    consistency: consistencyNum,
+    clutch: clutchNum,
   }
 
   const label = getStyleLabel(scores.aggression, scores.survival, scores.positioning, scores.teamplay)
-  const agg = analysis.aggressionMetrics as Record<string, number>
-  const sur = analysis.survivalMetrics as Record<string, number>
-  const pos = analysis.positioningMetrics as Record<string, number>
-  const team = analysis.teamplayMetrics as Record<string, number>
+  const agg = analysis.aggressionMetrics
+  const sur = analysis.survivalMetrics
+  const pos = analysis.positioningMetrics
+  const team = analysis.teamplayMetrics
+  const con = analysis.consistencyMetrics ?? null
+  const clutch = analysis.clutchMetrics ?? null
 
   const analyzedAt = new Date(analysis.analyzedAt).toLocaleDateString('ko-KR', {
     month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
@@ -100,6 +133,8 @@ export default async function AnalysisPage({ params }: Props) {
                   { label: '생존형', value: scores.survival, color: 'text-emerald-400' },
                   { label: '포지셔닝', value: scores.positioning, color: 'text-blue-400' },
                   { label: '팀플레이', value: scores.teamplay, color: 'text-amber-400' },
+                  { label: '일관성', value: scores.consistency, color: 'text-violet-400' },
+                  { label: '결정력', value: scores.clutch, color: 'text-orange-400' },
                 ].map(({ label, value, color }) => (
                   <div key={label} className="flex items-center justify-between rounded-lg bg-secondary/50 px-3 py-2">
                     <span className="text-muted-foreground">{label}</span>
@@ -130,7 +165,7 @@ export default async function AnalysisPage({ params }: Props) {
             )}
           </div>
 
-          {/* 우측: 4대 성향 상세 지표 */}
+          {/* 우측: 6대 성향 상세 지표 */}
           <div className="flex flex-col gap-4 lg:w-[60%]">
             {/* 공격성 */}
             <Section title="공격성" color="text-rose-400" score={scores.aggression}>
@@ -138,6 +173,26 @@ export default async function AnalysisPage({ params }: Props) {
               <StatCard label="데미지/매치" value={Math.round(agg['avg_damage'] ?? 0)} color="aggression" />
               <StatCard label="헤드샷율" value={fmtPct(agg['headshot_rate'])} color="aggression" />
               <StatCard label="교전참여율" value={fmtPct(agg['kill_participation_rate'])} color="aggression" />
+              <div className="col-span-full flex flex-col gap-1.5">
+                <MetricRow
+                  label="킬당 데미지"
+                  value={agg['damage_per_kill'] !== undefined ? fmtInt(agg['damage_per_kill']) : '—'}
+                  hint="마무리 능력 개선 필요"
+                  showHint={agg['damage_per_kill'] !== undefined && agg['damage_per_kill'] < 100}
+                />
+                <MetricRow
+                  label="교전 참여율"
+                  value={agg['games_with_kills_rate'] !== undefined ? fmtPct(agg['games_with_kills_rate']) : '—'}
+                  hint="더 적극적인 교전 참여 필요"
+                  showHint={agg['games_with_kills_rate'] !== undefined && agg['games_with_kills_rate'] < 0.5}
+                />
+                <MetricRow
+                  label="분당 데미지"
+                  value={agg['damage_per_minute'] !== undefined ? fmtInt(agg['damage_per_minute']) : '—'}
+                  hint="교전 빈도 증가 필요"
+                  showHint={agg['damage_per_minute'] !== undefined && agg['damage_per_minute'] < 30}
+                />
+              </div>
             </Section>
 
             {/* 생존형 */}
@@ -148,6 +203,32 @@ export default async function AnalysisPage({ params }: Props) {
               <StatCard label="승률" value={fmtPct(sur['win_rate'])} color="survival" />
               <StatCard label="평균 부스터" value={fmt(sur['avg_boosts'])} color="survival" />
               <StatCard label="평균 힐" value={fmt(sur['avg_heals'])} color="survival" />
+              <div className="col-span-full flex flex-col gap-1.5">
+                <MetricRow
+                  label="생존 비율"
+                  value={sur['survival_ratio'] !== undefined ? fmtPct(sur['survival_ratio']) : '—'}
+                  hint="초반 교전 자제 필요"
+                  showHint={sur['survival_ratio'] !== undefined && sur['survival_ratio'] < 0.4}
+                />
+                <MetricRow
+                  label="Top10→우승 전환율"
+                  value={sur['top10_to_win_rate'] !== undefined ? fmtPct(sur['top10_to_win_rate']) : '—'}
+                  hint="엔딩존 교전 능력 개선 필요"
+                  showHint={sur['top10_to_win_rate'] !== undefined && sur['top10_to_win_rate'] < 0.15}
+                />
+                <MetricRow
+                  label="부스터 활용도"
+                  value={sur['boost_ratio'] !== undefined ? fmtPct(sur['boost_ratio']) : '—'}
+                  hint="부스터 우선 사용 권장"
+                  showHint={sur['boost_ratio'] !== undefined && sur['boost_ratio'] < 0.3}
+                />
+                <MetricRow
+                  label="게임당 아이템"
+                  value={sur['total_items_per_game'] !== undefined ? fmt(sur['total_items_per_game'], 1) : '—'}
+                  hint="아이템 루팅 적극성 필요"
+                  showHint={sur['total_items_per_game'] !== undefined && sur['total_items_per_game'] < 2}
+                />
+              </div>
             </Section>
 
             {/* 포지셔닝 */}
@@ -165,6 +246,62 @@ export default async function AnalysisPage({ params }: Props) {
               <StatCard label="평균 어시스트" value={fmt(team['avg_assists'])} color="teamplay" />
               <StatCard label="팀킬" value={fmt(team['avg_team_kills'])} color="teamplay" />
             </Section>
+
+            {/* 일관성 */}
+            <SectionCustom
+              title="일관성"
+              color="text-violet-400"
+              score={analysis.consistencyScore != null ? consistencyNum : null}
+            >
+              {con ? (
+                <div className="flex flex-col gap-1.5">
+                  <MetricRow
+                    label="킬 일관성"
+                    value={con.kill_consistency !== undefined ? fmtPct(con.kill_consistency) : '—'}
+                    hint="킬 편차가 큼, 실력 일관성 향상 필요"
+                    showHint={con.kill_consistency !== undefined && con.kill_consistency < 0.4}
+                  />
+                  <MetricRow
+                    label="데미지 일관성"
+                    value={con.damage_consistency !== undefined ? fmtPct(con.damage_consistency) : '—'}
+                    hint="데미지 편차가 큼, 안정적 교전 필요"
+                    showHint={con.damage_consistency !== undefined && con.damage_consistency < 0.4}
+                  />
+                </div>
+              ) : (
+                <p className="text-xs text-muted-foreground">데이터 없음 — 재분석 후 표시됩니다</p>
+              )}
+            </SectionCustom>
+
+            {/* 결정력 */}
+            <SectionCustom
+              title="결정력"
+              color="text-orange-400"
+              score={analysis.clutchScore != null ? clutchNum : null}
+            >
+              {clutch ? (
+                <div className="flex flex-col gap-1.5">
+                  <MetricRow
+                    label="넉다운 마무리율"
+                    value={clutch.knock_finish_rate !== undefined ? fmtPct(clutch.knock_finish_rate) : '—'}
+                    hint="넉다운 후 빠른 마무리 필요"
+                    showHint={clutch.knock_finish_rate !== undefined && clutch.knock_finish_rate < 0.7}
+                  />
+                  <MetricRow
+                    label="평균 연속킬"
+                    value={clutch.kill_streak_avg !== undefined ? fmt(clutch.kill_streak_avg, 1) : '—'}
+                  />
+                  <MetricRow
+                    label="Top10→우승 전환율"
+                    value={clutch.top10_to_win_rate !== undefined ? fmtPct(clutch.top10_to_win_rate) : '—'}
+                    hint="엔딩 교전 결정력 필요"
+                    showHint={clutch.top10_to_win_rate !== undefined && clutch.top10_to_win_rate < 0.15}
+                  />
+                </div>
+              ) : (
+                <p className="text-xs text-muted-foreground">데이터 없음 — 재분석 후 표시됩니다</p>
+              )}
+            </SectionCustom>
           </div>
         </div>
       </div>
@@ -187,6 +324,27 @@ function Section({ title, color, score, children }: {
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {children}
       </div>
+    </div>
+  )
+}
+
+function SectionCustom({ title, color, score, children }: {
+  title: string
+  color: string
+  score: number | null
+  children: React.ReactNode
+}) {
+  return (
+    <div className="rounded-xl border border-border bg-card p-4">
+      <div className="mb-3 flex items-center justify-between">
+        <h3 className={`text-sm font-semibold ${color}`}>{title}</h3>
+        {score !== null ? (
+          <span className="text-xs font-bold tabular-nums text-muted-foreground">{score.toFixed(1)} / 100</span>
+        ) : (
+          <span className="text-xs text-muted-foreground">—</span>
+        )}
+      </div>
+      {children}
     </div>
   )
 }

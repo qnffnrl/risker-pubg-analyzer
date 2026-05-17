@@ -15,6 +15,8 @@ export function StylePreview({ analysis, pubgId }: StylePreviewProps) {
     survival: Number(analysis.survivalScore),
     positioning: Number(analysis.positioningScore),
     teamplay: Number(analysis.teamplayScore),
+    consistency: analysis.consistencyScore != null ? Number(analysis.consistencyScore) : 0,
+    clutch: analysis.clutchScore != null ? Number(analysis.clutchScore) : 0,
   }
 
   return (
