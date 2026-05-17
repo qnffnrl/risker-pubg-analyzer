@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
 import { AppShell } from '@/components/layout/app-shell'
 import { getPlayer, getPlayerMatches, getWeaponStats, getMapStats, getRankedStats } from '@/lib/api'
 import { AutoRefresh } from '@/components/auto-refresh'
@@ -9,6 +10,39 @@ import { PlayerTabs } from './player-tabs'
 
 interface Props {
   params: { pubgId: string }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { pubgId } = params
+  try {
+    const profile = await getPlayer(pubgId)
+    const analysis = profile.latestAnalysis
+    const nickname = profile.player.nickname
+    const agg = analysis ? Math.round(Number(analysis.aggressionScore)) : 0
+    const sur = analysis ? Math.round(Number(analysis.survivalScore)) : 0
+    const pos = analysis ? Math.round(Number(analysis.positioningScore)) : 0
+    const team = analysis ? Math.round(Number(analysis.teamplayScore)) : 0
+    const desc = `공격성 ${agg} · 생존형 ${sur} · 포지셔닝 ${pos} · 팀플레이 ${team}`
+    const ogImageUrl = `/api/og?pubgId=${encodeURIComponent(pubgId)}`
+    return {
+      title: `${nickname}의 PUBG 플레이 스타일 — Risker 분석`,
+      description: desc,
+      openGraph: {
+        title: `${nickname}의 배그 DNA`,
+        description: analysis?.llmSummary?.slice(0, 100) ?? desc,
+        images: [{ url: ogImageUrl, width: 1200, height: 630 }],
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${nickname}의 배그 DNA`,
+        description: desc,
+        images: [ogImageUrl],
+      },
+    }
+  } catch {
+    return { title: 'PUBG 플레이어 — Risker 분석' }
+  }
 }
 
 export default async function PlayerPage({ params }: Props) {
