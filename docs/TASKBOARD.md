@@ -80,6 +80,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-17 | fix | CI/CD — 컨테이너 재시작 전 down --remove-orphans 추가, Drizzle journal 타임스탬프 오름차순 보정 | d709c96 |
 | 2026-05-17 | feat | T-024 매치 상세 페이지 — included_data DB 저장, GET /matches/:matchId API, /matches/[matchId] SSR 페이지, 참가자/팀 테이블, 텔레메트리 URL, MatchCard 상세 링크 + main 병합 | 4ebd8fd |
 | 2026-05-17 | feat | T-023 랭크 통계 — ranked_stats DB, getRankedStats API, RankedView + SVG 엠블럼 + main 병합 | 7b3b43c |
 | 2026-05-17 | feat | T-017 성과 추이 차트 — 라인 차트, 폼 분석 카드, 핫스트릭/슬럼프 배지 + main 병합 | 80f1b27 |
