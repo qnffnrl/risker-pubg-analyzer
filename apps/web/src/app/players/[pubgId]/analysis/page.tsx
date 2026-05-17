@@ -6,6 +6,7 @@ import { getPlayer, getPlayerAnalysis } from '@/lib/api'
 import { RadarChart } from '@/components/ui/radar-chart'
 import { StatCard } from '@/components/ui/stat-card'
 import { getStyleLabel } from '@/lib/style-label'
+import { WeaknessCard } from '@/components/analysis/WeaknessCard'
 
 interface Props {
   params: { pubgId: string }
@@ -118,6 +119,12 @@ export default async function AnalysisPage({ params }: Props) {
           {profile?.player.nickname} 프로필
         </Link>
 
+        {analysis.topWeakness && analysis.matchCount >= 5 && (
+          <div className="mb-6">
+            <WeaknessCard weakness={analysis.topWeakness} />
+          </div>
+        )}
+
         <div className="flex flex-col gap-6 lg:flex-row">
           {/* 좌측: 레이더 차트 + 성향 레이블 */}
           <div className="flex flex-col items-center gap-4 lg:w-[40%]">
@@ -159,7 +166,7 @@ export default async function AnalysisPage({ params }: Props) {
             {/* LLM 요약 (T-011) */}
             {analysis.llmSummary && (
               <div className="w-full rounded-xl border border-border bg-card p-4">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">AI 성향 요약</p>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">AI 코칭 메시지</p>
                 <p className="text-sm leading-relaxed text-foreground">{analysis.llmSummary}</p>
               </div>
             )}

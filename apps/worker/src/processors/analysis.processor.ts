@@ -3,7 +3,9 @@ import { eq, desc, schema } from '@risker/db'
 import type { AnalysisJob } from '@risker/shared'
 import { db } from '../lib/db.js'
 import { analyzePlayStyle, type MatchRow } from '../lib/analysis/engine.js'
-import { generateLlmSummary } from '../lib/llm.js'
+import { generateLlmSummary, generateCoachingMessage } from '../lib/llm.js'
+import { evaluateWeaknesses } from '../lib/analysis/weaknesses/engine.js'
+import { loadTelemetryForPlayer } from '../lib/analysis/telemetry/loader.js'
 
 const CACHE_TTL_HOURS = Number(process.env['ANALYSIS_CACHE_TTL_HOURS'] ?? 24)
 
@@ -62,31 +64,58 @@ export async function analysisProcessor(job: Job<AnalysisJob>): Promise<void> {
 
   const result = analyzePlayStyle(matchRows)
 
-  // Look up nickname for LLM prompt
+  // Look up nickname and pubgId for LLM prompt
   const [player] = await db
-    .select({ nickname: schema.players.nickname })
+    .select({ nickname: schema.players.nickname, pubgId: schema.players.pubgId })
     .from(schema.players)
     .where(eq(schema.players.id, playerId))
     .limit(1)
 
-  job.log(`Generating LLM summary for ${player?.nickname ?? playerId}`)
-  const llmSummary = await generateLlmSummary({
-    nickname: player?.nickname ?? playerId,
-    matchCount: result.matchCount,
-    aggressionScore: result.aggressionScore,
-    survivalScore: result.survivalScore,
-    positioningScore: result.positioningScore,
-    teamplayScore: result.teamplayScore,
-    consistencyScore: result.consistencyScore,
-    clutchScore: result.clutchScore,
-    aggressionMetrics: result.aggressionMetrics as unknown as Record<string, number>,
-    survivalMetrics: result.survivalMetrics as unknown as Record<string, number>,
-    positioningMetrics: result.positioningMetrics as unknown as Record<string, number>,
-    teamplayMetrics: result.teamplayMetrics as unknown as Record<string, number>,
-    consistencyMetrics: result.consistencyMetrics as unknown as Record<string, number>,
-    clutchMetrics: result.clutchMetrics as unknown as Record<string, number>,
-  })
-  job.log(`LLM summary: ${llmSummary ? llmSummary.slice(0, 80) + '…' : 'skipped'}`)
+  // Load telemetry for weakness evaluation
+  let telemetryMap: Map<string, unknown[]> | undefined
+  try {
+    const matchDbRows = await db
+      .select({ id: schema.matches.id })
+      .from(schema.playerMatchStats)
+      .innerJoin(schema.matches, eq(schema.playerMatchStats.matchId, schema.matches.id))
+      .where(eq(schema.playerMatchStats.playerId, playerId))
+    const matchDbIds = matchDbRows.map(r => r.id)
+    telemetryMap = await loadTelemetryForPlayer(matchDbIds)
+  } catch { /* continue without telemetry */ }
+
+  // Evaluate weaknesses
+  const weaknessCtx = { matches: matchRows, telemetry: telemetryMap, pubgAccountId: player?.pubgId }
+  const allWeaknesses = evaluateWeaknesses(weaknessCtx)
+  const topWeakness = allWeaknesses[0] ?? null
+  job.log(`Weaknesses found: ${allWeaknesses.length}, top: ${topWeakness?.ruleId ?? 'none'}`)
+
+  // Generate coaching message or fallback to LLM summary
+  let llmSummary: string | null = null
+  if (topWeakness && result.matchCount >= 5) {
+    try {
+      llmSummary = await generateCoachingMessage(topWeakness, player?.nickname ?? playerId, result.matchCount)
+      job.log(`Coaching message: ${llmSummary ? llmSummary.slice(0, 80) + '…' : 'skipped'}`)
+    } catch { /* skip */ }
+  }
+  if (!llmSummary) {
+    llmSummary = await generateLlmSummary({
+      nickname: player?.nickname ?? playerId,
+      matchCount: result.matchCount,
+      aggressionScore: result.aggressionScore,
+      survivalScore: result.survivalScore,
+      positioningScore: result.positioningScore,
+      teamplayScore: result.teamplayScore,
+      consistencyScore: result.consistencyScore,
+      clutchScore: result.clutchScore,
+      aggressionMetrics: result.aggressionMetrics as unknown as Record<string, number>,
+      survivalMetrics: result.survivalMetrics as unknown as Record<string, number>,
+      positioningMetrics: result.positioningMetrics as unknown as Record<string, number>,
+      teamplayMetrics: result.teamplayMetrics as unknown as Record<string, number>,
+      consistencyMetrics: result.consistencyMetrics as unknown as Record<string, number>,
+      clutchMetrics: result.clutchMetrics as unknown as Record<string, number>,
+    })
+    job.log(`LLM summary: ${llmSummary ? llmSummary.slice(0, 80) + '…' : 'skipped'}`)
+  }
 
   const now = new Date()
   const expiresAt = new Date(Date.now() + CACHE_TTL_HOURS * 60 * 60 * 1000)
@@ -110,6 +139,8 @@ export async function analysisProcessor(job: Job<AnalysisJob>): Promise<void> {
       clutchMetrics: result.clutchMetrics as unknown as Record<string, unknown>,
       llmSummary,
       llmGeneratedAt: llmSummary ? now : null,
+      topWeakness: topWeakness as unknown as Record<string, unknown> | null,
+      allWeaknesses: allWeaknesses as unknown as Record<string, unknown>[],
       expiresAt,
     })
     .onConflictDoUpdate({
@@ -130,6 +161,8 @@ export async function analysisProcessor(job: Job<AnalysisJob>): Promise<void> {
         clutchMetrics: result.clutchMetrics as unknown as Record<string, unknown>,
         llmSummary,
         llmGeneratedAt: llmSummary ? now : null,
+        topWeakness: topWeakness as unknown as Record<string, unknown> | null,
+        allWeaknesses: allWeaknesses as unknown as Record<string, unknown>[],
         expiresAt,
         analyzedAt: now,
       },
