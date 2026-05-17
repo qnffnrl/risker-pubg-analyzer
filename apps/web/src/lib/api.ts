@@ -76,6 +76,19 @@ export interface ClutchMetrics {
   top10_to_win_rate?: number
 }
 
+export interface WeaknessFinding {
+  ruleId: string
+  ruleName: string
+  category: string
+  severity: number
+  evidence: {
+    metric: string
+    value: number | string
+    threshold: number | string
+    matchesAffected?: number
+  }
+}
+
 export interface AnalysisData {
   id: string
   playerId: string
@@ -94,6 +107,8 @@ export interface AnalysisData {
   consistencyMetrics?: ConsistencyMetrics | null
   clutchMetrics?: ClutchMetrics | null
   llmSummary: string | null
+  topWeakness?: WeaknessFinding | null
+  allWeaknesses?: WeaknessFinding[] | null
   expiresAt: string
 }
 

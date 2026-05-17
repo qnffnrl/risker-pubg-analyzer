@@ -57,6 +57,13 @@
       "when": 1778933200300,
       "tag": "0007_match_telemetry",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1778933200400,
+      "tag": "0008_weaknesses",
+      "breakpoints": true
     }
   ]
 }
