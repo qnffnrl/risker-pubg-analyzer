@@ -46,6 +46,9 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
+            echo "=== Running DB migrations ==="
+            docker compose -f docker-compose.prod.yml --env-file .env.prod up --build db-migrate
+
             echo "=== Rebuilding and restarting containers ==="
             docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --build --remove-orphans
 
