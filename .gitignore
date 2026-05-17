@@ -24,3 +24,6 @@ Thumbs.db
 
 # pnpm
 pnpm-debug.log*
+
+# external asset repos
+pubg-assets/
