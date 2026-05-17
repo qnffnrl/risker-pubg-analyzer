@@ -73,7 +73,7 @@ _없음_
 |----|--------|------|-----|--------|
 | T-018 | 관리자 페이지 (트래픽 모니터링 + 비밀번호 인증) | feat | [PRD](prd/T-018-PRD-20260516-admin-page.md) | 0% |
 | T-019 | 공유 기능 (OG 이미지 동적 생성 + PNG 저장) | feat | [PRD](prd/T-019-PRD-20260516-share-feature.md) | 0% |
-| T-020 | 시즌 & 모드 필터 (스쿼드/솔로/듀오/맵별 분석) | feat | [PRD](prd/T-020-PRD-20260516-season-mode-filter.md) | 0% |
+| T-020 | 시즌 & 모드 필터 (스쿼드/솔로/듀오/맵별 분석) | feat | [PRD](prd/T-020-PRD-20260516-season-mode-filter.md) | 100% |
 
 ---
 
@@ -81,6 +81,7 @@ _없음_
 
 | 날짜 | 구분 | 내용 | 커밋해시 |
 |------|------|------|---------|
+| 2026-05-17 | feat | T-020 시즌 & 모드 필터 — 필터바(모드/맵/기간), URL 쿼리 동기화, 모드별 비교 카드, MatchList 더보기 offset 개선 | TBD |
 | 2026-05-17 | feat | T-025 Refresh UX — 새로고침 폴링 완료 감지 자동 리로드 + 타임아웃 에러 메시지 + 랭크 빈 상태 안내 | 13562c8 |
 | 2026-05-17 | fix | CI/CD — 컨테이너 재시작 전 down --remove-orphans 추가, Drizzle journal 타임스탬프 오름차순 보정 | d709c96 |
 | 2026-05-17 | feat | T-024 매치 상세 페이지 — included_data DB 저장, GET /matches/:matchId API, /matches/[matchId] SSR 페이지, 참가자/팀 테이블, 텔레메트리 URL, MatchCard 상세 링크 + main 병합 | 4ebd8fd |
